@@ -40,10 +40,10 @@ namespace MonoDragons.GGJ.Scenes
             Add(_cowboyRevealer);
             _houseRevealer = new CardRevealer(new Vector2(1200, 350), isHouse);
             Add(_houseRevealer);
-            var deck = _player == Player.Cowboy 
+            _deck = _player == Player.Cowboy 
                 ? new Deck(Cards.GetCardById(1), Cards.GetCardById(2), Cards.GetCardById(3)) 
                 : new Deck(Cards.GetCardById(4), Cards.GetCardById(5), Cards.GetCardById(6));
-            _hand = new Hand(_player, deck.DrawCards(3));
+            _hand = new Hand(_player, _deck.DrawCards(3));
             Add(_hand);
             var topHud = new BattleTopHud(_player, gameData);
             Add(topHud);
@@ -62,7 +62,8 @@ namespace MonoDragons.GGJ.Scenes
                     Scene.NavigateTo("Lobby");
             }));
 
-            Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
+            Event.Subscribe<CardSelected>(CardSelected, this);
+            Event.Subscribe<TurnFinished>(StartNewTurn, this);
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)
@@ -89,7 +90,7 @@ namespace MonoDragons.GGJ.Scenes
             }
         }
 
-        private void StartNewTurn()
+        private void StartNewTurn(TurnFinished e)
         {
             _houseRevealer.IsRevealed = _player == Player.House;
             _cowboyRevealer.IsRevealed = _player == Player.Cowboy;

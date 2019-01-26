@@ -36,7 +36,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnCardsSelected(AllCardsSelected e)
         {
-            _displayTimer = new TimerTask(() => IsRevealed = false, 6000, false);
+            _displayTimer = new TimerTask(() => Event.Publish(new TurnFinished()), 6000, false);
         }
     }
 }
