@@ -28,6 +28,7 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
+            Multiplayer.Disconnect();
             Add(Buttons.Text("Host", new Point(100, 160), BeginHostingGame));
             Add(Buttons.Text("Connect", new Point(100, 60), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
             Add(Buttons.Text("Play Solo", new Point(100, 260), CreateSinglePlayerGame));
