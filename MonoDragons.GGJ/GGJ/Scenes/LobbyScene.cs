@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
 using MonoDragons.Core.Engine;
-using MonoDragons.Core.Inputs;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
@@ -16,7 +13,7 @@ namespace MonoDragons.GGJ.Scenes
 {
     public sealed class LobbyScene : ClickUiScene
     {
-        private const string AppId = "UnnamedAppID";
+        private const string AppId = "Bed Dead Redemption";
         private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(RoleSelected) };
         private readonly Label _hostEndpoint = new Label { Transform = new Transform2(new Vector2(260, 0), new Size2(200, 60)) };
         private readonly NetworkArgs _args;
@@ -37,8 +34,10 @@ namespace MonoDragons.GGJ.Scenes
             Add(new KeyboardTyping("127.0.0.1:4567").OutputTo(x => _hostEndpoint.Text = x));
             
             Logger.Write(_args);
-            if (_args.ShouldConnect)
+            if (_args.ShouldAutoLaunch && !_args.ShouldHost)
                 Add(new ActionAutomaton(() => ConnectToGame(_args.Ip, _args.Port)));
+            if (_args.ShouldAutoLaunch && _args.ShouldHost)
+                Add(new ActionAutomaton(BeginHostingGame));
         }
 
         private void CreateSinglePlayerGame()
@@ -50,7 +49,8 @@ namespace MonoDragons.GGJ.Scenes
         {
             var ipEndpoint = ParseURL(_hostEndpoint.Text);
             Multiplayer.HostGame(AppId, ipEndpoint.Port, NetTypes);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {ipEndpoint.Port}", ipEndpoint.Address.ToString(), ipEndpoint.Port, true));
+            var networkArgs = new NetworkArgs(_args.ShouldAutoLaunch, true, ipEndpoint.Address.ToString(), ipEndpoint.Port);
+            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {ipEndpoint.Port}", networkArgs));
         }
 
         private void ConnectToGame(IPEndPoint endPoint)
@@ -61,7 +61,8 @@ namespace MonoDragons.GGJ.Scenes
         private void ConnectToGame(string ip, int port)
         {
             Multiplayer.JoinGame(AppId, ip, port, NetTypes);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {ip}:{port}", ip, port, false));
+            var networkArgs = new NetworkArgs(false, false, ip, port);
+            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {ip}:{port}", networkArgs));
         }
         
         private IPEndPoint ParseURL(string url)
