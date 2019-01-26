@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
+using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
@@ -26,6 +27,11 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
+#if DEBUG
+            MasterVolume.Instance.MusicVolume = 0;
+#endif
+
+            Sound.Music("fight-it").Play();
             var gameData = new GameData();
             var isHouse = _player == Player.House;
             State<GameData>.Init(gameData);
