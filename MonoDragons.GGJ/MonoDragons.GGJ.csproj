@@ -145,7 +145,6 @@
     <Compile Include="Core\Physics\Size2.cs" />
     <Compile Include="Core\Physics\Transform2.cs" />
     <Compile Include="Core\Physics\VerticalDirection.cs" />
-    <Compile Include="Core\Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Render\Animation.cs" />
     <Compile Include="Core\Render\Animations.cs" />
     <Compile Include="Core\Render\Camera.cs" />
@@ -220,6 +219,7 @@
     <Compile Include="Core\UserInterface\VisualClickableUIElement.cs" />
     <Compile Include="Core\UserInterface\WithOffset.cs" />
     <Compile Include="Core\UserInterface\WrapGrid.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
