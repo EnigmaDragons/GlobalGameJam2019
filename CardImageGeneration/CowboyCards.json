@@ -19,19 +19,19 @@
             "Effect": ""
         },
         {
-            "Name": "YEE-HAW",
+            "Name": "Crack Shot",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage"
+            "Effect": "Deal 3 Damage"
         },
         {
-            "Name": "Six Shooter Thingy",
+            "Name": "Fan The Hammer",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage"
+            "Effect": "Deal 4 Damage\nYou can't attack next turn"
         },
         {
             "Name": "Dead Eye",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage"
+            "Effect": "Deal 4 Damage\n You can't defend next turn"
         }
     ],
     "Blueprint": 
