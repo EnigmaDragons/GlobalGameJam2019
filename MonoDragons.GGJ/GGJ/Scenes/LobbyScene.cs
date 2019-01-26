@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
+using MonoDragons.Core.Engine;
 using MonoDragons.Core.Inputs;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
@@ -32,8 +33,9 @@ namespace MonoDragons.GGJ.Scenes
             Add(_hostEndpoint);
             Add(new KeyboardTyping("127.0.0.1").OutputTo(x => _hostEndpoint.Text = x));
             
+            Logger.Write(_args);
             if (_args.ShouldConnect)
-                ConnectToGame(_args.Ip, _args.Port);
+                Add(new ActionAutomaton(() => ConnectToGame(_args.Ip, _args.Port)));
         }
 
         private void BeginHostingGame()
@@ -44,8 +46,8 @@ namespace MonoDragons.GGJ.Scenes
 
         private void ConnectToGame(string ip, int port)
         {
-            Multiplayer.JoinGame(AppId, _hostEndpoint.Text, Port, NetTypes);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {_hostEndpoint.Text}:{Port}", _hostEndpoint.Text, Port));
+            Multiplayer.JoinGame(AppId, ip, port, NetTypes);
+            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {ip}:{port}", _hostEndpoint.Text, Port));
         }
     }
 }
