@@ -17,12 +17,12 @@ namespace MonoDragons.GGJ.Gameplay
         public List<Card> Cards { get; private set; }
         private List<bool> IsCardsSelected;
 
-        public Hand(params Card[] cards)
+        public Hand(List<Card> cards)
         {
             Cards = new List<Card>();
             IsCardsSelected = new List<bool>();
             ClickUiBranch = new ClickUIBranch("Hand", 1);
-            for (var i = 0; i < cards.Length; i++)
+            for (var i = 0; i < cards.Count; i++)
             {
                 var ii = i;
                 Cards.Add(cards[i]);

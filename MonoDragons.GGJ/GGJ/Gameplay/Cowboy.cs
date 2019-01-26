@@ -22,8 +22,6 @@ namespace MonoDragons.GGJ.Gameplay
         private DictionaryWithDefault<CharState, SpriteAnimation> _anims = 
             new DictionaryWithDefault<CharState, SpriteAnimation>(Anim("__Hoodie_idle")) { };
 
-        public int HP { get; } = 50;
-
         public void Update(TimeSpan delta)
         {
             _loc = GetLoc();

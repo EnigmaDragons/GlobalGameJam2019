@@ -45,9 +45,11 @@
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
     <Compile Include="GGJ\GameData.cs" />
+    <Compile Include="GGJ\Gameplay\CharacterState.cs" />
     <Compile Include="GGJ\Gameplay\Cowboy.cs" />
     <Compile Include="GGJ\Gameplay\Card.cs" />
     <Compile Include="GGJ\Gameplay\CardSelected.cs" />
+    <Compile Include="GGJ\Gameplay\Deck.cs" />
     <Compile Include="GGJ\Gameplay\Hand.cs" />
     <Compile Include="GGJ\Scenes\GameScene.cs" />
     <Compile Include="GGJ\Scenes\LobbyScene.cs" />
