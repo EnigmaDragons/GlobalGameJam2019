@@ -14,6 +14,7 @@ namespace MonoDragons.GGJ.Scenes
         {
             Add(new Label { Text = "You are in game!", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
             Add(new Hand(new Card(), new Card(), new Card()));
+            Add(new Cowboy());
         }
     }
 }
