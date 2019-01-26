@@ -11,6 +11,7 @@ using MonoDragons.Core.Memory;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Render;
 using MonoDragons.Core.Scenes;
+using MonoDragons.GGJ;
 using MonoDragons.GGJ.Scenes;
 
 namespace MonoDragons.Core
@@ -27,7 +28,7 @@ namespace MonoDragons.Core
             DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
             Error.Handle(() =>
             {
-                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(new NetworkArgs(args)), CreateKeyboardController(), ErrorHandler))
+                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Game", new Display(1600, 900, false), SetupScene(new NetworkArgs(args)), CreateKeyboardController(), ErrorHandler))
                     game.Run();
             }, ErrorHandler.Handle);
         }
@@ -49,7 +50,8 @@ namespace MonoDragons.Core
                 { "MainMenu", () => new MainMenuScene("Logo") },
                 { "CharacterCreation", () => new CharacterCreationScene()},
                 { "NetworkTest", () => new NetworkTestScene()},
-                { "Lobby", () => new LobbyScene(args) }
+                { "Lobby", () => new LobbyScene(args) },
+                { "Game", () => new GameScene(Player.Cowboy) }
             });
         }
 

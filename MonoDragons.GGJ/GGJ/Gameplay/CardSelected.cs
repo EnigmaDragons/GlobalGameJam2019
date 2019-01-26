@@ -10,10 +10,12 @@ namespace MonoDragons.GGJ.Gameplay
     public struct CardSelected
     {
         public Card Card;
+        public bool IsHouse;
 
-        public CardSelected(Card card)
+        public CardSelected(Card card, bool isHouse)
         {
             Card = card;
+            IsHouse = isHouse;
         }
     }
 }
