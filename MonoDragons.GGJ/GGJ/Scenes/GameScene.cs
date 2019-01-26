@@ -40,7 +40,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Label { Text = $"You are playing as " + (isHouse ? "house" : "cowboy"), Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
-            Add(new Cowboy());
+            Add(new Cowboy().Enter());
             Add(new Bed());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
                 IsVisible = () => !(_houseRevealer.Card.HasValue && _cowboyRevealer.Card.HasValue) });
