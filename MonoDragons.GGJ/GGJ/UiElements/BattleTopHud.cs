@@ -11,10 +11,10 @@ namespace MonoDragons.GGJ.UiElements
         private readonly Label _cowboyHp = new Label { Transform = new Transform2(UI.OfScreen(0.038f, 0.02f), new Size2(92, 92)) };
         private readonly Label _houseHp = new Label { Transform = new Transform2(UI.OfScreen(0.9f, 0.02f), new Size2(92, 92)) };
 
-        private IReadOnlyList<IVisual> _visuals = new List<IVisual>();
+        private readonly IReadOnlyList<IVisual> _visuals = new List<IVisual>();
         private readonly MustInit<GameData> _g = new MustInit<GameData>("Game Data");
 
-        public BattleTopHud Initialized(GameData g)
+        public BattleTopHud(GameData g)
         {
             _g.Init(g);
             _cowboyHp.Text = _g.Get().CowboyState.HP.ToString();
@@ -28,7 +28,6 @@ namespace MonoDragons.GGJ.UiElements
                 _cowboyHp,
                 _houseHp,
             };
-            return this;
         }
 
         public void Draw(Transform2 parentTransform)

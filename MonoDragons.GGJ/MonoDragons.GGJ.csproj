@@ -45,6 +45,7 @@
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
     <Compile Include="GGJ\GameData.cs" />
+    <Compile Include="GGJ\Gameplay\CardRevealer.cs" />
     <Compile Include="GGJ\Gameplay\Bed.cs" />
     <Compile Include="GGJ\Gameplay\CharacterState.cs" />
     <Compile Include="GGJ\Gameplay\Cowboy.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="GGJ\Gameplay\Hand.cs" />
     <Compile Include="GGJ\Gameplay\PlayerDamaged.cs" />
     <Compile Include="GGJ\Player.cs" />
+    <Compile Include="GGJ\Gameplay\RoleSelected.cs" />
     <Compile Include="GGJ\Scenes\GameScene.cs" />
     <Compile Include="GGJ\Scenes\LobbyScene.cs" />
     <Compile Include="Core\Animations\AnimationExtensions.cs" />

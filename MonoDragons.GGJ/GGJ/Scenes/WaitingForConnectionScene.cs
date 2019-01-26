@@ -7,6 +7,7 @@ using MonoDragons.Core.Inputs;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Scenes
@@ -16,12 +17,14 @@ namespace MonoDragons.GGJ.Scenes
         private readonly string _message;
         private readonly string _ip;
         private readonly int _port;
+        private readonly bool _isHost;
 
-        public WaitingForConnectionScene(string message, string ip, int port)
+        public WaitingForConnectionScene(string message, string ip, int port, bool isHost)
         {
             _message = message;
             _ip = ip;
             _port = port;
+            _isHost = isHost;
         }
 
         public override void Init()
@@ -43,7 +46,17 @@ namespace MonoDragons.GGJ.Scenes
                 };
                 Process.Start(startInfo);
             });
-            Event.Subscribe<GameConnectionEstablished>(x => Scene.NavigateTo(new GameScene()), this);
+            if (_isHost)
+                Event.Subscribe<GameConnectionEstablished>(HostAsRandom, this);
+            else
+                Event.Subscribe<RoleSelected>(r => Scene.NavigateTo(new GameScene(r.Role)), this);
+        }
+
+        private void HostAsRandom(GameConnectionEstablished _)
+        {
+            var isHouse = Rng.Bool() ? Player.Cowboy : Player.House;
+            Event.Publish(new RoleSelected(isHouse));
+            Scene.NavigateTo(new GameScene(isHouse));
         }
     }
 }

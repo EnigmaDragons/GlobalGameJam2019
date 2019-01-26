@@ -11,39 +11,33 @@ using System.Threading.Tasks;
 
 namespace MonoDragons.GGJ.Gameplay
 {
-    public class Hand : IVisual
+    public class Hand : IVisualControl
     {
-        public ClickUIBranch ClickUiBranch { get; private set; }
+        public ClickUIBranch Branch { get; private set; }
         public List<Card> Cards { get; private set; }
-        private List<bool> IsCardsSelected;
-
-        public Hand(List<Card> cards)
+        private bool isHouse;
+        
+        public Hand(bool isHouse, List<Card> cards)
         {
-            Cards = new List<Card>();
-            IsCardsSelected = new List<bool>();
-            ClickUiBranch = new ClickUIBranch("Hand", 1);
+            this.isHouse = isHouse;
+            Cards = cards;
+            Branch = new ClickUIBranch("Hand", 1);
             for (var i = 0; i < cards.Count; i++)
             {
                 var ii = i;
-                Cards.Add(cards[i]);
-                IsCardsSelected.Add(false);
-                ClickUiBranch.Add(new SimpleClickable(new Rectangle(100 + i * 100, 700, 50, 100), () => CardSelected(ii)));
+                Branch.Add(new SimpleClickable(new Rectangle(100 + i * 100, 700, Card.WIDTH, Card.HEIGHT), () => CardSelected(ii)));
             }
         }
 
         private void CardSelected(int cardIndex)
         {
-            IsCardsSelected[cardIndex] = true;
-            Event.Publish(new CardSelected(Cards[cardIndex]));
+            Event.Publish(new CardSelected(Cards[cardIndex], isHouse));
         }
 
         public void Draw(Transform2 parentTransform)
         {
             for (var i = 0; i < Cards.Count; i++)
-                if (IsCardsSelected[i])
-                    Cards[i].Draw(new Transform2(new Vector2(100 + i * 100, 650)));
-                else
-                    Cards[i].Draw(new Transform2(new Vector2(100 + i * 100, 700)));
+                Cards[i].Draw(new Transform2(new Vector2(100 + i * 100, 700)));
         }
     }
 }

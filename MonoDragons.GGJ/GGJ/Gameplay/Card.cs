@@ -13,7 +13,9 @@ namespace MonoDragons.GGJ.Gameplay
 {
     public class Card : IVisual
     {
-        UiColoredRectangle cardImage = new UiColoredRectangle() { Color = new Color(255, 0, 0), Transform = new Transform2(new Size2(50, 100)) };
+        public const int HEIGHT = 100;
+        public const int WIDTH = 50;
+        UiColoredRectangle cardImage = new UiColoredRectangle() { Color = new Color(255, 0, 0), Transform = new Transform2(new Size2(WIDTH, HEIGHT)) };
 
         public void Draw(Transform2 parentTransform)
         {

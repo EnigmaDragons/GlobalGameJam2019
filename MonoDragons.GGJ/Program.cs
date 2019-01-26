@@ -11,6 +11,7 @@ using MonoDragons.Core.Memory;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Render;
 using MonoDragons.Core.Scenes;
+using MonoDragons.GGJ;
 using MonoDragons.GGJ.Scenes;
 
 namespace MonoDragons.Core
@@ -50,7 +51,7 @@ namespace MonoDragons.Core
                 { "CharacterCreation", () => new CharacterCreationScene()},
                 { "NetworkTest", () => new NetworkTestScene()},
                 { "Lobby", () => new LobbyScene(args) },
-                { "Game", () => new GameScene() }
+                { "Game", () => new GameScene(Player.Cowboy) }
             });
         }
 

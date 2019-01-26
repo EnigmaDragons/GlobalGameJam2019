@@ -10,31 +10,51 @@ namespace MonoDragons.GGJ.Scenes
 {
     public class GameScene : ClickUiScene
     {
-        private Hand hand;
-        private bool hasMadeSelection;
+        private readonly Player _player;
+        private Hand _hand;
+        private CardRevealer _cowboyRevealer;
+        private CardRevealer _houseRevealer;
+
+        public GameScene(Player player)
+        {
+            _player = player;
+        }
 
         public override void Init()
         {
             var g = new GameData();
+            var isHouse = _player == Player.House;
             State<GameData>.Init(g);
+            Add(new Label { Text = $"You are playing as " + (isHouse ? "house" : "cowboy"), Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
             Add(new Cowboy());
             Add(new Bed());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
-                IsVisible = () => hasMadeSelection });
+                IsVisible = () => isHouse ? _houseRevealer.Card.HasValue : _cowboyRevealer.Card.HasValue });
+            _cowboyRevealer = new CardRevealer(new Vector2(400, 350), !isHouse);
+            Add(_cowboyRevealer);
+            _houseRevealer = new CardRevealer(new Vector2(1200, 350), isHouse);
+            Add(_houseRevealer);
             var deck = new Deck(new Card(), new Card(), new Card());
-            hand = new Hand(deck.DrawCards(3));
-            Add(hand);
-            ClickUi.Add(hand.ClickUiBranch);
+            _hand = new Hand(isHouse, deck.DrawCards(3));
+            Add(_hand);
             Add(new BattleTopHud(g));
+            ClickUi.Add(_hand.Branch);
             Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
         }
 
-        private void CardSelected(CardSelected obj)
+        private void CardSelected(CardSelected selection)
         {
-            hasMadeSelection = true;
-            ClickUi.Remove(hand.ClickUiBranch);
+            if (selection.IsHouse)
+                _houseRevealer.Card = new Optional<Card>(selection.Card);
+            else
+                _cowboyRevealer.Card = new Optional<Card>(selection.Card);
+            if (_cowboyRevealer.Card.HasValue && _houseRevealer.Card.HasValue)
+            {
+                _cowboyRevealer.IsRevealed = true;
+                _houseRevealer.IsRevealed = true;
+            }
         }
     }
 }
