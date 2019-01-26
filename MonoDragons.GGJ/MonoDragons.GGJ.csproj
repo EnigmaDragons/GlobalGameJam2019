@@ -46,7 +46,9 @@
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
     <Compile Include="GGJ\GameData.cs" />
+    <Compile Include="GGJ\Gameplay\CardEffectProcessor.cs" />
     <Compile Include="GGJ\Gameplay\CardState.cs" />
+    <Compile Include="GGJ\Gameplay\Events\AllCardsRevealed.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandDrawn.cs" />
     <Compile Include="GGJ\Gameplay\PlayerCardsState.cs" />
     <Compile Include="GGJ\Gameplay\Events\AllCardsSelected.cs" />

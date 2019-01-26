@@ -3,9 +3,9 @@ namespace MonoDragons.GGJ.Gameplay
 {
     public enum Phase
     {
+        StartingTurn,
         SelectingCards,
         ResolvingCards,
-        StartingTurn,
         BattleFinished,
     }
 }

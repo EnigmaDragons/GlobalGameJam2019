@@ -60,6 +60,7 @@ namespace MonoDragons.GGJ.Gameplay
                 if (_local != _player)
                     IsRevealed = false;
             }, 2000, false);
+            Event.Publish(new AllCardsRevealed { TurnNumber = e.TurnNumber, CowboyCard = e.CowboyCard, HouseCard = e.HouseCard });
         }
     }
 }

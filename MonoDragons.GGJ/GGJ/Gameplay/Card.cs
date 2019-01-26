@@ -21,7 +21,6 @@ namespace MonoDragons.GGJ.Gameplay
         {
             State = state;
             _name = imageName;
-            Event.Subscribe<AllCardsSelected>(OnCardSelected, this);
             _action = action;
         }
 
@@ -30,10 +29,6 @@ namespace MonoDragons.GGJ.Gameplay
             UI.Draw("Cards/" + _name, parentTransform + new Transform2(new Rectangle(0, 0, WIDTH, HEIGHT)));
         }
 
-        private void OnCardSelected(AllCardsSelected e)
-        {
-            if (e.CowboyCard == Id || e.HouseCard == Id)
-                _action();
-        }
+        public void Resolve() => _action();
     }
 }

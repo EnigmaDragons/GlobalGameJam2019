@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
@@ -21,7 +19,6 @@ namespace MonoDragons.GGJ.Scenes
         private CardRevealer _houseRevealer;
         private GameData _data;
         private HandView _handView;
-        private PlayerCards _playerCards;
 
         public GameScene(Player player)
         {
@@ -34,7 +31,8 @@ namespace MonoDragons.GGJ.Scenes
             // TODO: Move Setup out of Scene
             _data = new GameData();
             SetupCharacters();
-            _playerCards = new PlayerCards(_player, _data[_player].Cards);
+            Add(new PlayerCards(_player, _data[_player].Cards));
+            Add(new CardEffectProcessor(_data));
 
             var isHouse = _player == Player.House;
             State<GameData>.Init(_data);
@@ -52,8 +50,8 @@ namespace MonoDragons.GGJ.Scenes
             Add(_houseRevealer);
             _handView = new HandView(_data, _data[_player]);
             Add(_handView);
-            new CharacterActor(_data.CowboyState);
-            new CharacterActor(_data.HouseState);
+            Add(new CharacterActor(_data.CowboyState));
+            Add(new CharacterActor(_data.HouseState));
             var topHud = new BattleTopHud(_player, _data);
             Add(topHud);
             ClickUi.Add(_handView.Branch);
@@ -70,7 +68,9 @@ namespace MonoDragons.GGJ.Scenes
                 if (keys.IsKeyDown(Keys.Q))
                     Scene.NavigateTo("Lobby");
             }));
-            Event.Publish(new TurnStarted { TurnNumber = _data.CurrentTurn });
+            
+            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+            Event.Publish(new TurnStarted { TurnNumber = _data.CurrentTurn + 1 });
         }
 
         private void SetupCharacters()
