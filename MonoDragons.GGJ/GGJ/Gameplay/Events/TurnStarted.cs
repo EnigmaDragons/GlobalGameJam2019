@@ -1,7 +1,7 @@
 ﻿
 namespace MonoDragons.GGJ.Gameplay
 {
-    class TurnFinished
+    class TurnStarted
     {
         public int TurnNumber { get; set; }
     }

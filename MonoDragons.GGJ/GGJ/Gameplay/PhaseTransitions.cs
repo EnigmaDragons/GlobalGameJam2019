@@ -9,13 +9,25 @@ namespace MonoDragons.GGJ.Gameplay
     public class PhaseTransitions : IAutomaton
     {
         private readonly GameData _gameData;
+
         private Phase _current = Phase.SelectingCards;
         private List<CardSelected> _selections = new List<CardSelected>();
+        private List<TurnFinished> _turnFinished = new List<TurnFinished>();
 
         public PhaseTransitions(GameData gameData)
         {
             _gameData = gameData;
             Event.Subscribe<CardSelected>(CardSelected, this);
+            Event.Subscribe<TurnFinished>(OnTurnFinished, this);
+        }
+
+        private void OnTurnFinished(TurnFinished e)
+        {
+            if (e.TurnNumber < _gameData.CurrentTurn)
+                return; 
+
+            _gameData.CurrentTurn = e.TurnNumber + 1;
+            Event.Publish(new TurnStarted { TurnNumber = _gameData.CurrentTurn });
         }
 
         public void Update(TimeSpan delta)
@@ -34,6 +46,7 @@ namespace MonoDragons.GGJ.Gameplay
             {
                 Event.Publish(new AllCardsSelected
                 {
+                    TurnNumber = _gameData.CurrentTurn,
                     CowboyCard = _selections.First(x => x.Player == Player.Cowboy).CardId,
                     HouseCard = _selections.First(x => x.Player == Player.House).CardId
                 });

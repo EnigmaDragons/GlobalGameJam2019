@@ -24,6 +24,9 @@ namespace MonoDragons.Core
         [STAThread]
         static void Main(params string[] args)
         {
+#if DEBUG
+            MasterVolume.Instance.MusicVolume = 0;
+#endif
             DebugLogWindow.Launch();
             DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
             Error.Handle(() =>

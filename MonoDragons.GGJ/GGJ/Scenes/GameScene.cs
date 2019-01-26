@@ -26,9 +26,6 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
-#if DEBUG
-            MasterVolume.Instance.MusicVolume = 0;
-#endif
             Sound.Music("fight-it").Play();
             _data = new GameData();
             var isHouse = _player == Player.House;
@@ -65,7 +62,7 @@ namespace MonoDragons.GGJ.Scenes
                     Scene.NavigateTo("Lobby");
             }));
 
-            Event.Subscribe<TurnFinished>(StartNewTurn, this);
+            Event.Subscribe<TurnStarted>(StartNewTurn, this);
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)
@@ -76,9 +73,9 @@ namespace MonoDragons.GGJ.Scenes
             ClickUi.Remove(_data[_player].Hand.Branch);
         }
 
-        private void StartNewTurn(TurnFinished e)
+        private void StartNewTurn(TurnStarted e)
         {
-            _data[_player].Hand.AddCards(_data[_player].Deck.DrawCards(2));
+            _data[_player].Hand.AddCards(_data[_player].Deck.DrawCards(3));
         }
     }
 }

@@ -9,6 +9,7 @@ namespace MonoDragons.GGJ.Gameplay
 {
     public class CardRevealer : IVisualAutomaton
     {
+        // TODO: Encapsulate this
         public Optional<Card> Card { get; set; }
         public bool IsRevealed { get; set; }
         private Transform2 _location;
@@ -32,8 +33,9 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnTurnFinished(TurnFinished obj)
         {
+            Card = new Optional<Card>();
             if (_local != _player)
-                IsRevealed = false;
+                IsRevealed = false;            
         }
 
         private void OnCardSelect(CardSelected e)
@@ -58,7 +60,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void OnCardsSelected(AllCardsSelected e)
         {
             IsRevealed = true;
-            _displayTimer = new TimerTask(() => Event.Publish(new TurnFinished()), 6000, false);
+            _displayTimer = new TimerTask(() => Event.Publish(new TurnFinished { TurnNumber = e.TurnNumber }), 2000, false);
         }
     }
 }
