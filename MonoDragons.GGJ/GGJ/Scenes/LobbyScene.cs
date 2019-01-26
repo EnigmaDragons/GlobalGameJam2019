@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
@@ -28,10 +29,10 @@ namespace MonoDragons.GGJ.Scenes
         public override void Init()
         {
             Add(Buttons.Text("Host", new Point(100, 160), BeginHostingGame));
-            Add(Buttons.Text("Connect", new Point(100, 60), () => ConnectToGame(_hostEndpoint.Text, Port)));
+            Add(Buttons.Text("Connect", new Point(100, 60), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
             Add(new Label { Text = "Connect To:", Transform = new Transform2(new Vector2(0, 0), new Size2(400, 60)) });
             Add(_hostEndpoint);
-            Add(new KeyboardTyping("127.0.0.1").OutputTo(x => _hostEndpoint.Text = x));
+            Add(new KeyboardTyping("127.0.0.1:4567").OutputTo(x => _hostEndpoint.Text = x));
             
             Logger.Write(_args);
             if (_args.ShouldConnect)
@@ -40,14 +41,26 @@ namespace MonoDragons.GGJ.Scenes
 
         private void BeginHostingGame()
         {
-            Multiplayer.HostGame(AppId, Port, NetTypes);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {Port}", _hostEndpoint.Text, Port));
+            var ipEndpoint = ParseURL(_hostEndpoint.Text);
+            Multiplayer.HostGame(AppId, ipEndpoint.Port, NetTypes);
+            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {ipEndpoint.Port}", ipEndpoint.Address.ToString(), ipEndpoint.Port));
+        }
+
+        private void ConnectToGame(IPEndPoint endPoint)
+        {
+            ConnectToGame(endPoint.Address.ToString(), endPoint.Port);
         }
 
         private void ConnectToGame(string ip, int port)
         {
             Multiplayer.JoinGame(AppId, ip, port, NetTypes);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {ip}:{port}", _hostEndpoint.Text, Port));
+            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {ip}:{port}", ip, port));
+        }
+        
+        private IPEndPoint ParseURL(string url)
+        {
+            Uri.TryCreate($"http://{url}", UriKind.Absolute, out Uri uri);
+            return new IPEndPoint(IPAddress.Parse(uri.Host), uri.Port);
         }
     }
 }
