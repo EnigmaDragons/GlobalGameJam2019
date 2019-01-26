@@ -1,5 +1,5 @@
 ﻿
-namespace MonoDragons.GGJ.Gameplay
+namespace MonoDragons.GGJ.Gameplay.Events
 {
     class AllCardsSelected
     {

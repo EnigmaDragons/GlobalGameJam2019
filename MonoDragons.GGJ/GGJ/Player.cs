@@ -1,5 +1,4 @@
-﻿
-namespace MonoDragons.GGJ
+﻿namespace MonoDragons.GGJ
 {
     public enum Player
     {

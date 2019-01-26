@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonoDragons.GGJ.AI
+namespace MonoDragons.GGJ.OtherEvents
 {
-    public class StupidAI : AI
+    public class FailedToSave
     {
-        public StupidAI(Player player) : base(player)
-        {
-        }
     }
 }

@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonoDragons.GGJ.AI
+namespace MonoDragons.GGJ.Gameplay.Events
 {
-    public class StupidAI : AI
+    class TurnStarted
     {
-        public StupidAI(Player player) : base(player)
-        {
-        }
     }
 }

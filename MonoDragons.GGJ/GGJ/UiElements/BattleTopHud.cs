@@ -7,6 +7,7 @@ using MonoDragons.Core.Scenes;
 using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.Gameplay;
+using MonoDragons.GGJ.Gameplay.Events;
 using System;
 using System.Collections.Generic;
 

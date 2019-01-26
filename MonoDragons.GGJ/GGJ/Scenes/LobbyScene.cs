@@ -10,14 +10,15 @@ using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.Gameplay;
+using MonoDragons.GGJ.Gameplay.Events;
 using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Scenes
 {
     public sealed class LobbyScene : ClickUiScene
     {
-        private const string AppId = "UnnamedAppID";
-        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(RoleSelected) };
+        private const string AppId = "GGJ2019";
+        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(RoleSelected), typeof(GameDataCanBeSynced) };
         private readonly Label _hostEndpoint = new Label { Transform = new Transform2(new Vector2(260, 0), new Size2(200, 60)) };
         private readonly NetworkArgs _args;
 

@@ -44,22 +44,30 @@
   <ItemGroup>
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
+    <Compile Include="GGJ\AI\AI.cs" />
+    <Compile Include="GGJ\AI\StupidAI.cs" />
     <Compile Include="GGJ\GameData.cs" />
-    <Compile Include="GGJ\Gameplay\AllCardsSelected.cs" />
+    <Compile Include="GGJ\Gameplay\Events\AllCardsSelected.cs" />
     <Compile Include="GGJ\Gameplay\CardRevealer.cs" />
     <Compile Include="GGJ\Gameplay\Bed.cs" />
     <Compile Include="GGJ\Data\Cards.cs" />
+    <Compile Include="GGJ\Gameplay\CharacterActor.cs" />
     <Compile Include="GGJ\Gameplay\CharacterState.cs" />
     <Compile Include="GGJ\Gameplay\Cowboy.cs" />
     <Compile Include="GGJ\Gameplay\Card.cs" />
-    <Compile Include="GGJ\Gameplay\CardSelected.cs" />
+    <Compile Include="GGJ\Gameplay\Events\CardSelected.cs" />
     <Compile Include="GGJ\Gameplay\Deck.cs" />
+    <Compile Include="GGJ\Gameplay\Events\GameDataCanBeSynced.cs" />
+    <Compile Include="GGJ\Gameplay\Events\TurnStarted.cs" />
     <Compile Include="GGJ\Gameplay\Hand.cs" />
-    <Compile Include="GGJ\Gameplay\PlayerDamaged.cs" />
-    <Compile Include="GGJ\Gameplay\PlayerDefeated.cs" />
-    <Compile Include="GGJ\Gameplay\TurnFinished.cs" />
+    <Compile Include="GGJ\Gameplay\Phase.cs" />
+    <Compile Include="GGJ\Gameplay\PhaseTransitions.cs" />
+    <Compile Include="GGJ\Gameplay\Events\PlayerDamaged.cs" />
+    <Compile Include="GGJ\Gameplay\Events\PlayerDefeated.cs" />
+    <Compile Include="GGJ\Gameplay\Events\TurnFinished.cs" />
+    <Compile Include="GGJ\OtherEvents\FailedToSave.cs" />
     <Compile Include="GGJ\Player.cs" />
-    <Compile Include="GGJ\Gameplay\RoleSelected.cs" />
+    <Compile Include="GGJ\Gameplay\Events\RoleSelected.cs" />
     <Compile Include="GGJ\Scenes\GameScene.cs" />
     <Compile Include="GGJ\Scenes\LobbyScene.cs" />
     <Compile Include="Core\Animations\AnimationExtensions.cs" />
@@ -246,6 +254,7 @@
     <Compile Include="GGJ\UiElements\Buttons.cs" />
     <Compile Include="GGJ\UiElements\LevelBackground.cs" />
     <Compile Include="GGJ\UiElements\UiConsts.cs" />
+    <Compile Include="GGJ\UnnamedFolder\StateSynchronizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>

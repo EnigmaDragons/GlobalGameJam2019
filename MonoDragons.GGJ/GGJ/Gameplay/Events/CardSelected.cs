@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonoDragons.GGJ.Gameplay
+namespace MonoDragons.GGJ.Gameplay.Events
 {
     public struct CardSelected
     {
