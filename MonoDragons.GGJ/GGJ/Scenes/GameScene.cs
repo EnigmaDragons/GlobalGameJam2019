@@ -38,7 +38,9 @@ namespace MonoDragons.GGJ.Scenes
             Add(_cowboyRevealer);
             _houseRevealer = new CardRevealer(new Vector2(1200, 350), isHouse);
             Add(_houseRevealer);
-            var deck = new Deck(new Card(), new Card(), new Card());
+            var deck = _player == Player.Cowboy 
+                ? new Deck(new Card("CowboyCard0"), new Card("CowboyCard1"), new Card("CowboyCard2")) 
+                : new Deck(new Card("SmartHouseCard0"), new Card("SmartHouseCard1"), new Card("SmartHouseCard2"));
             _hand = new Hand(isHouse, deck.DrawCards(3));
             Add(_hand);
             Add(new BattleTopHud(_player, gameData));
