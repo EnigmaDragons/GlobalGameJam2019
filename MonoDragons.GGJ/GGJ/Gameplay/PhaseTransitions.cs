@@ -22,6 +22,15 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<CardSelected>(CardSelected, this);
             Event.Subscribe<TurnFinished>(OnTurnFinished, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+            Event.Subscribe<LevelSetup>(OnLevelSetup, this);
+        }
+
+        private void OnLevelSetup(LevelSetup e)
+        {
+            _gameData.CurrentLevel = e.CurrentLevel;
+            _gameData.CurrentTurn = 0;
+            _currentLevel = e.CurrentLevel;
+            Event.Publish(new TurnStarted { TurnNumber = _gameData.CurrentTurn });
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)
@@ -58,9 +67,9 @@ namespace MonoDragons.GGJ.Gameplay
                 _currentLevel++;
             
             if (_gameData.CowboyState.HP <= 0)
-                Event.Publish(new PlayerDefeated {Winner = Player.House, IsGameOver = true});
+                Event.Publish(new PlayerDefeated {LevelNumber = _currentLevel, Winner = Player.House, IsGameOver = true});
             else if (_gameData.HouseState.HP <= 0)
-                Event.Publish(new PlayerDefeated {Winner = Player.Cowboy, IsGameOver = false});
+                Event.Publish(new PlayerDefeated {LevelNumber = _currentLevel, Winner = Player.Cowboy, IsGameOver = false});
         }
 
         private void CardSelected(CardSelected selection)

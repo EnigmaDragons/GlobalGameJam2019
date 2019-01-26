@@ -35,8 +35,6 @@ namespace MonoDragons.GGJ.UiElements
         {
             _player = p;
             _gameData.Init(g);
-            _cowboyHp.Text = _gameData.Get().CowboyState.HP.ToString();
-            _houseHp.Text = _gameData.Get().HouseState.HP.ToString();
             var quitButton = new ImageTextButton(new Transform2(UI.OfScreen(0.4f, 0.8f), UI.OfScreenSize(0.20f, 0.10f)), 
                 () => Scene.NavigateTo(new LobbyScene(new NetworkArgs())), "Quit", "UI/sign", "UI/sign-hover", "UI/sign-press", 
                 () => _isGameOver || _isDisconnected)
@@ -58,9 +56,16 @@ namespace MonoDragons.GGJ.UiElements
                 _gameOverLabel,
                 quitButton,
             };
+            Event.Subscribe<LevelSetup>(OnLevelSetup, this);
             Event.Subscribe<FinishedLevel>(OnLevelFinished, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<GameDisconnected>(OnDisconnected, this);
+        }
+
+        private void OnLevelSetup(LevelSetup e)
+        {
+            _cowboyHp.Text = _gameData.Get().CowboyState.HP.ToString();
+            _houseHp.Text = _gameData.Get().HouseState.HP.ToString();
         }
 
         private void OnLevelFinished(FinishedLevel e)

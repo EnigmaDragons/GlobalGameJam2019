@@ -8,13 +8,14 @@ namespace MonoDragons.GGJ.Gameplay
     public class PlayerCards
     {
         private readonly Player _player;
-        private readonly PlayerCardsState _state;
+        private readonly GameData _data;
+        private PlayerCardsState _state => _data[_player].Cards;
         private int _currentTurn = -1;
 
-        public PlayerCards(Player player, PlayerCardsState state)
+        public PlayerCards(Player player, GameData data)
         {
             _player = player;
-            _state = state;
+            _data = data;
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<CardSelected>(OnCardSelected, this);
             Event.Subscribe<TurnStarted>(OnTurnStarted, this);

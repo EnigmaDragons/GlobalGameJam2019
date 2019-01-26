@@ -53,7 +53,7 @@ namespace MonoDragons.GGJ.Gameplay
         {
             if (e.Winner == Player.Cowboy)
                 MoveTo(CharState.Walking, UI.OfScreenWidth(1.0f) + 400, TimeSpan.FromMilliseconds(3200), 
-                    () => Event.Publish(new FinishedLevel { IsGameOver = e.IsGameOver }));
+                    () => Event.Publish(new FinishedLevel { LevelNumber = e.LevelNumber, IsGameOver = e.IsGameOver }));
         }
 
         public void Update(TimeSpan delta)
