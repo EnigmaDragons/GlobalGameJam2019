@@ -1,23 +1,21 @@
-﻿using MonoDragons.Core.EventSystem;
+﻿using System.Collections.Generic;
+using MonoDragons.Core.EventSystem;
 
 namespace MonoDragons.GGJ.Gameplay
 {
     public class CharacterState
     {
-        private readonly Player _controller;
-        public int HP { get; private set; } = 50;
+        public Player Controller { get; }
+        public int HP { get; set; } = 50;
+        public Deck Deck { get; }
+        public Hand Hand { get; }
 
-        public CharacterState(Player controller, int hp)
+        public CharacterState(Player controller, int hp, Deck deck)
         {
-            _controller = controller;
+            Controller = controller;
             HP = hp;
-            EventSubscription.Create<PlayerDamaged>(OnDamaged, this);
-        }
-
-        private void OnDamaged(PlayerDamaged e)
-        {
-            if (_controller == e.Target)
-                HP -= e.Amount;
+            Deck = deck;
+            Hand = new Hand(controller, deck.DrawCards(3));
         }
     }
 }
