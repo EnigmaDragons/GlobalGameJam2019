@@ -6,5 +6,6 @@ namespace MonoDragons.GGJ.Gameplay
     {
         public int Id { get; set; }
         public CardName CardName { get; set; }
+        public CardType Type { get; set; }
     }
 }

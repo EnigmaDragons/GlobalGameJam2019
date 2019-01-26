@@ -31,7 +31,7 @@ namespace MonoDragons.GGJ.Scenes
             // TODO: Move Setup out of Scene
             _data = new GameData();
             SetupCharacters();
-            Add(new PlayerCards(_player, _data[_player].Cards));
+            Add(new PlayerCards(_player, _data[_player].Cards, _data));
             Add(new CardEffectProcessor(_data));
 
             var isHouse = _player == Player.House;
@@ -50,8 +50,8 @@ namespace MonoDragons.GGJ.Scenes
             Add(_houseRevealer);
             _handView = new HandView(_data, _data[_player]);
             Add(_handView);
-            Add(new CharacterActor(_data.CowboyState));
-            Add(new CharacterActor(_data.HouseState));
+            Add(new Character(_data.CowboyState));
+            Add(new Character(_data.HouseState));
             Add(new LevelProgression(_data));
             var topHud = new BattleTopHud(_player, _data);
             Add(topHud);
@@ -82,11 +82,11 @@ namespace MonoDragons.GGJ.Scenes
             _data.CowboyState = new CharacterState(Player.Cowboy, 10, 
                 new PlayerCardsState(
                     CreateCard(CardName.CowboyPass),
-                    CreateCard(CardName.DeadEye),
-                    CreateCard(CardName.SixShooterThingy),
-                    CreateCard(CardName.YEEHAW)));
+                    CreateCard(CardName.CrackShot),
+                    CreateCard(CardName.FanTheHammer),
+                    CreateCard(CardName.GunsBlazing)));
 
-            _data.HouseState = new CharacterState(Player.House, 3,
+            _data.HouseState = new CharacterState(Player.House, 10,
                 new PlayerCardsState(
                     CreateCard(CardName.HousePass),
                     CreateCard(CardName.Lazer),

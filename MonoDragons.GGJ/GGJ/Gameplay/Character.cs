@@ -3,11 +3,11 @@ using MonoDragons.Core.EventSystem;
 
 namespace MonoDragons.GGJ.Gameplay
 {
-    public class CharacterActor
+    public class Character
     {
         private readonly CharacterState _state;
 
-        public CharacterActor(CharacterState state)
+        public Character(CharacterState state)
         {
             _state = state;
             Event.Subscribe<PlayerDamaged>(OnDamaged, this);

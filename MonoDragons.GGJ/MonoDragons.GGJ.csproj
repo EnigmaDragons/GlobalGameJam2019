@@ -50,6 +50,7 @@
     <Compile Include="GGJ\Gameplay\CardState.cs" />
     <Compile Include="GGJ\Gameplay\CardType.cs" />
     <Compile Include="GGJ\Gameplay\Events\AllCardsRevealed.cs" />
+    <Compile Include="GGJ\Gameplay\Events\CardsLocked.cs" />
     <Compile Include="GGJ\Gameplay\Events\FinishedLevel.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandDrawn.cs" />
     <Compile Include="GGJ\Gameplay\Events\LevelSetup.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="GGJ\Gameplay\CardRevealer.cs" />
     <Compile Include="GGJ\Gameplay\Bed.cs" />
     <Compile Include="GGJ\Data\Cards.cs" />
-    <Compile Include="GGJ\Gameplay\CharacterActor.cs" />
+    <Compile Include="GGJ\Gameplay\Character.cs" />
     <Compile Include="GGJ\Gameplay\CharacterState.cs" />
     <Compile Include="GGJ\Gameplay\Cowboy.cs" />
     <Compile Include="GGJ\Gameplay\Card.cs" />

@@ -11,6 +11,8 @@ namespace MonoDragons.GGJ.Gameplay
         public List<int> HandZone { get; set; }
         public List<int> InPlayZone { get; set; }
         public List<int> DiscardZone { get; set; }
+        public List<int> NextTurnUnplayables { get; set; } = new List<int>();
+        public List<int> Unplayables { get; set; } = new List<int>();
         public int PassId { get; }
 
         public PlayerCardsState(params CardState[] s) : this(s.First(x => x.CardName == CardName.CowboyPass || x.CardName == CardName.HousePass).Id, s.Select(x => x.Id)) { }
