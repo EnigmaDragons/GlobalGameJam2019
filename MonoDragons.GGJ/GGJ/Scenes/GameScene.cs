@@ -20,6 +20,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new LevelBackground("House/level1"));
             Add(new BattleHud());
             Add(new Cowboy());
+            Add(new Bed());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
                 IsVisible = () => hasMadeSelection });
             var deck = new Deck(new Card(), new Card(), new Card());
