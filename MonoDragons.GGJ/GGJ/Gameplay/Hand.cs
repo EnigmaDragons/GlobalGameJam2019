@@ -25,7 +25,7 @@ namespace MonoDragons.GGJ.Gameplay
             for (var i = 0; i < cards.Count; i++)
             {
                 var ii = i;
-                Branch.Add(new SimpleClickable(new Rectangle(100 + i * 100, 700, Card.WIDTH, Card.HEIGHT), () => CardSelected(ii)));
+                Branch.Add(new SimpleClickable(new Rectangle(100 + i * (Card.WIDTH + 50), 850 - Card.HEIGHT, Card.WIDTH, Card.HEIGHT), () => CardSelected(ii)));
             }
         }
 
@@ -43,13 +43,13 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void CardSelected(int cardIndex)
         {
-            Event.Publish(new CardSelected(Cards[cardIndex], _player));
+            Event.Publish(new CardSelected(Cards[cardIndex].Id, _player));
         }
 
         public void Draw(Transform2 parentTransform)
         {
             for (var i = 0; i < Cards.Count; i++)
-                Cards[i].Draw(new Transform2(new Vector2(100 + i * 100, 700)));
+                Cards[i].Draw(new Transform2(new Vector2(100 + i * (Card.WIDTH + 50), 850 - Card.HEIGHT)));
         }
 
         public void Empty()

@@ -5,6 +5,7 @@ using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.Data;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements;
 
@@ -39,8 +40,10 @@ namespace MonoDragons.GGJ.Scenes
             Add(_cowboyRevealer);
             _houseRevealer = new CardRevealer(new Vector2(1200, 350), isHouse);
             Add(_houseRevealer);
-            _deck = new Deck(new Card(), new Card(), new Card());
-            _hand = new Hand(_player, _deck.DrawCards(3));
+            var deck = _player == Player.Cowboy 
+                ? new Deck(Cards.GetCardById(1), Cards.GetCardById(2), Cards.GetCardById(3)) 
+                : new Deck(Cards.GetCardById(4), Cards.GetCardById(5), Cards.GetCardById(6));
+            _hand = new Hand(_player, deck.DrawCards(3));
             Add(_hand);
             Add(new BattleTopHud(g));
             ClickUi.Add(_hand.Branch);
@@ -50,9 +53,9 @@ namespace MonoDragons.GGJ.Scenes
         private void CardSelected(CardSelected selection)
         {
             if (selection.Player == Player.House)
-                _houseRevealer.Card = new Optional<Card>(selection.Card);
+                _houseRevealer.Card = new Optional<Card>(Cards.GetCardById(selection.CardId));
             else
-                _cowboyRevealer.Card = new Optional<Card>(selection.Card);
+                _cowboyRevealer.Card = new Optional<Card>(Cards.GetCardById(selection.CardId));
             if (selection.Player == _player)
                 _hand.Empty();
             if (_cowboyRevealer.Card.HasValue && _houseRevealer.Card.HasValue)
