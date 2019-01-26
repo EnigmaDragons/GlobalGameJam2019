@@ -41,7 +41,7 @@ namespace MonoDragons.GGJ.Scenes
 
             Input.On(Control.Menu, LaunchConnectingClient);
             if (_isHost)
-                Event.Subscribe<GameConnectionEstablished>(HostAsRandom, this);
+                Event.Subscribe<GameConnected>(HostAsRandom, this);
             if (_isHost && _netArgs.ShouldAutoLaunch)
                 LaunchConnectingClient();
             if (!_isHost)
@@ -58,7 +58,7 @@ namespace MonoDragons.GGJ.Scenes
             Process.Start(startInfo);
         }
 
-        private void HostAsRandom(GameConnectionEstablished _)
+        private void HostAsRandom(GameConnected _)
         {
             var isHouse = Rng.Bool() ? Player.Cowboy : Player.House;
             Event.Publish(new RoleSelected(isHouse));

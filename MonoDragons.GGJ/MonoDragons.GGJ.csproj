@@ -42,6 +42,7 @@
     <StartupObject>MonoDragons.Core.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Network\Events\GameDisconnected.cs" />
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
     <Compile Include="GGJ\GameData.cs" />
@@ -155,7 +156,7 @@
     <Compile Include="Core\Network\Core\NetGame.cs" />
     <Compile Include="Core\Network\Core\NetRole.cs" />
     <Compile Include="Core\Network\Events\DemoMessage.cs" />
-    <Compile Include="Core\Network\Events\GameConnectionEstablished.cs" />
+    <Compile Include="Core\Network\Events\GameConnected.cs" />
     <Compile Include="Core\Network\Events\GameServerStarted.cs" />
     <Compile Include="Core\Network\Events\NetJsonMessage.cs" />
     <Compile Include="Core\Network\JsonNetGame.cs" />

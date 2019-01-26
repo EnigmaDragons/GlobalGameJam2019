@@ -29,7 +29,7 @@ namespace MonoDragons.Core.Network
             {
                 net.Start();
                 net.Connect(host, port);
-                Event.Publish(new GameConnectionEstablished { Address = $"{host}:{port}"});
+                Event.Publish(new GameConnected { Address = $"{host}:{port}"});
             });
         }
         
@@ -93,8 +93,10 @@ namespace MonoDragons.Core.Network
             var status = (NetConnectionStatus)msg.ReadByte();
             var msgBody = msg.ReadString();
             Log($"Conn: {msg.SenderEndPoint} {status} - {msgBody}");
-            if (status.Equals(NetConnectionStatus.Connected))
-                Event.Publish(new GameConnectionEstablished { Address = msg.SenderEndPoint.ToString(), NumActiveConnections = Net.ConnectionsCount });
+            if (status == NetConnectionStatus.Connected)
+                Event.Publish(new GameConnected { Address = msg.SenderEndPoint.ToString(), NumActiveConnections = Net.ConnectionsCount });
+            if (status == NetConnectionStatus.Disconnected)
+                Event.Publish(new GameDisconnected { Address = msg.SenderEndPoint.ToString(), NumActiveConnections = Net.ConnectionsCount });
         }
 
         private void Log(string message) => Logger.WriteLine($"{Role}: {message}");

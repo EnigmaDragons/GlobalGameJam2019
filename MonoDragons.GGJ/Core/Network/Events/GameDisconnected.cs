@@ -1,6 +1,7 @@
-﻿namespace MonoDragons.Core.Network
+﻿
+namespace MonoDragons.Core.Network
 {
-    public sealed class GameConnectionEstablished
+    public class GameDisconnected
     {
         public string Address { get; set; }
         public int NumActiveConnections { get; set; }
