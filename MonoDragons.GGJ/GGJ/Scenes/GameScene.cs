@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
+using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
@@ -22,9 +24,9 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
-            var g = new GameData();
+            var gameData = new GameData();
             var isHouse = _player == Player.House;
-            State<GameData>.Init(g);
+            State<GameData>.Init(gameData);
             Add(new Label { Text = $"You are playing as " + (isHouse ? "house" : "cowboy"), Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
@@ -39,8 +41,18 @@ namespace MonoDragons.GGJ.Scenes
             var deck = new Deck(new Card(), new Card(), new Card());
             _hand = new Hand(isHouse, deck.DrawCards(3));
             Add(_hand);
-            Add(new BattleTopHud(g));
+            Add(new BattleTopHud(_player, gameData));
             ClickUi.Add(_hand.Branch);
+
+            // Temp
+            Add(new ActionAutomaton(() =>
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.C))
+                    Event.Publish(new PlayerDefeated { Winner = Player.Cowboy, IsGameOver = true });
+                if (Keyboard.GetState().IsKeyDown(Keys.H))
+                    Event.Publish(new PlayerDefeated { Winner = Player.House, IsGameOver = true });
+            }));
+
             Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
         }
 
