@@ -230,7 +230,10 @@
     <Compile Include="Core\UserInterface\WithOffset.cs" />
     <Compile Include="Core\UserInterface\WrapGrid.cs" />
     <Compile Include="GGJ\Scenes\WaitingForConnectionScene.cs" />
+    <Compile Include="GGJ\UiElements\BattleHud.cs" />
     <Compile Include="GGJ\UiElements\Buttons.cs" />
+    <Compile Include="GGJ\UiElements\LevelBackground.cs" />
+    <Compile Include="GGJ\UiElements\UiConsts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
@@ -654,6 +657,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Fonts\Enigmatic\Enigmatic-36.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\House\floor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\House\level1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Images\Logo\oilsplash.png">
