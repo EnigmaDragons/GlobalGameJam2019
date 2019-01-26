@@ -1,6 +1,7 @@
 ﻿using MonoDragons.Core.EventSystem;
 using System.Collections.Generic;
 using System.Linq;
+using MonoDragons.GGJ.Data;
 
 namespace MonoDragons.GGJ.Gameplay
 {
@@ -31,6 +32,7 @@ namespace MonoDragons.GGJ.Gameplay
                 return;
 
             _currentTurn = e.TurnNumber;
+            DrawPass();
             DrawCards(3);
         }
 
@@ -47,6 +49,20 @@ namespace MonoDragons.GGJ.Gameplay
         {
             _state.DiscardZone.AddRange(_state.HandZone);
             _state.HandZone.Clear();
+        }
+
+        private void DrawPass()
+        {
+            if (_state.DrawZone.Contains(_state.PassId))
+            {
+                _state.DrawZone.Remove(_state.PassId);
+                _state.HandZone.Add(_state.PassId);
+            }
+            else if (_state.DiscardZone.Contains(_state.PassId))
+            {
+                _state.DiscardZone.Remove(_state.PassId);
+                _state.HandZone.Add(_state.PassId);
+            }
         }
 
         private void DrawCards(int num)

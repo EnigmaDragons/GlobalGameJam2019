@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MonoDragons.GGJ.Data;
 
 namespace MonoDragons.GGJ.Gameplay
 {
@@ -10,16 +11,17 @@ namespace MonoDragons.GGJ.Gameplay
         public List<int> HandZone { get; set; }
         public List<int> InPlayZone { get; set; }
         public List<int> DiscardZone { get; set; }
+        public int PassId { get; }
 
-        public PlayerCardsState() : this(new List<int>()) { }
-        public PlayerCardsState(params CardState[] s) : this(s.Select(x => x.Id)) { }
-        public PlayerCardsState(IEnumerable<int> ids)
+        public PlayerCardsState(params CardState[] s) : this(s.First(x => x.CardName == CardName.CowboyPass || x.CardName == CardName.HousePass).Id, s.Select(x => x.Id)) { }
+        public PlayerCardsState(int passId, IEnumerable<int> ids)
         {
             MasterList = ids.ToList();
             DrawZone = ids.ToList();
             HandZone = new List<int>();
             InPlayZone = new List<int>();
             DiscardZone = new List<int>();
+            PassId = passId;
         }
     }
 }
