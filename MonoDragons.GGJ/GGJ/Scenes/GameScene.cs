@@ -1,8 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
+using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.Data;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements;
 
@@ -11,9 +14,10 @@ namespace MonoDragons.GGJ.Scenes
     public class GameScene : ClickUiScene
     {
         private readonly Player _player;
-        private Hand _hand;
+        private Hand _hand;        
         private CardRevealer _cowboyRevealer;
         private CardRevealer _houseRevealer;
+        private Deck _deck;
 
         public GameScene(Player player)
         {
@@ -22,9 +26,9 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
-            var g = new GameData();
+            var gameData = new GameData();
             var isHouse = _player == Player.House;
-            State<GameData>.Init(g);
+            State<GameData>.Init(gameData);
             Add(new Label { Text = $"You are playing as " + (isHouse ? "house" : "cowboy"), Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
@@ -37,26 +41,57 @@ namespace MonoDragons.GGJ.Scenes
             _houseRevealer = new CardRevealer(new Vector2(1200, 350), isHouse);
             Add(_houseRevealer);
             var deck = _player == Player.Cowboy 
-                ? new Deck(new Card("CowboyCard0"), new Card("CowboyCard1"), new Card("CowboyCard2")) 
-                : new Deck(new Card("SmartHouseCard0"), new Card("SmartHouseCard1"), new Card("SmartHouseCard2"));
-            _hand = new Hand(isHouse, deck.DrawCards(3));
+                ? new Deck(Cards.GetCardById(1), Cards.GetCardById(2), Cards.GetCardById(3)) 
+                : new Deck(Cards.GetCardById(4), Cards.GetCardById(5), Cards.GetCardById(6));
+            _hand = new Hand(_player, deck.DrawCards(3));
             Add(_hand);
-            Add(new BattleTopHud(g));
+            var topHud = new BattleTopHud(_player, gameData);
+            Add(topHud);
             ClickUi.Add(_hand.Branch);
+            ClickUi.Add(topHud.Branch);
+
+            // Temp
+            Add(new ActionAutomaton(() =>
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.C))
+                    Event.Publish(new PlayerDefeated { Winner = Player.Cowboy, IsGameOver = true });
+                if (Keyboard.GetState().IsKeyDown(Keys.H))
+                    Event.Publish(new PlayerDefeated { Winner = Player.House, IsGameOver = true });
+            }));
+
             Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
+        }
+
+        private void OnPlayerDefeated(PlayerDefeated e)
+        {
+            if (!e.IsGameOver)
+                return;
+
+            ClickUi.Remove(_hand.Branch);
         }
 
         private void CardSelected(CardSelected selection)
         {
-            if (selection.IsHouse)
-                _houseRevealer.Card = new Optional<Card>(selection.Card);
+            if (selection.Player == Player.House)
+                _houseRevealer.Card = new Optional<Card>(Cards.GetCardById(selection.CardId));
             else
-                _cowboyRevealer.Card = new Optional<Card>(selection.Card);
+                _cowboyRevealer.Card = new Optional<Card>(Cards.GetCardById(selection.CardId));
+            if (selection.Player == _player)
+                _hand.Empty();
             if (_cowboyRevealer.Card.HasValue && _houseRevealer.Card.HasValue)
             {
                 _cowboyRevealer.IsRevealed = true;
                 _houseRevealer.IsRevealed = true;
             }
+        }
+
+        private void StartNewTurn()
+        {
+            _houseRevealer.IsRevealed = _player == Player.House;
+            _cowboyRevealer.IsRevealed = _player == Player.Cowboy;
+            _houseRevealer.Card = new Optional<Card>();
+            _cowboyRevealer.Card = new Optional<Card>();
+            _hand.AddCards(_deck.DrawCards(2));
         }
     }
 }

@@ -11,10 +11,12 @@ namespace MonoDragons.GGJ.Gameplay
         public const int WIDTH = 250;
         public const int HEIGHT = 350;
         private readonly string _name;
+        public readonly int Id;
 
-        public Card(string name)
+        public Card(string name, int id)
         {
             _name = name;
+            Id = id;
         }
 
         public void Draw(Transform2 parentTransform)

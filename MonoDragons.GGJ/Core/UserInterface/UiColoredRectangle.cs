@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.Graphics;
 using MonoDragons.Core.Physics;
+using System;
 
 namespace MonoDragons.Core.UserInterface
 {
@@ -12,6 +13,7 @@ namespace MonoDragons.Core.UserInterface
         private Texture2D _background;
 
         public Transform2 Transform { get; set; }
+        public Func<bool> IsActive { get; set; } = () => true;
 
         public Color Color
         {
@@ -31,7 +33,8 @@ namespace MonoDragons.Core.UserInterface
 
         public void Draw(Transform2 parentTransform)
         {
-            UI.Draw(_background, (parentTransform + Transform).ToRectangle(), Color.White);
+            if (IsActive())
+                UI.Draw(_background, (parentTransform + Transform).ToRectangle(), Color.White);
         }
 
         private void UpdateTexture()

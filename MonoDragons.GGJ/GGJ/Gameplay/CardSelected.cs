@@ -9,13 +9,13 @@ namespace MonoDragons.GGJ.Gameplay
 {
     public struct CardSelected
     {
-        public Card Card;
-        public bool IsHouse;
+        public int CardId;
+        public Player Player;
 
-        public CardSelected(Card card, bool isHouse)
+        public CardSelected(int cardId, Player player)
         {
-            Card = card;
-            IsHouse = isHouse;
+            CardId = cardId;
+            Player = player;
         }
     }
 }
