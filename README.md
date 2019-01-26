@@ -2,6 +2,18 @@
 
 ----
 
+### Concept
+
+----
+
+Name: Bed Dead Redemption
+Multiplayer: 1v1 Roguelike
+
+A villainous cowboy breaks into a smarthome and tries to take a nap in the owner's bed.
+The home-owner's smart appliances attempt to fend off the cowboy.
+
+----
+
 ### Environment Setup
 
 ----
@@ -45,7 +57,7 @@ Requirements:
 
 ----
 
-SilasReinagel: TBD
-ZavixDragon: TBD
+SilasReinagel: Audio/Visuals/Project Manager
 TimeRacers: Engine Programmer
-ClicheKiller: TBD
+ZavixDragon: Lead Designer
+RedPearl: Designer

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoDragons.Core.Engine;
+using MonoDragons.Core.Memory;
 using MonoDragons.Core.Physics;
 
 namespace MonoDragons.Core.Render
@@ -11,6 +12,9 @@ namespace MonoDragons.Core.Render
         private readonly Transform2 _transform;
         public float DurationInSeconds { get; }
         public Color Tint { get; set; } = Color.White;
+
+        public SpriteAnimationFrame(string sprite, float durationInSeconds)
+            : this(Resources.Load<Texture2D>(sprite), 1.0f, durationInSeconds) { }
 
         public SpriteAnimationFrame(Texture2D sprite, float scale, float durationInSeconds)
         {

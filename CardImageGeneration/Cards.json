@@ -1,0 +1,60 @@
+{
+    "SavePath": "Cards",
+    "SaveName": "Card",
+    "Constants": 
+    {
+        "Regular": "0",
+        "Bold": "1",
+        "Italic": "2",
+        "Underline": "4",
+        "Strikeout": "8",
+
+        "Font": "Lato"
+    },
+    "Items": 
+    [
+        {
+            "Name": "YEE-HAW",
+            "Effect": "Deal 1 Damage"
+        }
+    ],
+    "Blueprint": 
+    {
+        "Width": "750",
+        "Height": "1050",
+        "Elements": 
+        [
+            {
+                "Type": "Border",
+                "X": "0",
+                "Y": "0",
+                "Width": "750",
+                "Height": "1050",
+                "Thickness": "10",
+                "Alignment": "Inner"
+            },
+            {
+                "Type": "Text",
+                "Font": "^Font",
+                "FontStyle": "^Bold",
+                "Content": "~Name",
+                "FontSize": "90",
+                "X": "20",
+                "Y": "20",
+                "Width": "710",
+                "Height": "135"
+            },
+            {
+                "Type": "Text",
+                "Font": "^Font",
+                "FontStyle": "^Bold",
+                "Content": "~Effect",
+                "FontSize": "60",
+                "X": "20",
+                "Y": "160",
+                "Width": "710",
+                "Height": "870"
+            }
+        ]
+    }
+}
