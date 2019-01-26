@@ -13,7 +13,7 @@ namespace MonoDragons.GGJ.Scenes
     public class GameScene : ClickUiScene
     {
         private readonly Player _player;
-        private Hand _hand;
+        private Hand _hand;        
         private CardRevealer _cowboyRevealer;
         private CardRevealer _houseRevealer;
 
@@ -43,8 +43,10 @@ namespace MonoDragons.GGJ.Scenes
                 : new Deck(new Card("SmartHouseCard0"), new Card("SmartHouseCard1"), new Card("SmartHouseCard2"));
             _hand = new Hand(isHouse, deck.DrawCards(3));
             Add(_hand);
-            Add(new BattleTopHud(_player, gameData));
+            var topHud = new BattleTopHud(_player, gameData);
+            Add(topHud);
             ClickUi.Add(_hand.Branch);
+            ClickUi.Add(topHud.Branch);
 
             // Temp
             Add(new ActionAutomaton(() =>
@@ -56,6 +58,14 @@ namespace MonoDragons.GGJ.Scenes
             }));
 
             Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
+        }
+
+        private void OnPlayerDefeated(PlayerDefeated e)
+        {
+            if (!e.IsGameOver)
+                return;
+
+            ClickUi.Remove(_hand.Branch);
         }
 
         private void CardSelected(CardSelected selection)

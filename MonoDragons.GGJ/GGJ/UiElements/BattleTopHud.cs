@@ -3,6 +3,7 @@ using MonoDragons.Core;
 using MonoDragons.Core.Animations;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
+using MonoDragons.Core.Scenes;
 using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.Gameplay;
@@ -22,7 +23,9 @@ namespace MonoDragons.GGJ.UiElements
         private readonly MustInit<GameData> _gameData = new MustInit<GameData>("Game Data");
         private readonly Player _player;
         private bool _shouldDisplaySign;
-        private bool _shouldBeBlack;
+        private bool _isGameOver;
+
+        public ClickUIBranch Branch { get; } = new ClickUIBranch(nameof(BattleTopHud), int.MaxValue);
 
         public BattleTopHud(Player p, GameData g)
         {
@@ -30,6 +33,8 @@ namespace MonoDragons.GGJ.UiElements
             _gameData.Init(g);
             _cowboyHp.Text = _gameData.Get().CowboyState.HP.ToString();
             _houseHp.Text = _gameData.Get().HouseState.HP.ToString();
+            var quitButton = new ImageTextButton(new Transform2(UI.OfScreen(0.4f, 0.8f), UI.OfScreenSize(0.20f, 0.10f)), () => Scene.NavigateTo("Lobby"), "Quit", "UI/sign", "UI/sign-hover", "UI/sign-press", () => _isGameOver) { Font = DefaultFont.Large, TextColor = UiConsts.DarkBrown };
+            Branch.Add(quitButton);
             _visuals = new List<IVisual>
             {
                 new UiImage { Image= "UI/wood-box", Transform = new Transform2(UI.OfScreen(-0.04f, -0.14f), new Size2(300, 300))},
@@ -38,10 +43,11 @@ namespace MonoDragons.GGJ.UiElements
                 new UiImage { Image= "UI/heart", Transform = new Transform2(UI.OfScreen(0.9f, 0.02f), new Size2(92, 92))},
                 _cowboyHp,
                 _houseHp,
-                new UiColoredRectangle { Color = Color.Black, IsActive = () => _shouldBeBlack, Transform = new Transform2(new Size2(1920, 1680))},
+                new UiColoredRectangle { Color = Color.Black, IsActive = () => _isGameOver, Transform = new Transform2(new Size2(1920, 1680))},
                 _fade,
                 new UiImage { Image= "UI/sign", IsActive = () => _shouldDisplaySign, Transform = new Transform2(UI.OfScreen(0.2f, 0.35f), UI.OfScreenSize(0.6f, 0.2f))},
                 _gameOverLabel,
+                quitButton,
             };
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
         }
@@ -62,7 +68,7 @@ namespace MonoDragons.GGJ.UiElements
         {
             _gameOverLabel.Text = e.Winner == _player ? "You Win!" : "You Defeated!";
             _shouldDisplaySign = true;
-            _fade.Start(() => _shouldBeBlack = true);
+            _fade.Start(() => _isGameOver = e.IsGameOver);
         }
     }
 }
