@@ -35,15 +35,15 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Cowboy());
             Add(new Bed());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
-                IsVisible = () => isHouse ? _houseRevealer.Card.HasValue : _cowboyRevealer.Card.HasValue });
+                IsVisible = () => !(_houseRevealer.Card.HasValue && _cowboyRevealer.Card.HasValue) });
             _cowboyRevealer = new CardRevealer(new Vector2(400, 350), !isHouse);
             Add(_cowboyRevealer);
             _houseRevealer = new CardRevealer(new Vector2(1200, 350), isHouse);
             Add(_houseRevealer);
-            var deck = _player == Player.Cowboy 
+            _deck = _player == Player.Cowboy 
                 ? new Deck(Cards.GetCardById(1), Cards.GetCardById(2), Cards.GetCardById(3)) 
                 : new Deck(Cards.GetCardById(4), Cards.GetCardById(5), Cards.GetCardById(6));
-            _hand = new Hand(_player, deck.DrawCards(3));
+            _hand = new Hand(_player, _deck.DrawCards(3));
             Add(_hand);
             var topHud = new BattleTopHud(_player, gameData);
             Add(topHud);
@@ -53,13 +53,17 @@ namespace MonoDragons.GGJ.Scenes
             // Temp
             Add(new ActionAutomaton(() =>
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.C))
+                var keys = Keyboard.GetState();
+                if (keys.IsKeyDown(Keys.C))
                     Event.Publish(new PlayerDefeated { Winner = Player.Cowboy, IsGameOver = true });
-                if (Keyboard.GetState().IsKeyDown(Keys.H))
+                if (keys.IsKeyDown(Keys.H))
                     Event.Publish(new PlayerDefeated { Winner = Player.House, IsGameOver = true });
+                if (keys.IsKeyDown(Keys.Q))
+                    Scene.NavigateTo("Lobby");
             }));
 
-            Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
+            Event.Subscribe<CardSelected>(CardSelected, this);
+            Event.Subscribe<TurnFinished>(StartNewTurn, this);
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)
@@ -82,10 +86,11 @@ namespace MonoDragons.GGJ.Scenes
             {
                 _cowboyRevealer.IsRevealed = true;
                 _houseRevealer.IsRevealed = true;
+                Event.Publish(new AllCardsSelected { CowboyCard = _cowboyRevealer.Card.Value.Id, HouseCard = _houseRevealer.Card.Value.Id });
             }
         }
 
-        private void StartNewTurn()
+        private void StartNewTurn(TurnFinished e)
         {
             _houseRevealer.IsRevealed = _player == Player.House;
             _cowboyRevealer.IsRevealed = _player == Player.Cowboy;
