@@ -10,7 +10,7 @@ namespace MonoDragons.GGJ.Gameplay
     public class CardRevealer : IVisualAutomaton
     {
         // TODO: Encapsulate this
-        public Optional<Card> Card { get; set; }
+        public Optional<CardView> Card { get; set; }
         public bool IsRevealed { get; set; }
         private Transform2 _location;
         private TimerTask _displayTimer;
@@ -18,9 +18,9 @@ namespace MonoDragons.GGJ.Gameplay
         private readonly Player _player;
         private bool _levelIsFinished;
 
-        public CardRevealer(Player local, Player player, Vector2 location) : this(local, player, location, new Optional<Card>()) { }
-        public CardRevealer(Player local, Player player, Vector2 location, Card card) : this(local, player, location, new Optional<Card>(card)) { }
-        public CardRevealer(Player local, Player player, Vector2 location, Optional<Card> card)
+        public CardRevealer(Player local, Player player, Vector2 location) : this(local, player, location, new Optional<CardView>()) { }
+        public CardRevealer(Player local, Player player, Vector2 location, CardView card) : this(local, player, location, new Optional<CardView>(card)) { }
+        public CardRevealer(Player local, Player player, Vector2 location, Optional<CardView> card)
         {
             _location = new Transform2(location);
             _local = local;
@@ -49,7 +49,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void ShowCard(int cardId)
         {
-            Card = new Optional<Card>(Cards.Create(State<GameData>.Current.AllCards[cardId]));
+            Card = new Optional<CardView>(Cards.Create(State<GameData>.Current.AllCards[cardId]));
         }
 
         public void Draw(Transform2 parentTransform)
@@ -72,14 +72,13 @@ namespace MonoDragons.GGJ.Gameplay
                 CleanupRevelations();
                 if (!_levelIsFinished)
                     Event.Publish(new TurnFinished {TurnNumber = e.TurnNumber});
-                
             }, 2000, false);
             Event.Publish(new AllCardsRevealed { TurnNumber = e.TurnNumber, CowboyCard = e.CowboyCard, HouseCard = e.HouseCard });
         }
 
         private void CleanupRevelations()
         {
-            Card = new Optional<Card>();
+            Card = new Optional<CardView>();
             if (_local != _player)
                 IsRevealed = false;
         }

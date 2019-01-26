@@ -129,6 +129,8 @@ namespace MonoDragons.Core.UserInterface
 
         public static void DrawWithSpriteEffects(string imageName, Transform2 transform, Color tint, SpriteEffects effects)
         {
+            if (transform.Size.ToPoint() == Point.Zero)
+                throw new Exception($"UI element of Size Zero is being drawn: {imageName}");
             SpriteBatch.Draw(texture: Resources.Load<Texture2D>(imageName),
                 destinationRectangle: ScaleRectangle(transform.ToRectangle()),
                 sourceRectangle: null,
