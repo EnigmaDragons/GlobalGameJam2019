@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoDragons.Core;
+using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
@@ -14,6 +16,7 @@ namespace MonoDragons.GGJ.Scenes
         private Hand _hand;
         private CardRevealer _cowboyRevealer;
         private CardRevealer _houseRevealer;
+        private Deck _deck;
 
         public GameScene(Player player)
         {
@@ -36,8 +39,8 @@ namespace MonoDragons.GGJ.Scenes
             Add(_cowboyRevealer);
             _houseRevealer = new CardRevealer(new Vector2(1200, 350), isHouse);
             Add(_houseRevealer);
-            var deck = new Deck(new Card(), new Card(), new Card());
-            _hand = new Hand(isHouse, deck.DrawCards(3));
+            _deck = new Deck(new Card(), new Card(), new Card());
+            _hand = new Hand(_player, _deck.DrawCards(3));
             Add(_hand);
             Add(new BattleTopHud(g));
             ClickUi.Add(_hand.Branch);
@@ -46,15 +49,26 @@ namespace MonoDragons.GGJ.Scenes
 
         private void CardSelected(CardSelected selection)
         {
-            if (selection.IsHouse)
+            if (selection.Player == Player.House)
                 _houseRevealer.Card = new Optional<Card>(selection.Card);
             else
                 _cowboyRevealer.Card = new Optional<Card>(selection.Card);
+            if (selection.Player == _player)
+                _hand.Empty();
             if (_cowboyRevealer.Card.HasValue && _houseRevealer.Card.HasValue)
             {
                 _cowboyRevealer.IsRevealed = true;
                 _houseRevealer.IsRevealed = true;
             }
+        }
+
+        private void StartNewTurn()
+        {
+            _houseRevealer.IsRevealed = _player == Player.House;
+            _cowboyRevealer.IsRevealed = _player == Player.Cowboy;
+            _houseRevealer.Card = new Optional<Card>();
+            _cowboyRevealer.Card = new Optional<Card>();
+            _hand.AddCards(_deck.DrawCards(2));
         }
     }
 }

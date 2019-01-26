@@ -28,7 +28,7 @@ namespace MonoDragons.Core
             DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
             Error.Handle(() =>
             {
-                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Game", new Display(1600, 900, false), SetupScene(new NetworkArgs(args)), CreateKeyboardController(), ErrorHandler))
+                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(new NetworkArgs(args)), CreateKeyboardController(), ErrorHandler))
                     game.Run();
             }, ErrorHandler.Handle);
         }

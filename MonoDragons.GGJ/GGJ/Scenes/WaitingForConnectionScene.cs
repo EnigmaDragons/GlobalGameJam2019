@@ -49,7 +49,7 @@ namespace MonoDragons.GGJ.Scenes
             if (_isHost)
                 Event.Subscribe<GameConnectionEstablished>(HostAsRandom, this);
             else
-                Event.Subscribe<RoleSelected>(r => Scene.NavigateTo(new GameScene(r.Role)), this);
+                Event.Subscribe<RoleSelected>(r => Scene.NavigateTo(new GameScene(r.Role == Player.Cowboy ? Player.House : Player.Cowboy)), this);
         }
 
         private void HostAsRandom(GameConnectionEstablished _)
