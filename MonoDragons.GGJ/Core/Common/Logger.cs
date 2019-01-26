@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MonoDragons
 {
@@ -11,7 +12,8 @@ namespace MonoDragons
 
         public static void AddSink(Action<string> sink) => _sinks.Add(sink);
 
-        public static void Write(object o) => _sinks.ForEach(write => write($"{o.GetType().Name} {JsonConvert.SerializeObject(o)}"));
+        public static void Write(object o) => _sinks.ForEach(write => write(
+            $"{o.GetType().Name} {JsonConvert.SerializeObject(o, new JsonSerializerSettings { Converters = new List<JsonConverter> { new StringEnumConverter() } })}"));
         public static void WriteLine(string text) => _sinks.ForEach(write => write(text));
     }
 }

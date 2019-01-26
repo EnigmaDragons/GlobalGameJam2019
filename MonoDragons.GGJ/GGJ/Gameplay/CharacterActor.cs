@@ -15,7 +15,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnDamaged(PlayerDamaged e)
         {
-            if (_state.Controller == e.Target)
+            if (_state.Player == e.Target)
                 _state.HP -= e.Amount;
         }
     }

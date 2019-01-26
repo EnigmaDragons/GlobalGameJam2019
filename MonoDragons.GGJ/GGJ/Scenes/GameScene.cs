@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
@@ -19,6 +20,8 @@ namespace MonoDragons.GGJ.Scenes
         private CardRevealer _cowboyRevealer;
         private CardRevealer _houseRevealer;
         private GameData _data;
+        private HandView _handView;
+        private PlayerCards _playerCards;
 
         public GameScene(Player player)
         {
@@ -31,6 +34,7 @@ namespace MonoDragons.GGJ.Scenes
             // TODO: Move Setup out of Scene
             _data = new GameData();
             SetupCharacters();
+            _playerCards = new PlayerCards(_player, _data[_player].Cards);
 
             var isHouse = _player == Player.House;
             State<GameData>.Init(_data);
@@ -46,12 +50,13 @@ namespace MonoDragons.GGJ.Scenes
             Add(_cowboyRevealer);
             _houseRevealer = new CardRevealer(_player, Player.House, new Vector2(1200, 350), isHouse);
             Add(_houseRevealer);
-            Add(_data[_player].Hand);
+            _handView = new HandView(_data, _data[_player]);
+            Add(_handView);
             new CharacterActor(_data.CowboyState);
             new CharacterActor(_data.HouseState);
             var topHud = new BattleTopHud(_player, _data);
             Add(topHud);
-            ClickUi.Add(_data[_player].Hand.Branch);
+            ClickUi.Add(_handView.Branch);
             ClickUi.Add(topHud.Branch);
 
             // Temp
@@ -65,29 +70,28 @@ namespace MonoDragons.GGJ.Scenes
                 if (keys.IsKeyDown(Keys.Q))
                     Scene.NavigateTo("Lobby");
             }));
-
-            Event.Subscribe<TurnStarted>(StartNewTurn, this);
+            Event.Publish(new TurnStarted { TurnNumber = _data.CurrentTurn });
         }
 
         private void SetupCharacters()
         {
             _data.CowboyState = new CharacterState(Player.Cowboy, 50, 
-                new Deck(
+                new PlayerCardsState(
                     CreateCard(CardName.DeadEye),
                     CreateCard(CardName.SixShooterThingy),
                     CreateCard(CardName.YEEHAW)));
 
             _data.HouseState = new CharacterState(Player.House, 100,
-                new Deck(
+                new PlayerCardsState(
                     CreateCard(CardName.Lazer),
                     CreateCard(CardName.WaterLeak),
                     CreateCard(CardName.ElectricShockSuperAttack)));
         }
 
-        private Card CreateCard(CardName cardName)
+        private CardState CreateCard(CardName cardName)
         {
-            var result = Cards.Create(new CardState { Id = GetNextCardId(), CardName = cardName });
-            _data.AllCards[result.Id] = result.State;
+            var result = new CardState { Id = GetNextCardId(), CardName = cardName };
+            _data.AllCards[result.Id] = result;
             return result;
         }
 
@@ -103,12 +107,7 @@ namespace MonoDragons.GGJ.Scenes
             if (!e.IsGameOver)
                 return;
 
-            ClickUi.Remove(_data[_player].Hand.Branch);
-        }
-
-        private void StartNewTurn(TurnStarted e)
-        {
-            _data[_player].Hand.AddCards(_data[_player].Deck.DrawCards(3));
+            ClickUi.Remove(_handView.Branch);
         }
     }
 }
