@@ -104,8 +104,10 @@ namespace MonoDragons.Core.Engine
             {
 #if DEBUG
                 _metrics.Update(gameTime.ElapsedGameTime);
-                if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.OemTilde))
+                if (Keyboard.GetState().IsKeyDown(Keys.OemTilde))
                     Environment.Exit(0);
+                if (Keyboard.GetState().IsKeyDown(Keys.Divide))
+                    DebugLogWindow.Show();
 #endif
                 Multiplayer.Update(gameTime.ElapsedGameTime);
                 _controller.Update(gameTime.ElapsedGameTime);

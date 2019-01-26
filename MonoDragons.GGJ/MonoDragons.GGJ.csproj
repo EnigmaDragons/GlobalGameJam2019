@@ -70,6 +70,7 @@
     <Compile Include="Core\Common\StringExtensions.cs" />
     <Compile Include="Core\Common\SubscriptionAction.cs" />
     <Compile Include="Core\Common\TrackingEvent.cs" />
+    <Compile Include="Core\Development\DebugLogWindow.cs" />
     <Compile Include="Core\Development\DevTextColor.cs" />
     <Compile Include="Core\Development\Metrics.cs" />
     <Compile Include="Core\Development\Perf.cs" />

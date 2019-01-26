@@ -16,7 +16,7 @@ namespace MonoDragons.Core.EventSystem
         
         public static void Publish(object payload)
         {
-            Logger.WriteLine(payload.ToString());
+            Logger.Write(payload);
             TransientEvents.Publish(payload);
             PersistentEvents.Publish(payload);
             NetEvents.Publish(payload);
@@ -24,7 +24,7 @@ namespace MonoDragons.Core.EventSystem
 
         public static void PublishLocally(object payload)
         {
-            Logger.WriteLine(payload.ToString());
+            Logger.Write(payload);
             TransientEvents.Publish(payload);
             PersistentEvents.Publish(payload);
         }
