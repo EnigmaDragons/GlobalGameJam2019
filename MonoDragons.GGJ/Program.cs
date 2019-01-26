@@ -11,13 +11,13 @@ using MonoDragons.Core.Network;
 using MonoDragons.Core.Render;
 using MonoDragons.Core.Scenes;
 
-namespace MonoDragons.GGJ
+namespace MonoDragons.Core
 {
     public static class Program
     {
         public static readonly IErrorHandler ErrorHandler = new MessageBoxErrorHandler();
 
-        public static readonly AppDetails AppDetails = new AppDetails("MonoDragons Demo App", "0.0", Environment.OSVersion.VersionString);
+        public static readonly AppDetails AppDetails = new AppDetails("MonoDragons GGJ", "0.0", Environment.OSVersion.VersionString);
         
         [STAThread]
         static void Main()
