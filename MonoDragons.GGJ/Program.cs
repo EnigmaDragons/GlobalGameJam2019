@@ -10,6 +10,7 @@ using MonoDragons.Core.Memory;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Render;
 using MonoDragons.Core.Scenes;
+using MonoDragons.GGJ.Scenes;
 
 namespace MonoDragons.Core
 {
@@ -24,7 +25,7 @@ namespace MonoDragons.Core
         {
             Error.Handle(() =>
             {
-                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "NetworkTest", new Display(1600, 900, false), SetupScene(), CreateKeyboardController(), ErrorHandler))
+                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(), CreateKeyboardController(), ErrorHandler))
                     game.Run();
             }, ErrorHandler.Handle);
         }
@@ -45,7 +46,8 @@ namespace MonoDragons.Core
                 { "Logo", () => new SimpleLogoScene("MainMenu", EnigmaDragonsResources.LogoImage) },
                 { "MainMenu", () => new MainMenuScene("Logo") },
                 { "CharacterCreation", () => new CharacterCreationScene()},
-                { "NetworkTest", () => new NetworkTestScene()}
+                { "NetworkTest", () => new NetworkTestScene()},
+                { "Lobby", () => new LobbyScene() }
             });
         }
 
