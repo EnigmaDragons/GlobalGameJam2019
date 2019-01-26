@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MonoDragons.GGJ.UiElements
 {
-    class BattleHud : IVisual
+    class BattleBackHud : IVisual
     {
         private List<IVisual> _visuals = new List<IVisual>
         {

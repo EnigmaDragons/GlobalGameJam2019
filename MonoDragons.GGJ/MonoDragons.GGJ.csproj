@@ -52,6 +52,8 @@
     <Compile Include="GGJ\Gameplay\CardSelected.cs" />
     <Compile Include="GGJ\Gameplay\Deck.cs" />
     <Compile Include="GGJ\Gameplay\Hand.cs" />
+    <Compile Include="GGJ\Gameplay\PlayerDamaged.cs" />
+    <Compile Include="GGJ\Player.cs" />
     <Compile Include="GGJ\Scenes\GameScene.cs" />
     <Compile Include="GGJ\Scenes\LobbyScene.cs" />
     <Compile Include="Core\Animations\AnimationExtensions.cs" />
@@ -233,7 +235,8 @@
     <Compile Include="Core\UserInterface\WithOffset.cs" />
     <Compile Include="Core\UserInterface\WrapGrid.cs" />
     <Compile Include="GGJ\Scenes\WaitingForConnectionScene.cs" />
-    <Compile Include="GGJ\UiElements\BattleHud.cs" />
+    <Compile Include="GGJ\UiElements\BattleBackHud.cs" />
+    <Compile Include="GGJ\UiElements\BattleTopHud.cs" />
     <Compile Include="GGJ\UiElements\Buttons.cs" />
     <Compile Include="GGJ\UiElements\LevelBackground.cs" />
     <Compile Include="GGJ\UiElements\UiConsts.cs" />
@@ -696,6 +699,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sounds\talkblip.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\heart.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\wood-box.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

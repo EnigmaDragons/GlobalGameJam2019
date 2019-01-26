@@ -5,8 +5,6 @@ using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements;
-using System;
-using System.Collections.Generic;
 
 namespace MonoDragons.GGJ.Scenes
 {
@@ -17,8 +15,10 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
+            var g = new GameData();
+            State<GameData>.Init(g);
             Add(new LevelBackground("House/level1"));
-            Add(new BattleHud());
+            Add(new BattleBackHud());
             Add(new Cowboy());
             Add(new Bed());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
@@ -27,6 +27,7 @@ namespace MonoDragons.GGJ.Scenes
             hand = new Hand(deck.DrawCards(3));
             Add(hand);
             ClickUi.Add(hand.ClickUiBranch);
+            Add(new BattleTopHud(g));
             Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
         }
 
