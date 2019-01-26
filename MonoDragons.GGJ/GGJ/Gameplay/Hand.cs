@@ -16,16 +16,15 @@ namespace MonoDragons.GGJ.Gameplay
         public ClickUIBranch Branch { get; private set; }
         public List<Card> Cards { get; private set; }
         private bool isHouse;
-
-        public Hand(bool isHouse, params Card[] cards)
+        
+        public Hand(bool isHouse, List<Card> cards)
         {
             this.isHouse = isHouse;
-            Cards = new List<Card>();
+            Cards = cards;
             Branch = new ClickUIBranch("Hand", 1);
-            for (var i = 0; i < cards.Length; i++)
+            for (var i = 0; i < cards.Count; i++)
             {
                 var ii = i;
-                Cards.Add(cards[i]);
                 Branch.Add(new SimpleClickable(new Rectangle(100 + i * 100, 700, Card.WIDTH, Card.HEIGHT), () => CardSelected(ii)));
             }
         }

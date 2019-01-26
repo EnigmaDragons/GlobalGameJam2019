@@ -13,8 +13,8 @@ namespace MonoDragons.Core.Render
         public float DurationInSeconds { get; }
         public Color Tint { get; set; } = Color.White;
 
-        public SpriteAnimationFrame(string sprite, float durationInSeconds)
-            : this(Resources.Load<Texture2D>(sprite), 1.0f, durationInSeconds) { }
+        public SpriteAnimationFrame(string sprite, float scale, float durationInSeconds)
+            : this(Resources.Load<Texture2D>(sprite), scale, durationInSeconds) { }
 
         public SpriteAnimationFrame(Texture2D sprite, float scale, float durationInSeconds)
         {
