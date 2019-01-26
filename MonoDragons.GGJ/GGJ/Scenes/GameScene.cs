@@ -4,6 +4,7 @@ using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.Gameplay;
+using MonoDragons.GGJ.UiElements;
 using System;
 using System.Collections.Generic;
 
@@ -16,7 +17,8 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
-            Add(new Label { Text = "You are in game!", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
+            Add(new LevelBackground("House/level1"));
+            Add(new BattleHud());
             Add(new Cowboy());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
                 IsVisible = () => hasMadeSelection });
