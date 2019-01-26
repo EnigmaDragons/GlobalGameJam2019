@@ -253,3 +253,6 @@ paket-files/
 
 # SonarQube
 .sonarqube/
+
+# Photoshop
+*.psd

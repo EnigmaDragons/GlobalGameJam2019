@@ -9,6 +9,7 @@ namespace MonoDragons.GGJ
         public int CurrentCardId { get; set; } = 0;
         public int CurrentTurn { get; set; }
         public Phase CurrentPhase { get; set; }
+        public int CurrentLevel { get; set; } = 1;
         public Dictionary<int, CardState> AllCards { get; set; } = new Dictionary<int, CardState>();
         public CharacterState CowboyState { get; set; }
         public CharacterState HouseState { get; set; }

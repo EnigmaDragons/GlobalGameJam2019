@@ -40,7 +40,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Label { Text = $"You are playing as " + (isHouse ? "house" : "cowboy"), Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
-            Add(new Cowboy().Enter());
+            Add(new Cowboy());
             Add(new Bed());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
                 IsVisible = () => !(_houseRevealer.Card.HasValue && _cowboyRevealer.Card.HasValue) });
@@ -52,6 +52,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(_handView);
             Add(new CharacterActor(_data.CowboyState));
             Add(new CharacterActor(_data.HouseState));
+            Add(new LevelProgression(_data));
             var topHud = new BattleTopHud(_player, _data);
             Add(topHud);
             ClickUi.Add(_handView.Branch);
@@ -67,22 +68,25 @@ namespace MonoDragons.GGJ.Scenes
                     Event.Publish(new PlayerDefeated { Winner = Player.House, IsGameOver = true });
                 if (keys.IsKeyDown(Keys.Q))
                     Scene.NavigateTo("Lobby");
+                if (keys.IsKeyDown(Keys.F2))
+                    Event.Publish(new NextLevelRequested { Level = 1 });
             }));
             
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+            Event.Publish(new LevelSetup { CurrentLevel = _data.CurrentLevel });
             Event.Publish(new TurnStarted { TurnNumber = _data.CurrentTurn + 1 });
         }
 
         private void SetupCharacters()
         {
-            _data.CowboyState = new CharacterState(Player.Cowboy, 50, 
+            _data.CowboyState = new CharacterState(Player.Cowboy, 10, 
                 new PlayerCardsState(
                     CreateCard(CardName.CowboyPass),
                     CreateCard(CardName.DeadEye),
                     CreateCard(CardName.SixShooterThingy),
                     CreateCard(CardName.YEEHAW)));
 
-            _data.HouseState = new CharacterState(Player.House, 100,
+            _data.HouseState = new CharacterState(Player.House, 3,
                 new PlayerCardsState(
                     CreateCard(CardName.HousePass),
                     CreateCard(CardName.Lazer),

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
 using MonoDragons.Core.Engine;
+using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Render;
 using MonoDragons.Core.UserInterface;
 
@@ -10,38 +11,72 @@ namespace MonoDragons.GGJ.Gameplay
 {
     public class Cowboy : IVisualAutomaton
     {
+        private enum CharState
+        {
+            Idle,
+            Walking,
+            Running,
+        }
+
+        private readonly DictionaryWithDefault<CharState, SpriteAnimation> _anims = 
+            new DictionaryWithDefault<CharState, SpriteAnimation>(Anim("__Hoodie_idle with gun"))
+            {
+                { CharState.Walking, Anim("__Hoodie_walk with gun") },
+                { CharState.Running, Anim("__Hoodie_run with gun") }
+            };
+        
         private const float _scale = 0.5f;
         private float _totalMovementMs = 1.0f;
         private float _elapsedMs = 1.0f;
         private Vector2 _previous;
         private Vector2 _destination;
         private CharState _state = CharState.Idle;
+        private Action _onArrival = () => {};
+        private bool _isMoving;
 
         private Vector2 _loc = GetLoc(new Vector2(-400, UI.OfScreenHeight(0.375f)),
             new Vector2(-400, UI.OfScreenHeight(0.375f)), 1.0f);
 
-        private enum CharState
+        public Cowboy()
         {
-            Idle,
-            Walking
+            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+            Event.Subscribe<LevelSetup>(OnLevelSetup, this);
         }
 
-        private readonly DictionaryWithDefault<CharState, SpriteAnimation> _anims = 
-            new DictionaryWithDefault<CharState, SpriteAnimation>(Anim("__Hoodie_idle"))
-            {
-                { CharState.Walking, Anim("__Hoodie_walk") }
-            };
+        private void OnLevelSetup(LevelSetup obj)
+        {
+            _loc = GetLoc(new Vector2(-400, UI.OfScreenHeight(0.375f)), new Vector2(-400, UI.OfScreenHeight(0.375f)), 1.0f);
+            Enter();
+        }
+
+        private void OnPlayerDefeated(PlayerDefeated e)
+        {
+            if (e.Winner == Player.Cowboy)
+                MoveTo(CharState.Walking, UI.OfScreenWidth(1.0f) + 400, TimeSpan.FromMilliseconds(3200), 
+                    () => Event.Publish(new FinishedLevel { IsGameOver = e.IsGameOver }));
+        }
 
         public void Update(TimeSpan delta)
         {
-            if (_elapsedMs < _totalMovementMs)
-                _elapsedMs += (float)delta.TotalMilliseconds;
-            _loc = GetLoc(_previous, _destination, MathHelper.Clamp(_elapsedMs / _totalMovementMs, 0, 1));
-            Logger.Write(_loc);
-            Logger.Write(_elapsedMs);
-            if (_loc == _destination)
-                _state = CharState.Idle;
             _anims[_state].Update(delta);
+            UpdateMovement(delta);
+        }
+
+        private void UpdateMovement(TimeSpan delta)
+        {
+            if (!_isMoving)
+                return;
+
+            if (_elapsedMs < _totalMovementMs)
+                _elapsedMs += (float) delta.TotalMilliseconds;
+            _loc = GetLoc(_previous, _destination, MathHelper.Clamp(_elapsedMs / _totalMovementMs, 0, 1));
+            
+            if (_loc.ToPoint() != _destination.ToPoint())
+                return;
+
+            _state = CharState.Idle;
+            _onArrival();
+            _isMoving = false;
         }
 
         public void Draw(Transform2 parentTransform)
@@ -49,14 +84,16 @@ namespace MonoDragons.GGJ.Gameplay
             _anims[_state].Draw(parentTransform + _loc);
         }
 
-        public Cowboy Enter()
+        private void Enter()
         {
-            return Walk(60, TimeSpan.FromMilliseconds(2000));
+            MoveTo(CharState.Walking, 60, TimeSpan.FromMilliseconds(2000), () => {});
         }
         
-        private Cowboy Walk(int endX, TimeSpan duration)
+        private Cowboy MoveTo(CharState state, int endX, TimeSpan duration, Action onArrival)
         {
-            _state = CharState.Walking;
+            _onArrival = onArrival;
+            _isMoving = true;
+            _state = state;
             _previous = _loc;
             _destination = new Vector2(endX, UI.OfScreenHeight(0.375f));
             _elapsedMs = 0;
