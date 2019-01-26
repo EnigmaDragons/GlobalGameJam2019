@@ -16,6 +16,14 @@
         {
             "Name": "YEE-HAW",
             "Effect": "Deal 1 Damage"
+        },
+        {
+            "Name": "Six Shooter",
+            "Effect": "Deal 1 Damage"
+        },
+        {
+            "Name": "Dead Eye",
+            "Effect": "Deal 1 Damage"
         }
     ],
     "Blueprint": 
@@ -25,35 +33,34 @@
         "Elements": 
         [
             {
-                "Type": "Border",
+                "Type": "Image",
+                "Source": "Images/CowboyCard.png",
                 "X": "0",
                 "Y": "0",
                 "Width": "750",
-                "Height": "1050",
-                "Thickness": "10",
-                "Alignment": "Inner"
+                "Height": "1050"
             },
             {
                 "Type": "Text",
                 "Font": "^Font",
                 "FontStyle": "^Bold",
                 "Content": "~Name",
-                "FontSize": "90",
-                "X": "20",
-                "Y": "20",
-                "Width": "710",
-                "Height": "135"
+                "FontSize": "60",
+                "X": "100",
+                "Y": "90",
+                "Width": "550",
+                "Height": "180"
             },
             {
                 "Type": "Text",
                 "Font": "^Font",
                 "FontStyle": "^Bold",
                 "Content": "~Effect",
-                "FontSize": "60",
-                "X": "20",
-                "Y": "160",
-                "Width": "710",
-                "Height": "870"
+                "FontSize": "40",
+                "X": "50",
+                "Y": "400",
+                "Width": "650",
+                "Height": "600"
             }
         ]
     }
