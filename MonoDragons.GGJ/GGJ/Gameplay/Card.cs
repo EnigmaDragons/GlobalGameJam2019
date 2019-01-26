@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
 using MonoDragons.Core.Engine;
-using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.UserInterface;
 
 namespace MonoDragons.GGJ.Gameplay
@@ -14,13 +13,15 @@ namespace MonoDragons.GGJ.Gameplay
         public const int HEIGHT = 350;
         private readonly string _name;
         private readonly Action _action;
+        private readonly CardType _type;
         public CardState State { get; }
         public int Id => State.Id;
 
-        public Card(CardState state, string imageName, Action action)
+        public Card(CardState state, string imageName, CardType type, Action action)
         {
             State = state;
             _name = imageName;
+            _type = type;
             _action = action;
         }
 

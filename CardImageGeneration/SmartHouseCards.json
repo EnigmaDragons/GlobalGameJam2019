@@ -15,18 +15,22 @@
     [
         {
             "Name": "Pass",
+            "Type": "Pass",
             "Effect": ""
         },
         {
             "Name": "Electric Shock Super Attack",
+            "Type": "Attack",
             "Effect": "Deal 1 Damage"
         },
         {
             "Name": "Water Leak",
+            "Type": "Attack",
             "Effect": "Deal 1 Damage"
         },
         {
             "Name": "Lazer",
+            "Type": "Attack",
             "Effect": "Deal 1 Damage"
         }
     ],
@@ -51,9 +55,20 @@
                 "Content": "~Name",
                 "FontSize": "60",
                 "X": "50",
-                "Y": "110",
+                "Y": "120",
                 "Width": "650",
                 "Height": "180"
+            },
+            {
+                "Type": "Text",
+                "Font": "^Font",
+                "FontStyle": "^Bold",
+                "Content": "~Type",
+                "FontSize": "40",
+                "X": "50",
+                "Y": "300",
+                "Width": "650",
+                "Height": "60"
             },
             {
                 "Type": "Text",
