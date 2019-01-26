@@ -1,0 +1,67 @@
+{
+    "SavePath": "Cards",
+    "SaveName": "SmartHouseCards",
+    "Constants": 
+    {
+        "Regular": "0",
+        "Bold": "1",
+        "Italic": "2",
+        "Underline": "4",
+        "Strikeout": "8",
+
+        "Font": "Lato"
+    },
+    "Items": 
+    [
+        {
+            "Name": "Electric Shock Super Attack",
+            "Effect": "Deal 1 Damage"
+        },
+        {
+            "Name": "Water Leak",
+            "Effect": "Deal 1 Damage"
+        },
+        {
+            "Name": "Lazer",
+            "Effect": "Deal 1 Damage"
+        }
+    ],
+    "Blueprint": 
+    {
+        "Width": "750",
+        "Height": "1050",
+        "Elements": 
+        [
+            {
+                "Type": "Image",
+                "Source": "Images/SmartHouseCard.png",
+                "X": "0",
+                "Y": "0",
+                "Width": "750",
+                "Height": "1050"
+            },
+            {
+                "Type": "Text",
+                "Font": "^Font",
+                "FontStyle": "^Bold",
+                "Content": "~Name",
+                "FontSize": "60",
+                "X": "50",
+                "Y": "110",
+                "Width": "650",
+                "Height": "180"
+            },
+            {
+                "Type": "Text",
+                "Font": "^Font",
+                "FontStyle": "^Bold",
+                "Content": "~Effect",
+                "FontSize": "40",
+                "X": "80",
+                "Y": "580",
+                "Width": "610",
+                "Height": "350"
+            }
+        ]
+    }
+}
