@@ -1,5 +1,5 @@
-﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
@@ -14,7 +14,7 @@ namespace MonoDragons.GGJ.Scenes
     public class GameScene : ClickUiScene
     {
         private readonly Player _player;
-        private Hand _hand;
+        private Hand _hand;        
         private CardRevealer _cowboyRevealer;
         private CardRevealer _houseRevealer;
         private Deck _deck;
@@ -26,9 +26,9 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
-            var g = new GameData();
+            var gameData = new GameData();
             var isHouse = _player == Player.House;
-            State<GameData>.Init(g);
+            State<GameData>.Init(gameData);
             Add(new Label { Text = $"You are playing as " + (isHouse ? "house" : "cowboy"), Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
@@ -45,9 +45,29 @@ namespace MonoDragons.GGJ.Scenes
                 : new Deck(Cards.GetCardById(4), Cards.GetCardById(5), Cards.GetCardById(6));
             _hand = new Hand(_player, deck.DrawCards(3));
             Add(_hand);
-            Add(new BattleTopHud(g));
+            var topHud = new BattleTopHud(_player, gameData);
+            Add(topHud);
             ClickUi.Add(_hand.Branch);
+            ClickUi.Add(topHud.Branch);
+
+            // Temp
+            Add(new ActionAutomaton(() =>
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.C))
+                    Event.Publish(new PlayerDefeated { Winner = Player.Cowboy, IsGameOver = true });
+                if (Keyboard.GetState().IsKeyDown(Keys.H))
+                    Event.Publish(new PlayerDefeated { Winner = Player.House, IsGameOver = true });
+            }));
+
             Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
+        }
+
+        private void OnPlayerDefeated(PlayerDefeated e)
+        {
+            if (!e.IsGameOver)
+                return;
+
+            ClickUi.Remove(_hand.Branch);
         }
 
         private void CardSelected(CardSelected selection)

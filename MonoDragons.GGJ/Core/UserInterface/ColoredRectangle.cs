@@ -4,6 +4,7 @@ using MonoDragons.Core.Engine;
 using MonoDragons.Core.Graphics;
 using MonoDragons.Core.Physics;
 using MonoDragons.Core.Render;
+using System;
 
 namespace MonoDragons.Core.UserInterface
 {
@@ -13,6 +14,7 @@ namespace MonoDragons.Core.UserInterface
         private Texture2D _background;
 
         public Transform2 Transform { get; set; }
+        public Func<bool> IsActive { get; set; } = () => true;
 
         public Color Color
         {
@@ -32,6 +34,9 @@ namespace MonoDragons.Core.UserInterface
 
         public void Draw(Transform2 parentTransform)
         {
+            if (!IsActive())
+                return;
+
             var position = parentTransform + Transform;
             World.Draw(_background, position.ToRectangle());
         }
