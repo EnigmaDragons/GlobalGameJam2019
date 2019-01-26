@@ -1,6 +1,8 @@
-﻿using MonoDragons.Core.EventSystem;
+﻿using System;
+using MonoDragons.Core.EventSystem;
 using System.Collections.Generic;
 using System.Linq;
+using MonoDragons.Core;
 using MonoDragons.GGJ.Gameplay.Events;
 
 namespace MonoDragons.GGJ.Gameplay
@@ -20,7 +22,7 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<TurnStarted>(OnTurnStarted, this);
             Event.Subscribe<TurnFinished>(OnTurnFinished, this);
             Event.Subscribe<LevelSetup>(OnLevelSetup, this);
-            Event.Subscribe<CardsLocked>(OnCardsLocked, this);
+            Event.Subscribe<CardTypeLocked>(OnCardTypeLocked, this);
         }
 
         private void OnLevelSetup(LevelSetup e)
@@ -35,21 +37,18 @@ namespace MonoDragons.GGJ.Gameplay
             _currentTurn = int.MaxValue;
         }
 
-        private void OnCardsLocked(CardsLocked e)
+        private void OnCardTypeLocked(CardTypeLocked e)
         {
-            e.Cards.ForEach(x =>
-            {
-                if (!_state.NextTurnUnplayables.Contains(x))
-                    _state.NextTurnUnplayables.Add(x);
-            });
+            if (e.Target == _player && !_state.NextTurnUnplayableTypes.Contains(e.Type))
+                _state.NextTurnUnplayableTypes.Add(e.Type);
         }
 
         private void OnTurnFinished(TurnFinished e)
         {
             _state.DiscardZone.AddRange(_state.InPlayZone);
             _state.InPlayZone.Clear();
-            _state.Unplayables = _state.NextTurnUnplayables;
-            _state.NextTurnUnplayables = new List<int>();
+            _state.UnplayableTypes = _state.NextTurnUnplayableTypes;
+            _state.NextTurnUnplayableTypes = new List<CardType>();
         }
 
         private void OnTurnStarted(TurnStarted e)
@@ -108,6 +107,8 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void Play(int cardId)
         {
+            if (_state.UnplayableTypes.Contains(State<GameData>.Current.AllCards[cardId].Type))
+                throw new Exception("You can't play this");
             var card = _state.HandZone.Single(x => x == cardId);
             _state.InPlayZone.Add(card);
             _state.HandZone.Remove(card);

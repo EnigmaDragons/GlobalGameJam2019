@@ -49,7 +49,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void AddCard(Card card)
         {
             var index = _cards.Count();
-            if (!_state.Cards.Unplayables.Contains(card.Id))
+            if (!_state.Cards.UnplayableTypes.Contains(card.State.Type))
                 Branch.Add(new SimpleClickable(new Rectangle(100 + index * (Card.WIDTH + 50), 850 - Card.HEIGHT, Card.WIDTH, Card.HEIGHT), () => CardSelected(index)));
             _cards.Add(card);
         }

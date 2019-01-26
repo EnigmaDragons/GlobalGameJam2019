@@ -49,12 +49,12 @@ namespace MonoDragons.GGJ.Data
             { CardName.FanTheHammer, data =>
                 {
                     Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.House });
-                    Event.Publish(new CardsLocked { Cards = data.CowboyState.Cards.MasterList.Where(x => data.AllCards[x].Type == CardType.Attack).ToList() });
+                    Event.Publish(new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Attack });
                 } },
             { CardName.GunsBlazing, data =>
                 {
                     Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.House });
-                    Event.Publish(new CardsLocked { Cards = data.CowboyState.Cards.MasterList.Where(x => data.AllCards[x].Type == CardType.Defend).ToList() });
+                    Event.Publish(new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Defend });
                 } },
             { CardName.DuckAndCover, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.Cowboy }) },
 
