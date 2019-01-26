@@ -10,15 +10,24 @@ namespace MonoDragons.GGJ.Gameplay
     {
         private readonly GameData _gameData;
         private int _currentTurn = 0;
+        private int _currentLevel = 0;
 
         private List<CardSelected> _selections = new List<CardSelected>();
 
         public PhaseTransitions(GameData gameData)
         {
+            _currentLevel = gameData.CurrentLevel;
             _gameData = gameData;
             Event.Subscribe<TurnStarted>(OnTurnStarted, this);
             Event.Subscribe<CardSelected>(CardSelected, this);
             Event.Subscribe<TurnFinished>(OnTurnFinished, this);
+            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+        }
+
+        private void OnPlayerDefeated(PlayerDefeated e)
+        {
+            if (!e.IsGameOver)
+                _gameData.CurrentPhase = Phase.LeavingLevel;
         }
 
         private void OnTurnStarted(TurnStarted e)
@@ -42,10 +51,16 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Update(TimeSpan delta)
         {
+            if (_currentLevel != _gameData.CurrentLevel) 
+                return;
+            
+            if (_gameData.CowboyState.HP <= 0 || _gameData.HouseState.HP <= 0)
+                _currentLevel++;
+            
             if (_gameData.CowboyState.HP <= 0)
-                Event.Publish(new PlayerDefeated { Winner = Player.House, IsGameOver = true });
+                Event.Publish(new PlayerDefeated {Winner = Player.House, IsGameOver = true});
             else if (_gameData.HouseState.HP <= 0)
-                Event.Publish(new PlayerDefeated { Winner = Player.Cowboy, IsGameOver = false });
+                Event.Publish(new PlayerDefeated {Winner = Player.Cowboy, IsGameOver = false});
         }
 
         private void CardSelected(CardSelected selection)

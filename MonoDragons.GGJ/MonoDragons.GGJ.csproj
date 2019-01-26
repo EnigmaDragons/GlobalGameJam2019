@@ -49,7 +49,11 @@
     <Compile Include="GGJ\Gameplay\CardEffectProcessor.cs" />
     <Compile Include="GGJ\Gameplay\CardState.cs" />
     <Compile Include="GGJ\Gameplay\Events\AllCardsRevealed.cs" />
+    <Compile Include="GGJ\Gameplay\Events\FinishedLevel.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandDrawn.cs" />
+    <Compile Include="GGJ\Gameplay\Events\LevelSetup.cs" />
+    <Compile Include="GGJ\Gameplay\Events\NextLevelRequested.cs" />
+    <Compile Include="GGJ\Gameplay\LevelProgression.cs" />
     <Compile Include="GGJ\Gameplay\PlayerCardsState.cs" />
     <Compile Include="GGJ\Gameplay\Events\AllCardsSelected.cs" />
     <Compile Include="GGJ\Gameplay\CardRevealer.cs" />
@@ -706,6 +710,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\House\level1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\House\level2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Images\Logo\oilsplash.png">

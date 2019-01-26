@@ -58,8 +58,14 @@ namespace MonoDragons.GGJ.UiElements
                 _gameOverLabel,
                 quitButton,
             };
+            Event.Subscribe<FinishedLevel>(OnLevelFinished, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<GameDisconnected>(OnDisconnected, this);
+        }
+
+        private void OnLevelFinished(FinishedLevel e)
+        {
+            _shouldDisplaySign = false;
         }
 
         private void OnDisconnected(GameDisconnected e)
@@ -89,7 +95,8 @@ namespace MonoDragons.GGJ.UiElements
         {
             _gameOverLabel.Text = e.Winner == _player ? "You Win!" : "You Defeated!";
             _shouldDisplaySign = true;
-            _fadeToBlack.Start(() => _isGameOver = e.IsGameOver);
+            if (e.IsGameOver)
+                _fadeToBlack.Start(() => _isGameOver = e.IsGameOver);
         }
     }
 }
