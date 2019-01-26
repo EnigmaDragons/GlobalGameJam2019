@@ -84,7 +84,8 @@ namespace MonoDragons.GGJ.Scenes
                     CreateCard(CardName.CowboyPass),
                     CreateCard(CardName.CrackShot),
                     CreateCard(CardName.FanTheHammer),
-                    CreateCard(CardName.GunsBlazing)));
+                    CreateCard(CardName.GunsBlazing),
+                    CreateCard(CardName.DuckAndCover)));
 
             _data.HouseState = new CharacterState(Player.House, 10,
                 new PlayerCardsState(

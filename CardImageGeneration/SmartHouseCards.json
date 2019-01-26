@@ -21,17 +21,17 @@
         {
             "Name": "Electric Shock Super Attack",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage"
+            "Effect": "Deal 3 Damage"
         },
         {
             "Name": "Water Leak",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage"
+            "Effect": "Deal 3 Damage"
         },
         {
             "Name": "Lazer",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage"
+            "Effect": "Deal 3 Damage"
         }
     ],
     "Blueprint": 

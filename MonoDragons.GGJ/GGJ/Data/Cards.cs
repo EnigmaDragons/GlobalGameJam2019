@@ -16,6 +16,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.CrackShot, s => new Card(s, "CowboyCard1") },
             { CardName.FanTheHammer, s => new Card(s, "CowboyCard2") },
             { CardName.GunsBlazing, s => new Card(s, "CowboyCard3") },
+            { CardName.DuckAndCover, s => new Card(s, "CowboyCard4") },
 
             { CardName.HousePass, s => new Card(s, "SmartHouseCard0") },
             { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1") },
@@ -31,6 +32,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.CrackShot, CardType.Attack },
             { CardName.FanTheHammer, CardType.Attack },
             { CardName.GunsBlazing, CardType.Attack },
+            { CardName.DuckAndCover, CardType.Defend },
 
             { CardName.HousePass, CardType.Pass },
             { CardName.ElectricShockSuperAttack, CardType.Attack },
@@ -43,22 +45,23 @@ namespace MonoDragons.GGJ.Data
             { CardName.None, data => {} },
 
             { CardName.CowboyPass, data => {} },
-            { CardName.CrackShot, data => Event.Publish(new PlayerDamaged { Amount = 3, Target = Player.House }) },
+            { CardName.CrackShot, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.House }) },
             { CardName.FanTheHammer, data =>
                 {
-                    Event.Publish(new PlayerDamaged { Amount = 4, Target = Player.House });
+                    Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.House });
                     Event.Publish(new CardsLocked { Cards = data.CowboyState.Cards.MasterList.Where(x => data.AllCards[x].Type == CardType.Attack).ToList() });
                 } },
             { CardName.GunsBlazing, data =>
                 {
-                    Event.Publish(new PlayerDamaged { Amount = 4, Target = Player.House });
-                    Event.Publish(new CardsLocked { Cards = data.CowboyState.Cards.MasterList.Where(x => data.AllCards[x].Type == CardType.Defense).ToList() });
+                    Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.House });
+                    Event.Publish(new CardsLocked { Cards = data.CowboyState.Cards.MasterList.Where(x => data.AllCards[x].Type == CardType.Defend).ToList() });
                 } },
+            { CardName.DuckAndCover, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.Cowboy }) },
 
             { CardName.HousePass, data => {} },
-            { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamaged { Amount = 3, Target = Player.Cowboy }) },
-            { CardName.WaterLeak, data => Event.Publish(new PlayerDamaged { Amount = 3, Target = Player.Cowboy }) },
-            { CardName.Lazer, data => Event.Publish(new PlayerDamaged { Amount = 3, Target = Player.Cowboy }) },
+            { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
+            { CardName.WaterLeak, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
+            { CardName.Lazer, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
         };
 
         public static Card Create(CardState s)
@@ -81,6 +84,7 @@ namespace MonoDragons.GGJ.Data
         CrackShot = 2,
         FanTheHammer = 3,
         GunsBlazing = 4,
+        DuckAndCover = 9,
 
         HousePass = 5,
         ElectricShockSuperAttack = 6,

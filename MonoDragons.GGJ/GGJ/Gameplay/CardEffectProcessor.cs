@@ -1,5 +1,6 @@
 ﻿using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Data;
+using MonoDragons.GGJ.Gameplay.Events;
 
 namespace MonoDragons.GGJ.Gameplay
 {
@@ -22,6 +23,7 @@ namespace MonoDragons.GGJ.Gameplay
             _processedTurn = e.TurnNumber;
             Cards.Execute(_data, _data.AllCards[e.CowboyCard].CardName);
             Cards.Execute(_data, _data.AllCards[e.HouseCard].CardName);
+            Event.Publish(new CardResolutionBegun());
         }
     }
 }

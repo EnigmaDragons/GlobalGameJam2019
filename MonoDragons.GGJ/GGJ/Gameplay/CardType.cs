@@ -3,7 +3,7 @@
     public enum CardType
     {
         Attack,
-        Defense,
+        Defend,
         Charge,
         Counter,
         Pass

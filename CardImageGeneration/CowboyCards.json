@@ -32,6 +32,11 @@
             "Name": "Dead Eye",
             "Type": "Attack",
             "Effect": "Deal 4 Damage\n You can't defend next turn"
+        },
+        {
+            "Name": "Duck And Cover",
+            "Type": "Defend",
+            "Effect": "Block 5 Damage"
         }
     ],
     "Blueprint": 
