@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace MonoDragons
 {
@@ -10,6 +11,7 @@ namespace MonoDragons
 
         public static void AddSink(Action<string> sink) => _sinks.Add(sink);
 
+        public static void Write(object o) => _sinks.ForEach(write => write($"{o.GetType().Name} {JsonConvert.SerializeObject(o)}"));
         public static void WriteLine(string text) => _sinks.ForEach(write => write(text));
     }
 }

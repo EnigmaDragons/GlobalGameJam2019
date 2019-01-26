@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core.AudioSystem;
+using MonoDragons.Core.Development;
 using MonoDragons.Core.EngimaDragons;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.Errors;
@@ -22,6 +23,8 @@ namespace MonoDragons.Core
         [STAThread]
         static void Main(params string[] args)
         {
+            DebugLogWindow.Launch();
+            DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
             Error.Handle(() =>
             {
                 using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(new NetworkArgs(args)), CreateKeyboardController(), ErrorHandler))
