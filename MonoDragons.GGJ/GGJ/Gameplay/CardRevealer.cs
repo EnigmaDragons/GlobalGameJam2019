@@ -27,15 +27,7 @@ namespace MonoDragons.GGJ.Gameplay
             Card = card;
             IsRevealed = isRevealed;
             Event.Subscribe<CardSelected>(OnCardSelect, this);
-            Event.Subscribe<TurnFinished>(OnTurnFinished, this);
             Event.Subscribe<AllCardsSelected>(OnCardsSelected, this);
-        }
-
-        private void OnTurnFinished(TurnFinished obj)
-        {
-            Card = new Optional<Card>();
-            if (_local != _player)
-                IsRevealed = false;            
         }
 
         private void OnCardSelect(CardSelected e)
@@ -43,7 +35,7 @@ namespace MonoDragons.GGJ.Gameplay
             if (e.Player != _player)
                 return;
 
-            Card = new Optional<Card>(Cards.GetCardById(e.CardId));
+            Card = new Optional<Card>(Cards.Create(State<GameData>.Current.AllCards[e.CardId]));
         }
 
         public void Draw(Transform2 parentTransform)
@@ -60,7 +52,14 @@ namespace MonoDragons.GGJ.Gameplay
         private void OnCardsSelected(AllCardsSelected e)
         {
             IsRevealed = true;
-            _displayTimer = new TimerTask(() => Event.Publish(new TurnFinished { TurnNumber = e.TurnNumber }), 2000, false);
+            _displayTimer = new TimerTask(() =>
+            {
+                Event.Publish(new TurnFinished { TurnNumber = e.TurnNumber });
+                Event.Unsubscribe(Card.Value);
+                Card = new Optional<Card>();
+                if (_local != _player)
+                    IsRevealed = false;
+            }, 2000, false);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
@@ -27,7 +28,10 @@ namespace MonoDragons.GGJ.Scenes
         public override void Init()
         {
             Sound.Music("fight-it").Play();
+            // TODO: Move Setup out of Scene
             _data = new GameData();
+            SetupCharacters();
+
             var isHouse = _player == Player.House;
             State<GameData>.Init(_data);
             Add(new PhaseTransitions(_data));
@@ -63,6 +67,35 @@ namespace MonoDragons.GGJ.Scenes
             }));
 
             Event.Subscribe<TurnStarted>(StartNewTurn, this);
+        }
+
+        private void SetupCharacters()
+        {
+            _data.CowboyState = new CharacterState(Player.Cowboy, 50, 
+                new Deck(
+                    CreateCard(CardName.DeadEye),
+                    CreateCard(CardName.SixShooterThingy),
+                    CreateCard(CardName.YEEHAW)));
+
+            _data.HouseState = new CharacterState(Player.House, 100,
+                new Deck(
+                    CreateCard(CardName.Lazer),
+                    CreateCard(CardName.WaterLeak),
+                    CreateCard(CardName.ElectricShockSuperAttack)));
+        }
+
+        private Card CreateCard(CardName cardName)
+        {
+            var result = Cards.Create(new CardState { Id = GetNextCardId(), CardName = cardName });
+            _data.AllCards[result.Id] = result.State;
+            return result;
+        }
+
+        private int GetNextCardId()
+        {
+            var result = _data.CurrentCardId;
+            _data.CurrentCardId++;
+            return result;
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)

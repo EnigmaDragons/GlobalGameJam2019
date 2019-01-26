@@ -14,12 +14,13 @@ namespace MonoDragons.GGJ.Gameplay
         public const int HEIGHT = 350;
         private readonly string _name;
         private readonly Action _action;
-        public readonly int Id;
+        public CardState State { get; }
+        public int Id => State.Id;
 
-        public Card(string name, int id, Action action)
+        public Card(CardState state, string imageName, Action action)
         {
-            _name = name;
-            Id = id;
+            State = state;
+            _name = imageName;
             Event.Subscribe<AllCardsSelected>(OnCardSelected, this);
             _action = action;
         }
