@@ -57,6 +57,7 @@ namespace MonoDragons.Core
             {
                 { Keys.Space, Control.Select },
                 { Keys.Enter, Control.Start },
+                { Keys.F1, Control.Menu },
                 { Keys.V, Control.A },
                 { Keys.O, Control.X }
             });
