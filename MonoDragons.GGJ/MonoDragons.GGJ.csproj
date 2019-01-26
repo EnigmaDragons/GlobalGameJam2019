@@ -45,6 +45,7 @@
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
     <Compile Include="GGJ\GameData.cs" />
+    <Compile Include="GGJ\Gameplay\AllCardsSelected.cs" />
     <Compile Include="GGJ\Gameplay\CardRevealer.cs" />
     <Compile Include="GGJ\Gameplay\Bed.cs" />
     <Compile Include="GGJ\Data\Cards.cs" />

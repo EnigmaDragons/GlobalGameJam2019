@@ -17,7 +17,7 @@ namespace MonoDragons.GGJ.Scenes
     public sealed class LobbyScene : ClickUiScene
     {
         private const string AppId = "UnnamedAppID";
-        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(RoleSelected) };
+        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(RoleSelected), typeof(AllCardsSelected) };
         private readonly Label _hostEndpoint = new Label { Transform = new Transform2(new Vector2(260, 0), new Size2(200, 60)) };
         private readonly NetworkArgs _args;
 
