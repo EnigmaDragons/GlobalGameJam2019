@@ -16,6 +16,7 @@ namespace MonoDragons.GGJ.Gameplay
         private TimerTask _displayTimer;
         private readonly Player _local;
         private readonly Player _player;
+        private bool _levelIsFinished;
 
         public CardRevealer(Player local, Player player, Vector2 location, bool isRevealed = false) : this(local, player, location, new Optional<Card>(), isRevealed) { }
         public CardRevealer(Player local, Player player, Vector2 location, Card card, bool isRevealed = false) : this(local, player, location, new Optional<Card>(card), isRevealed) { }
@@ -28,6 +29,14 @@ namespace MonoDragons.GGJ.Gameplay
             IsRevealed = isRevealed;
             Event.Subscribe<CardSelected>(OnCardSelect, this);
             Event.Subscribe<AllCardsSelected>(OnCardsSelected, this);
+            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+            Event.Subscribe<LevelSetup>(x => _levelIsFinished = false, this);
+        }
+
+        private void OnPlayerDefeated(PlayerDefeated e)
+        {
+            _levelIsFinished = true;
+            CleanupRevelations();
         }
 
         private void OnCardSelect(CardSelected e)
@@ -54,13 +63,19 @@ namespace MonoDragons.GGJ.Gameplay
             IsRevealed = true;
             _displayTimer = new TimerTask(() =>
             {
-                Event.Publish(new TurnFinished { TurnNumber = e.TurnNumber });
-                Event.Unsubscribe(Card.Value);
-                Card = new Optional<Card>();
-                if (_local != _player)
-                    IsRevealed = false;
+                CleanupRevelations();
+                if (!_levelIsFinished)
+                    Event.Publish(new TurnFinished {TurnNumber = e.TurnNumber});
+                
             }, 2000, false);
             Event.Publish(new AllCardsRevealed { TurnNumber = e.TurnNumber, CowboyCard = e.CowboyCard, HouseCard = e.HouseCard });
+        }
+
+        private void CleanupRevelations()
+        {
+            Card = new Optional<Card>();
+            if (_local != _player)
+                IsRevealed = false;
         }
     }
 }

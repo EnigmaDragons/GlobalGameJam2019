@@ -31,7 +31,7 @@ namespace MonoDragons.GGJ.Scenes
             // TODO: Move Setup out of Scene
             _data = new GameData();
             SetupCharacters();
-            Add(new PlayerCards(_player, _data[_player].Cards, _data));
+            Add(new PlayerCards(_player, _data[_player].Cards));
             Add(new CardEffectProcessor(_data));
 
             var isHouse = _player == Player.House;

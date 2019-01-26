@@ -1,7 +1,6 @@
 ﻿using MonoDragons.Core.EventSystem;
 using System.Collections.Generic;
 using System.Linq;
-using MonoDragons.Core;
 using MonoDragons.GGJ.Gameplay.Events;
 
 namespace MonoDragons.GGJ.Gameplay
@@ -10,18 +9,30 @@ namespace MonoDragons.GGJ.Gameplay
     {
         private readonly Player _player;
         private readonly PlayerCardsState _state;
-        private readonly GameData _data;
         private int _currentTurn = -1;
 
-        public PlayerCards(Player player, PlayerCardsState state, GameData data)
+        public PlayerCards(Player player, PlayerCardsState state)
         {
             _player = player;
             _state = state;
-            _data = data;
+            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<CardSelected>(OnCardSelected, this);
             Event.Subscribe<TurnStarted>(OnTurnStarted, this);
             Event.Subscribe<TurnFinished>(OnTurnFinished, this);
+            Event.Subscribe<LevelSetup>(OnLevelSetup, this);
             Event.Subscribe<CardsLocked>(OnCardsLocked, this);
+        }
+
+        private void OnLevelSetup(LevelSetup e)
+        {
+            _currentTurn = -1;
+            _state.DiscardZone.AddRange(_state.InPlayZone);
+            Reshuffle();
+        }
+
+        private void OnPlayerDefeated(PlayerDefeated e)
+        {
+            _currentTurn = int.MaxValue;
         }
 
         private void OnCardsLocked(CardsLocked e)
@@ -43,7 +54,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnTurnStarted(TurnStarted e)
         {
-            if (_currentTurn == e.TurnNumber)
+            if (_currentTurn >= e.TurnNumber)
                 return;
 
             _currentTurn = e.TurnNumber;
