@@ -43,7 +43,7 @@ namespace MonoDragons.GGJ.Scenes
                 };
                 Process.Start(startInfo);
             });
-            //Event.Subscribe<GameConnectionEstablished>(x => Scene.NavigateTo(new RockPaperScissorsGame()), this);
+            Event.Subscribe<GameConnectionEstablished>(x => Scene.NavigateTo(new GameScene()), this);
         }
     }
 }
