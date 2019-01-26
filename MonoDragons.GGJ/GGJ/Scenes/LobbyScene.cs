@@ -30,6 +30,7 @@ namespace MonoDragons.GGJ.Scenes
         {
             Add(Buttons.Text("Host", new Point(100, 160), BeginHostingGame));
             Add(Buttons.Text("Connect", new Point(100, 60), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
+            Add(Buttons.Text("Play Solo", new Point(100, 260), CreateSinglePlayerGame));
             Add(new Label { Text = "Connect To:", Transform = new Transform2(new Vector2(0, 0), new Size2(400, 60)) });
             Add(_hostEndpoint);
             Add(new KeyboardTyping("127.0.0.1:4567").OutputTo(x => _hostEndpoint.Text = x));
@@ -37,6 +38,11 @@ namespace MonoDragons.GGJ.Scenes
             Logger.Write(_args);
             if (_args.ShouldConnect)
                 Add(new ActionAutomaton(() => ConnectToGame(_args.Ip, _args.Port)));
+        }
+
+        private void CreateSinglePlayerGame()
+        {
+            Scene.NavigateTo(new GameScene());
         }
 
         private void BeginHostingGame()
