@@ -18,15 +18,15 @@ namespace MonoDragons.GGJ.Gameplay
         private readonly Player _player;
         private bool _levelIsFinished;
 
-        public CardRevealer(Player local, Player player, Vector2 location, bool isRevealed = false) : this(local, player, location, new Optional<Card>(), isRevealed) { }
-        public CardRevealer(Player local, Player player, Vector2 location, Card card, bool isRevealed = false) : this(local, player, location, new Optional<Card>(card), isRevealed) { }
-        public CardRevealer(Player local, Player player, Vector2 location, Optional<Card> card, bool isRevealed)
+        public CardRevealer(Player local, Player player, Vector2 location) : this(local, player, location, new Optional<Card>()) { }
+        public CardRevealer(Player local, Player player, Vector2 location, Card card, bool isRevealed = false) : this(local, player, location, new Optional<Card>(card)) { }
+        public CardRevealer(Player local, Player player, Vector2 location, Optional<Card> card)
         {
             _location = new Transform2(location);
             _local = local;
             _player = player;
             Card = card;
-            IsRevealed = isRevealed;
+            IsRevealed = local == player;
             Event.Subscribe<CardSelected>(OnCardSelect, this);
             Event.Subscribe<AllCardsSelected>(OnCardsSelected, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);

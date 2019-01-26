@@ -15,14 +15,14 @@ namespace MonoDragons.GGJ.Gameplay
         public ClickUIBranch Branch { get; private set; }
 
         private readonly GameData _data;
-        private readonly CharacterState _state;
+        private CharacterState State => _data[_player];
         private readonly List<Card> _cards = new List<Card>();
-        private Player Player => _state.Player;
+        private readonly Player _player;
         
-        public HandView(GameData data, CharacterState state)
+        public HandView(Player player, GameData data)
         {
+            _player = player;
             _data = data;
-            _state = state;
             Branch = new ClickUIBranch("Hand", 1);
             Event.Subscribe<CardSelected>(OnCardSelected, this);
             Event.Subscribe<HandDrawn>(OnHandDrawn, this);
@@ -30,13 +30,13 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnHandDrawn(HandDrawn e)
         {
-            if (e.Player == _state.Player)
+            if (e.Player == State.Player)
                 AddCards(e.Cards);
         }
 
         private void OnCardSelected(CardSelected e)
         {
-            if (e.Player == _state.Player)
+            if (e.Player == State.Player)
                 DiscardAll();
         }
 
@@ -49,14 +49,14 @@ namespace MonoDragons.GGJ.Gameplay
         private void AddCard(Card card)
         {
             var index = _cards.Count();
-            if (!_state.Cards.UnplayableTypes.Contains(card.State.Type))
+            if (!State.Cards.UnplayableTypes.Contains(card.State.Type))
                 Branch.Add(new SimpleClickable(new Rectangle(100 + index * (Card.WIDTH + 50), 850 - Card.HEIGHT, Card.WIDTH, Card.HEIGHT), () => CardSelected(index)));
             _cards.Add(card);
         }
 
         private void CardSelected(int cardIndex)
         {
-            Event.Publish(new CardSelected(_cards[cardIndex].Id, Player));
+            Event.Publish(new CardSelected(_cards[cardIndex].Id, _player));
         }
 
         public void Draw(Transform2 parentTransform)

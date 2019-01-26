@@ -5,5 +5,6 @@ namespace MonoDragons.GGJ.Gameplay
     {
         public Player Winner { get; set; }
         public bool IsGameOver { get; set; }
+        public int LevelNumber { get; set; }
     }
 }
