@@ -292,10 +292,10 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Cards\CowboyCard0.png">
+    <Content Include="Content\Appliances\bed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Appliances\bed.png">
+    <Content Include="Content\Cards\CowboyCard0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\CowboyCard1.png">
@@ -304,13 +304,19 @@
     <Content Include="Content\Cards\CowboyCard2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Cards\SmartHouseCards0.png">
+    <Content Include="Content\Cards\CowboyCard3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Cards\SmartHouseCards1.png">
+    <Content Include="Content\Cards\SmartHouseCard0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Cards\SmartHouseCards2.png">
+    <Content Include="Content\Cards\SmartHouseCard1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cowboy\__Hoodie_celebrate_000.png">

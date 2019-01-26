@@ -81,12 +81,14 @@ namespace MonoDragons.GGJ.Scenes
         {
             _data.CowboyState = new CharacterState(Player.Cowboy, 10, 
                 new PlayerCardsState(
+                    CreateCard(CardName.CowboyPass),
                     CreateCard(CardName.DeadEye),
                     CreateCard(CardName.SixShooterThingy),
                     CreateCard(CardName.YEEHAW)));
 
             _data.HouseState = new CharacterState(Player.House, 3,
                 new PlayerCardsState(
+                    CreateCard(CardName.HousePass),
                     CreateCard(CardName.Lazer),
                     CreateCard(CardName.WaterLeak),
                     CreateCard(CardName.ElectricShockSuperAttack)));
