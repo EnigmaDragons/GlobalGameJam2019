@@ -8,15 +8,21 @@ namespace MonoDragons.GGJ.Data
     public sealed class Cards
     {
         private static Dictionary<CardName, Func<CardState, Card>> _cards = new Dictionary<CardName, Func<CardState, Card>> {
-            { CardName.None, s => new Card(s, "CowboyCard0", () => {}) },
-            { CardName.CowboyPass, s => new Card(s,"CowboyCard0", () => {}) },
-            { CardName.YEEHAW, s => new Card(s,"CowboyCard1", () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.House })) },
-            { CardName.SixShooterThingy, s => new Card(s, "CowboyCard2", () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.House })) },
-            { CardName.DeadEye, s => new Card(s, "CowboyCard3", () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.House })) },
-            { CardName.HousePass, s => new Card(s, "SmartHouseCard0", () => {}) },
-            { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1", () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.Cowboy })) },
-            { CardName.WaterLeak, s => new Card(s, "SmartHouseCard2", () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.Cowboy })) },
-            { CardName.Lazer, s => new Card(s, "SmartHouseCard3", () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.Cowboy })) }
+            { CardName.None, s => new Card(s, "CowboyCard0", CardType.Pass, () => {}) },
+            { CardName.CowboyPass, s => new Card(s,"CowboyCard0", CardType.Pass, () => {}) },
+            { CardName.YEEHAW, s => new Card(s,"CowboyCard1", CardType.Attack,
+                () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.House })) },
+            { CardName.SixShooterThingy, s => new Card(s, "CowboyCard2", CardType.Attack,
+                () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.House })) },
+            { CardName.DeadEye, s => new Card(s, "CowboyCard3", CardType.Attack,
+                () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.House })) },
+            { CardName.HousePass, s => new Card(s, "SmartHouseCard0", CardType.Pass, () => {}) },
+            { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1", CardType.Attack,
+                () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.Cowboy })) },
+            { CardName.WaterLeak, s => new Card(s, "SmartHouseCard2", CardType.Attack,
+                () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.Cowboy })) },
+            { CardName.Lazer, s => new Card(s, "SmartHouseCard3", CardType.Attack, 
+                () => Event.Publish(new PlayerDamaged { Amount = 1, Target = Player.Cowboy })) }
         };
 
         public static Card Create(CardState s)

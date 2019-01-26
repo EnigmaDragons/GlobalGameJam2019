@@ -48,6 +48,7 @@
     <Compile Include="GGJ\GameData.cs" />
     <Compile Include="GGJ\Gameplay\CardEffectProcessor.cs" />
     <Compile Include="GGJ\Gameplay\CardState.cs" />
+    <Compile Include="GGJ\Gameplay\CardType.cs" />
     <Compile Include="GGJ\Gameplay\Events\AllCardsRevealed.cs" />
     <Compile Include="GGJ\Gameplay\Events\FinishedLevel.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandDrawn.cs" />
