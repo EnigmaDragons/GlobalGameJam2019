@@ -17,29 +17,28 @@ namespace MonoDragons.Core
     public static class Program
     {
         public static readonly IErrorHandler ErrorHandler = new MessageBoxErrorHandler();
-
         public static readonly AppDetails AppDetails = new AppDetails("MonoDragons GGJ", "0.0", Environment.OSVersion.VersionString);
-        
+
         [STAThread]
-        static void Main()
+        static void Main(params string[] args)
         {
             Error.Handle(() =>
             {
-                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(), CreateKeyboardController(), ErrorHandler))
+                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(new NetworkArgs(args)), CreateKeyboardController(), ErrorHandler))
                     game.Run();
             }, ErrorHandler.Handle);
         }
 
-        private static IScene SetupScene()
+        private static IScene SetupScene(NetworkArgs args)
         {
             var currentScene = new CurrentScene();
-            Scene.Init(new CurrentSceneNavigation(currentScene, CreateSceneFactory(),  
+            Scene.Init(new CurrentSceneNavigation(currentScene, CreateSceneFactory(args),  
                 AudioPlayer.Instance.StopAll, 
                 Resources.Unload));
             return new HideViewportExternals(currentScene);
         }
 
-        private static SceneFactory CreateSceneFactory()
+        private static SceneFactory CreateSceneFactory(NetworkArgs args)
         {
             return new SceneFactory(new Map<string, Func<IScene>>
             {
@@ -47,7 +46,7 @@ namespace MonoDragons.Core
                 { "MainMenu", () => new MainMenuScene("Logo") },
                 { "CharacterCreation", () => new CharacterCreationScene()},
                 { "NetworkTest", () => new NetworkTestScene()},
-                { "Lobby", () => new LobbyScene() }
+                { "Lobby", () => new LobbyScene(args) }
             });
         }
 

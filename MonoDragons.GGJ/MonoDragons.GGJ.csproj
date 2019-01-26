@@ -42,6 +42,7 @@
     <StartupObject>MonoDragons.Core.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="GGJ\Scenes\LobbyScene.cs" />
     <Compile Include="Core\Animations\AnimationExtensions.cs" />
     <Compile Include="Core\Animations\HorizontalFlyInAnimation.cs" />
