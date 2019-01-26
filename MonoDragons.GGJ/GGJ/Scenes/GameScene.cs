@@ -20,7 +20,8 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Cowboy());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
                 IsVisible = () => hasMadeSelection });
-            hand = new Hand(new Card(), new Card(), new Card());
+            var deck = new Deck(new Card(), new Card(), new Card());
+            hand = new Hand(deck.DrawCards(3));
             Add(hand);
             ClickUi.Add(hand.ClickUiBranch);
             Event.Subscribe(EventSubscription.Create<CardSelected>(CardSelected, this));
