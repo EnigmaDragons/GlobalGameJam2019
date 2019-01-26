@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core.Development;
 using MonoDragons.Core.EventSystem;
+using MonoDragons.Core.Inputs;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
 
@@ -30,6 +32,7 @@ namespace MonoDragons.Core.Network
             Add(MakeButton("Send Host Message", new Point(400, 400), SendHostMessage));
             Add(MakeButton("Clear Log", new Point(400, 500), () => _log.Clear()));
             Add(() => _clients.ForEach(x => x.Update(TimeSpan.Zero)));
+            Input.On(Control.Menu, () => Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location));
             Event.Subscribe<DemoMessage>(e => Logger.WriteLine(e.Message), this);
         }
 
