@@ -9,15 +9,15 @@ using MonoDragons.Core.Inputs;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Scenes
 {
     public sealed class LobbyScene : ClickUiScene
     {
-        private const string AppId = "Scissors Paper Rock Example";
-        private const int Port = 44559;
-        private static readonly Type[] NetTypes = { };
+        private const string AppId = "UnnamedAppID";
+        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(RoleSelected) };
         private readonly Label _hostEndpoint = new Label { Transform = new Transform2(new Vector2(260, 0), new Size2(200, 60)) };
         private readonly NetworkArgs _args;
 
@@ -42,14 +42,14 @@ namespace MonoDragons.GGJ.Scenes
 
         private void CreateSinglePlayerGame()
         {
-            Scene.NavigateTo(new GameScene());
+            Scene.NavigateTo(new GameScene(Rng.Bool()));
         }
 
         private void BeginHostingGame()
         {
             var ipEndpoint = ParseURL(_hostEndpoint.Text);
             Multiplayer.HostGame(AppId, ipEndpoint.Port, NetTypes);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {ipEndpoint.Port}", ipEndpoint.Address.ToString(), ipEndpoint.Port));
+            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {ipEndpoint.Port}", ipEndpoint.Address.ToString(), ipEndpoint.Port, true));
         }
 
         private void ConnectToGame(IPEndPoint endPoint)
@@ -60,7 +60,7 @@ namespace MonoDragons.GGJ.Scenes
         private void ConnectToGame(string ip, int port)
         {
             Multiplayer.JoinGame(AppId, ip, port, NetTypes);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {ip}:{port}", ip, port));
+            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {ip}:{port}", ip, port, false));
         }
         
         private IPEndPoint ParseURL(string url)
