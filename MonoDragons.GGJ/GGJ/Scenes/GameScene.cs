@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
+using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
@@ -25,9 +26,14 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
+#if DEBUG
+            MasterVolume.Instance.MusicVolume = 0;
+#endif
+            Sound.Music("fight-it").Play();
             _data = new GameData();
             var isHouse = _player == Player.House;
             State<GameData>.Init(_data);
+            Add(new PhaseTransitions(_data));
             Add(new Label { Text = $"You are playing as " + (isHouse ? "house" : "cowboy"), Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 800)) });
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
@@ -35,9 +41,9 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Bed());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
                 IsVisible = () => !(_houseRevealer.Card.HasValue && _cowboyRevealer.Card.HasValue) });
-            _cowboyRevealer = new CardRevealer(new Vector2(400, 350), !isHouse);
+            _cowboyRevealer = new CardRevealer(_player, Player.Cowboy, new Vector2(400, 350), !isHouse);
             Add(_cowboyRevealer);
-            _houseRevealer = new CardRevealer(new Vector2(1200, 350), isHouse);
+            _houseRevealer = new CardRevealer(_player, Player.House, new Vector2(1200, 350), isHouse);
             Add(_houseRevealer);
             Add(_data[_player].Hand);
             new CharacterActor(_data.CowboyState);
@@ -59,7 +65,6 @@ namespace MonoDragons.GGJ.Scenes
                     Scene.NavigateTo("Lobby");
             }));
 
-            Event.Subscribe<CardSelected>(CardSelected, this);
             Event.Subscribe<TurnFinished>(StartNewTurn, this);
         }
 
@@ -71,28 +76,8 @@ namespace MonoDragons.GGJ.Scenes
             ClickUi.Remove(_data[_player].Hand.Branch);
         }
 
-        private void CardSelected(CardSelected selection)
-        {
-            if (selection.Player == Player.House)
-                _houseRevealer.Card = new Optional<Card>(Cards.GetCardById(selection.CardId));
-            else
-                _cowboyRevealer.Card = new Optional<Card>(Cards.GetCardById(selection.CardId));
-            if (selection.Player == _player)
-                _data[_player].Hand.Empty();
-            if (_cowboyRevealer.Card.HasValue && _houseRevealer.Card.HasValue)
-            {
-                _cowboyRevealer.IsRevealed = true;
-                _houseRevealer.IsRevealed = true;
-                Event.Publish(new AllCardsSelected { CowboyCard = _cowboyRevealer.Card.Value.Id, HouseCard = _houseRevealer.Card.Value.Id });
-            }
-        }
-
         private void StartNewTurn(TurnFinished e)
         {
-            _houseRevealer.IsRevealed = _player == Player.House;
-            _cowboyRevealer.IsRevealed = _player == Player.Cowboy;
-            _houseRevealer.Card = new Optional<Card>();
-            _cowboyRevealer.Card = new Optional<Card>();
             _data[_player].Hand.AddCards(_data[_player].Deck.DrawCards(2));
         }
     }

@@ -3,11 +3,8 @@ using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.UserInterface;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonoDragons.GGJ.Gameplay
 {
@@ -27,6 +24,13 @@ namespace MonoDragons.GGJ.Gameplay
                 var ii = i;
                 Branch.Add(new SimpleClickable(new Rectangle(100 + i * (Card.WIDTH + 50), 850 - Card.HEIGHT, Card.WIDTH, Card.HEIGHT), () => CardSelected(ii)));
             }
+            Event.Subscribe<CardSelected>(OnCardSelected, this);
+        }
+
+        private void OnCardSelected(CardSelected e)
+        {
+            if (e.Player == _player)
+                DiscardAll();
         }
 
         public void AddCards(List<Card> cards)
@@ -37,7 +41,8 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void AddCard(Card card)
         {
-            Branch.Add(new SimpleClickable(new Rectangle(100 + Cards.Count() * 100, 700, Card.WIDTH, Card.HEIGHT), () => CardSelected(Cards.Count())));
+            var index = Cards.Count();
+            Branch.Add(new SimpleClickable(new Rectangle(100 + index * (Card.WIDTH + 50), 850 - Card.HEIGHT, Card.WIDTH, Card.HEIGHT), () => CardSelected(index)));
             Cards.Add(card);
         }
 
@@ -52,7 +57,7 @@ namespace MonoDragons.GGJ.Gameplay
                 Cards[i].Draw(new Transform2(new Vector2(100 + i * (Card.WIDTH + 50), 850 - Card.HEIGHT)));
         }
 
-        public void Empty()
+        public void DiscardAll()
         {
             Cards.Clear();
             Branch.ClearElements();
