@@ -53,6 +53,8 @@ namespace MonoDragons.GGJ.Gameplay
                 Queue("no-attack");
             else if (e.Type == CardType.Defend)
                 Queue("no-defend");
+            else if (e.Type == CardType.Charge)
+                Queue("no-charge");
             else
                 _nextStatuses.Add(new Label {Text = $"No {e.Type}"});
         }
