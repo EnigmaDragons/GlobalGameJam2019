@@ -47,7 +47,14 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.ShippingBoxesWall),
                         CreateCard(CardName.SpinningFanBlades),
                         CreateCard(CardName.RoombaAttack),
-                        CreateCard(CardName.PowerCordTrip))));
+                        CreateCard(CardName.PowerCordTrip),
+                        
+                        CreateCard(CardName.BedderLuckNextTime),
+                        CreateCard(CardName.PillowFight),
+                        CreateCard(CardName.Resting),
+                        CreateCard(CardName.PillowFort),
+                        CreateCard(CardName.ThatsCurtainsForYou),
+                        CreateCard(CardName.MonsterUnderTheBed))));
 
             _house.Initialized(Enemies.Create(Enemy.Bed));
         }

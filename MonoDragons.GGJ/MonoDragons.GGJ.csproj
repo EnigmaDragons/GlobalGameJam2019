@@ -64,6 +64,8 @@
     <Compile Include="GGJ\Gameplay\Events\BlockRecievedMultiplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardTypeLocked.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardResolutionBegun.cs" />
+    <Compile Include="GGJ\Gameplay\Events\EnergyGained.cs" />
+    <Compile Include="GGJ\Gameplay\Events\EnergyLossed.cs" />
     <Compile Include="GGJ\Gameplay\Events\StatusApplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\CounterEffectQueued.cs" />
     <Compile Include="GGJ\Gameplay\Events\CountersProcessed.cs" />
@@ -381,6 +383,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\SmartHouseCard10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard13.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard15.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\SmartHouseCard2.png">
