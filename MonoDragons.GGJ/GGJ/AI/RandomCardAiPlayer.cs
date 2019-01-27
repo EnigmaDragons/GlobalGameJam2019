@@ -9,11 +9,11 @@ namespace MonoDragons.GGJ.AI
         private readonly GameData _data;
         private readonly PlayerCards _cards;
 
-        public RandomCardAiPlayer(Player player, GameData data)
+        public RandomCardAiPlayer(Player player, GameData data, PlayerCards cards)
         {
             _player = player;
             _data = data;
-            _cards = new PlayerCards(player, data);
+            _cards = cards;
             Event.Subscribe<HandDrawn>(OnHandDrawn, this);
         }
 

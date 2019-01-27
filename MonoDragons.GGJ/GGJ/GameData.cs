@@ -9,11 +9,13 @@ namespace MonoDragons.GGJ
     {
         public int CurrentCardId { get; set; } = 0;
         public int CurrentTurn { get; set; }
-        public Phase CurrentPhase { get; set; }
+        public Phase CurrentPhase { get; set; } = Phase.Setup;
         public int CurrentLevel { get; set; } = 0;
         public Dictionary<int, CardState> AllCards { get; } = new Dictionary<int, CardState>();
         public CharacterState CowboyState { get; set; }
         public CharacterState HouseState { get; set; }
+        public int InitialSeed { get; set; } = Guid.NewGuid().GetHashCode();
+        public int TimesSeedHasBeenUsed { get; set; } = 0;
 
         public void InitLevel(int level, CharacterState cowboy, CharacterState house)
         {

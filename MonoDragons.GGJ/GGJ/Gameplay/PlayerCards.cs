@@ -11,13 +11,15 @@ namespace MonoDragons.GGJ.Gameplay
     {
         private readonly Player _player;
         private readonly GameData _data;
+        private readonly GameRng _rng;
         private PlayerCardsState _state => _data[_player].Cards;
         private int _currentTurn = -1;
 
-        public PlayerCards(Player player, GameData data)
+        public PlayerCards(Player player, GameData data, GameRng rng)
         {
             _player = player;
             _data = data;
+            _rng = rng;
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<CardSelected>(OnCardSelected, this);
             Event.Subscribe<TurnStarted>(OnTurnStarted, this);
@@ -98,7 +100,7 @@ namespace MonoDragons.GGJ.Gameplay
             {
                 if (_state.DrawZone.Count == 0)
                     Reshuffle();
-                var card = _state.DrawZone.Random();
+                var card = _rng.Random(_state.DrawZone);
                 _state.DrawZone.Remove(card);
                 cards.Add(card);
             }

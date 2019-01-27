@@ -19,30 +19,36 @@ namespace MonoDragons.GGJ.Scenes
         private readonly Mode _mode;
         private CardRevealer _cowboyRevealer;
         private CardRevealer _houseRevealer;
-        private GameData _data;
+        private readonly GameData _data;
         private HandView _handView;
 
-        public GameScene(Player player, Mode mode)
+        public GameScene(GameConfigured gameOptionSelected, bool isHost)
         {
-            _player = player;
-            _mode = mode;
+            _player = isHost ? gameOptionSelected.HostRole : (gameOptionSelected.HostRole == Player.Cowboy ? Player.House : Player.Cowboy);
+            _mode = gameOptionSelected.Mode;
+            _data = gameOptionSelected.StartingData;
         }
 
         public override void Init()
         {
+            var rng = new GameRng(_data);
             Sound.Music("fight-it").Play();
-            _data = new GameData();
             State<GameData>.Init(_data);
             var houseChars = new HouseCharacters();
             Add(new LevelProgression(_data, houseChars));
-            Add(new PlayerCards(_player, _data));
             Add(new CardEffectProcessor(_data));
             Add(new NextTurnEffectProcessor());
             Add(new CounterEffectProcessor(_data));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
+            var cowboyCards = new PlayerCards(Player.Cowboy, _data, rng);
+            Add(cowboyCards);
+            var houseCards = new PlayerCards(Player.House, _data, rng);
+            Add(houseCards);
             if (_mode == Mode.SinglePlayer)
-                Add(new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy, _data));
+                Add(new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy,
+                    _data,
+                    _player == Player.Cowboy ? houseCards : cowboyCards));
 
             Add(new PhaseTransitions(_data));
             Add(new LevelBackground("House/level1"));
@@ -78,7 +84,6 @@ namespace MonoDragons.GGJ.Scenes
                     Event.Publish(new NextLevelRequested { Level = 1 });
             }));
             
-            Event.Publish(new NextLevelRequested { Level = 1 });
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
         }
 

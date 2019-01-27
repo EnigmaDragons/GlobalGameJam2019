@@ -12,6 +12,7 @@ using MonoDragons.Core.Network;
 using MonoDragons.Core.Render;
 using MonoDragons.Core.Scenes;
 using MonoDragons.GGJ;
+using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.Scenes;
 
 namespace MonoDragons.Core
@@ -38,7 +39,7 @@ namespace MonoDragons.Core
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
                 netArgs = args.Length == 0 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
 #endif
-                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Game", new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
+                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
                     game.Run();
             }, ErrorHandler.Handle);
         }
@@ -58,7 +59,7 @@ namespace MonoDragons.Core
             {
                 { "Logo", () => new SimpleLogoScene("Lobby", EnigmaDragonsResources.LogoImage) },
                 { "Lobby", () => new LobbyScene(args) },
-                { "Game", () => new GameScene(Player.Cowboy, Mode.SinglePlayer) },
+                { "Game", () => new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true) },
                 { "UI", () => new UiTestScene()}
             });
         }
