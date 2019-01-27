@@ -11,6 +11,6 @@
     {
         public Player Target { get; set; }
         public MultiplierType Type { get; set; }
-        public decimal Multiplier => (int)Type * 2.0m;
+        public decimal Multiplier => (int)Type * (1 / 2);
     }
 }
