@@ -253,6 +253,8 @@ namespace MonoDragons.GGJ.Data
                         Event = new DamageTakenMultiplied { Target = Player.Cowboy, Type = MultiplierType.Zero } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
                         Event = new PlayerDamageProposed { Target = Player.House, Amount = 3 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new CardCountered { CounteringPlayer = Player.Cowboy } });
                 }},
             { CardName.Lasso, data =>
                 {
@@ -266,6 +268,8 @@ namespace MonoDragons.GGJ.Data
                         Event = new CardTypeLocked { Target = Player.House, Type = CardType.Charge } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
                         Event = new CardTypeLocked { Target = Player.House, Type = CardType.Counter } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
+                        Event = new CardCountered { CounteringPlayer = Player.Cowboy } });
                 } },
             { CardName.Ricochet, data =>
                 {
@@ -273,6 +277,8 @@ namespace MonoDragons.GGJ.Data
                         Event = new BlockRecievedMultiplied { Target = Player.House, Type = MultiplierType.Zero } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
                         Event = new PlayerDamageProposed { Target = Player.House, Amount = 8 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
+                        Event = new CardCountered { CounteringPlayer = Player.Cowboy } });
                 } },
             { CardName.BothBarrels, data =>
                 {
@@ -349,6 +355,8 @@ namespace MonoDragons.GGJ.Data
                 {
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Charge,
                         Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 12 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Charge,
+                        Event = new CardCountered { CounteringPlayer = Player.House } });
                 } },
             { CardName.RoombaAttack, data =>
                 {
@@ -358,6 +366,8 @@ namespace MonoDragons.GGJ.Data
                         Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Defend }});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Defend,
                         Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 6 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Defend,
+                        Event = new CardCountered { CounteringPlayer = Player.House } });
                 } },
             { CardName.PowerCordTrip, data =>
                 {
@@ -371,6 +381,8 @@ namespace MonoDragons.GGJ.Data
                         Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Charge }});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
                         Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Counter }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
+                        Event = new CardCountered { CounteringPlayer = Player.House }});
                 } },
 
             { CardName.BedderLuckNextTime, data =>
@@ -425,6 +437,8 @@ namespace MonoDragons.GGJ.Data
                         Event = new PlayerDamageProposed {Amount = 10, Target = Player.Cowboy}});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
                         Event = new HandSizeAdjusted { Adjustment = -2, Target = Player.Cowboy }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
+                        Event = new CardCountered { CounteringPlayer = Player.House }});
                 } },
             { CardName.HammerDownload, data =>
                 {
