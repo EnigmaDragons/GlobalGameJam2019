@@ -71,13 +71,21 @@ namespace MonoDragons.GGJ.Gameplay
                 State.DamageTakenMultipliers.Add(e.Multiplier);
         }
 
+        private void OnBlockRecievedMultiplied(BlockRecievedMultiplied e)
+        {
+            if (e.Target == _player)
+                State.BlockRecievedMultiplier.Add(e.Multiplier);
+        }
+
         private void Resolve()
         {
             var incomingDamage = State.IncomingDamage;
             State.DamageTakenMultipliers.ForEach(x => incomingDamage = x * incomingDamage);
-            if (incomingDamage > State.AvailableBlock)
+            var availableBlock = State.AvailableBlock;
+            State.BlockRecievedMultiplier.ForEach(x => availableBlock = availableBlock * x);
+            if (incomingDamage > availableBlock)
             {
-                Event.Publish(new PlayerDamaged { Amount = incomingDamage - State.AvailableBlock, Target = State.Player });
+                Event.Publish(new PlayerDamaged { Amount = incomingDamage - availableBlock, Target = State.Player });
                 State.OnDamaged.ForEach(Event.Publish);
             }
             else
@@ -100,6 +108,7 @@ namespace MonoDragons.GGJ.Gameplay
             State.OnNotDamaged = new List<object>();
             State.OnDamaged = new List<object>();
             State.DamageTakenMultipliers = new List<int>();
+            State.BlockRecievedMultiplier = new List<int>();
         }
     }
 }

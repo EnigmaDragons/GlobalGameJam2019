@@ -67,6 +67,11 @@
             "Name": "Lasso",
             "Type": "Counter",
             "Effect": "If the opponent chose Charge, next turn you deal double damage and the opponent must pass"
+        },
+        {
+            "Name": "Ricochet",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Defend, you deal 8 damage ignoring block"
         }
     ],
     "Blueprint": 

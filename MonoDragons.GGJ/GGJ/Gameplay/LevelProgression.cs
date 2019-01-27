@@ -30,7 +30,8 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.LightTheFuse),
                         CreateCard(CardName.Barricade),
                         CreateCard(CardName.QuickDraw),
-                        CreateCard(CardName.Lasso))),
+                        CreateCard(CardName.Lasso),
+                        CreateCard(CardName.Ricochet))),
                 new CharacterState(Player.House, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),

@@ -23,6 +23,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.Barricade, s => new Card(s, "CowboyCard8") },
             { CardName.QuickDraw, s => new Card(s, "CowboyCard9")  },
             { CardName.Lasso, s => new Card(s, "CowboyCard10")  },
+            { CardName.Ricochet, s => new Card(s, "CowboyCard11")  },
 
             { CardName.HousePass, s => new Card(s, "SmartHouseCard0") },
             { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1") },
@@ -45,6 +46,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.Barricade, CardType.Defend },
             { CardName.QuickDraw, CardType.Counter },
             { CardName.Lasso, CardType.Counter },
+            { CardName.Ricochet, CardType.Counter },
 
             { CardName.HousePass, CardType.Pass },
             { CardName.ElectricShockSuperAttack, CardType.Attack },
@@ -119,6 +121,13 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
                         Event = new CardTypeLocked { Target = Player.House, Type = CardType.Counter } });
                 } },
+            { CardName.Ricochet, data =>
+                {
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
+                        Event = new BlockRecievedMultiplied { Target = Player.House, Multiplier = 0 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 8 } });
+                } },
 
             { CardName.HousePass, data => {} },
             { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
@@ -153,6 +162,7 @@ namespace MonoDragons.GGJ.Data
         Barricade = 13,
         QuickDraw = 14,
         Lasso = 15,
+        Ricochet = 16,
 
         HousePass = 5,
         ElectricShockSuperAttack = 6,
