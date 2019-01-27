@@ -22,7 +22,7 @@ namespace MonoDragons.GGJ.Gameplay
                 new CharacterState(Player.Cowboy, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.CowboyPass),
-                        CreateCard(CardName.CrackShot),
+                        CreateCard(CardName.SixShooter),
                         CreateCard(CardName.FanTheHammer),
                         CreateCard(CardName.GunsBlazing),
                         CreateCard(CardName.ShowDown),
@@ -32,7 +32,8 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.QuickDraw),
                         CreateCard(CardName.Lasso),
                         CreateCard(CardName.Ricochet),
-                        CreateCard(CardName.BothBarrels))),
+                        CreateCard(CardName.BothBarrels),
+                        CreateCard(CardName.CrackShot))),
                 new CharacterState(Player.House, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),

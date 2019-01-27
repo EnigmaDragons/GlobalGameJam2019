@@ -19,7 +19,7 @@
             "Effect": ""
         },
         {
-            "Name": "Crack Shot",
+            "Name": "Six Shooter",
             "Type": "Attack",
             "Effect": "Deal 3 Damage"
         },
@@ -77,6 +77,11 @@
             "Name": "Both Barrels",
             "Type": "Attack",
             "Effect": "Deal 2 Damage, if the opponent chose Attack, Deal 2 more"
+        },
+        {
+            "Name": "Crack Shot",
+            "Type": "Attack",
+            "Effect": "Deal 2 Damage, if the opponent chose Charge, Deal 3 more"
         }
     ],
     "Blueprint": 
