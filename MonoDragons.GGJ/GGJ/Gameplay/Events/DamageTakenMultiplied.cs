@@ -1,8 +1,8 @@
 ﻿namespace MonoDragons.GGJ.Gameplay.Events
 {
-    public class OnNotDamagedEffectQueued
+    public class DamageTakenMultiplied
     {
         public Player Target { get; set; }
-        public object Event { get; set; }
+        public int Multiplier { get; set; }
     }
 }

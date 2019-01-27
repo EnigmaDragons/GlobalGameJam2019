@@ -60,6 +60,7 @@
     <Compile Include="GGJ\Gameplay\Events\AllCardsRevealed.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardTypeLocked.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardResolutionBegun.cs" />
+    <Compile Include="GGJ\Gameplay\Events\DamageTakenMultiplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\FinishedLevel.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandDrawn.cs" />
     <Compile Include="GGJ\Gameplay\Events\LevelSetup.cs" />
@@ -321,6 +322,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\CowboyCard4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\CowboyCard5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\CowboyCard6.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\SmartHouseCard0.png">
