@@ -22,6 +22,7 @@ namespace MonoDragons.GGJ.Gameplay
             HP = hp;
             Cards = cards;
             OnNotDamaged = new List<object>();
+            OnDamaged = new List<object>();
             DamageTakenMultipliers = new List<int>();
         }
     }

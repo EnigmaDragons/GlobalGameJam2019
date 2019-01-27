@@ -34,13 +34,14 @@ namespace MonoDragons.GGJ.Scenes
             Add(new LevelProgression(_data, houseChars));
             Add(new PlayerCards(_player, _data));
             Add(new CardEffectProcessor(_data));
+            Add(new NextTurnEffectProcessor());
+            Add(new CounterEffectProcessor(_data));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
 
             Add(new PhaseTransitions(_data));
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
-            Add(new NextTurnEffectProcessor());
             Add(new Cowboy());
             Add(houseChars);
             Add(new Bed());

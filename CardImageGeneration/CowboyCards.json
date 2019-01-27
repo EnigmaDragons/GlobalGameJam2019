@@ -57,6 +57,11 @@
             "Name": "Barricade",
             "Type": "Defend",
             "Effect": "Block 3 Damage this turn and next turn"
+        },
+        {
+            "Name": "Quick Draw",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Attack, they deal no Damage and you deal 3 Damage"
         }
     ],
     "Blueprint": 

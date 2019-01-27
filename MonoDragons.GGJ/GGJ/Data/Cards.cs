@@ -21,6 +21,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.RushTheEnemy, s => new Card(s, "CowboyCard6") },
             { CardName.LightTheFuse, s => new Card(s, "CowboyCard7") },
             { CardName.Barricade, s => new Card(s, "CowboyCard8") },
+            { CardName.QuickDraw, s => new Card(s, "CowboyCard9")  },
 
             { CardName.HousePass, s => new Card(s, "SmartHouseCard0") },
             { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1") },
@@ -41,6 +42,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.RushTheEnemy, CardType.Attack },
             { CardName.LightTheFuse, CardType.Charge },
             { CardName.Barricade, CardType.Defend },
+            { CardName.QuickDraw, CardType.Counter },
 
             { CardName.HousePass, CardType.Pass },
             { CardName.ElectricShockSuperAttack, CardType.Attack },
@@ -95,6 +97,11 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 });
                     Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 } });
                 } },
+            { CardName.QuickDraw, data =>
+                {
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack, Event = new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 0 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack, Event = new PlayerDamageProposed { Target = Player.House, Amount = 3 } });
+                }},
 
             { CardName.HousePass, data => {} },
             { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
@@ -127,6 +134,7 @@ namespace MonoDragons.GGJ.Data
         RushTheEnemy = 11,
         LightTheFuse = 12,
         Barricade = 13,
+        QuickDraw = 14,
 
         HousePass = 5,
         ElectricShockSuperAttack = 6,
