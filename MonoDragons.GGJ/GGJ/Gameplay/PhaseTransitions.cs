@@ -1,5 +1,6 @@
 ﻿using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
+using MonoDragons.GGJ.Gameplay.Events;
 using MonoDragons.GGJ.UiElements.Events;
 using System;
 using System.Collections.Generic;
@@ -95,6 +96,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void OnTurnStarted()
         {
             _gameData.CurrentPhase = Phase.SelectingCards;
+            Event.Publish(new DataStabilized(_gameData));
         }
         
         public void Update(TimeSpan delta)

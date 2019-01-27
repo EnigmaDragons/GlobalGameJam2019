@@ -42,6 +42,8 @@
     <StartupObject>MonoDragons.Core.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GGJ\DataSaver.cs" />
+    <Compile Include="GGJ\Gameplay\Events\DataStabilized.cs" />
     <Compile Include="GGJ\Gameplay\Characters\Computer.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandSizeAdjusted.cs" />
     <Compile Include="GGJ\Gameplay\Events\LastPlayedTypeLocked.cs" />
