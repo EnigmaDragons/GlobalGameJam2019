@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
+using MonoDragons.Core.Animations;
 using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
+using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements;
@@ -16,7 +19,7 @@ namespace MonoDragons.GGJ.Scenes
     {
         private const string AppId = "Bed Dead Redemption";
         private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfigured) };
-        private readonly Label _hostEndpoint = new Label { Transform = new Transform2(new Vector2(260, 0), new Size2(200, 60)) };
+        private Label _hostEndpoint;
         private readonly NetworkArgs _args;
 
         public LobbyScene(NetworkArgs args)
@@ -30,14 +33,19 @@ namespace MonoDragons.GGJ.Scenes
             
             Add(new Sprite { Image = "Outside/desert_bg", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))});
             Add(new Sprite { Image = "Outside/desert_front", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))});
-            
+            Add(new Sprite { Image = "UI/title", Transform = new Transform2(new Vector2((1600 - 720) / 2, UI.OfScreenHeight(0.062f)), new Size2(720, 355))});
+
             Multiplayer.Disconnect();
-            Add(Buttons.Text("Host", new Point(100, 160), BeginHostingGame));
-            Add(Buttons.Text("Connect", new Point(100, 60), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
-            Add(Buttons.Text("Play Solo", new Point(100, 260), CreateSinglePlayerGame));
-            Add(new Label { Text = "Connect To:", Transform = new Transform2(new Vector2(0, 0), new Size2(400, 60)) });
+            Add(Buttons.Wood("Host Game", UI.OfScreenSize(0.41f, 0.64f).ToPoint(), BeginHostingGame));
+            Add(Buttons.Wood("Connect To Game", UI.OfScreenSize(0.41f, 0.75f).ToPoint(), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
+            Add(Buttons.Wood("Play Solo", UI.OfScreenSize(0.41f, 0.86f).ToPoint(), CreateSinglePlayerGame));
+            Add(new UiImage{ Image = "UI/wood-textbox", Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f))});
+            _hostEndpoint =  new Label { Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), Font = DefaultFont.Medium};
             Add(_hostEndpoint);
             Add(new KeyboardTyping("127.0.0.1:4567").OutputTo(x => _hostEndpoint.Text = x));
+            
+            Add(new ImageButton("Images/logo", "Images/logo-hover", "Images/logo-press", new Transform2(UI.OfScreen(1.0f, 1.0f) - new Vector2(120, 120), new Size2(100, 100)), 
+                () => Process.Start("https://www.enigmadragons.com")));
             
             Logger.Write(_args);
             if (_args.ShouldAutoLaunch && !_args.ShouldHost)
