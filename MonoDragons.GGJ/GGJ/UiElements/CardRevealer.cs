@@ -84,9 +84,9 @@ namespace MonoDragons.GGJ.UiElements
             {
                 CleanupRevelations();
                 if (!_levelIsFinished)
-                    Event.Publish(new AnimationEnded());
+                    Event.Publish(new AnimationEnded("Show Played Card: " + _player));
             }, 2000, false);
-            Event.Publish(new AnimationStarted("Show Played Card"));
+            Event.Publish(new AnimationStarted("Show Played Card: " + _player));
             Event.Publish(new AllCardsRevealed { TurnNumber = e.TurnNumber, CowboyCard = e.CowboyCard, HouseCard = e.HouseCard });
         }
 

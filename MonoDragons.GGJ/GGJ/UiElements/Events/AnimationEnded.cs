@@ -8,5 +8,8 @@ namespace MonoDragons.GGJ.UiElements.Events
 {
     public class AnimationEnded
     {
+        public string Name { get; }
+
+        public AnimationEnded(string name) => Name = name;
     }
 }

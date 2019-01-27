@@ -139,7 +139,7 @@ namespace MonoDragons.GGJ.UiElements
             _totalMovementMs = (float)duration.TotalMilliseconds;
             _onArrived = onFinished;
             _isMoving = true;
-            Event.Publish(new AnimationStarted("Move Cards"));
+            Event.Publish(new AnimationStarted("Move Cards " + _player));
         }
         
         public void Update(TimeSpan delta)
@@ -158,7 +158,7 @@ namespace MonoDragons.GGJ.UiElements
                 for (var i = 0; i < _cards.Count; i++)
                     _positions[i] = Position(i);
                 _onArrived();
-                Event.Publish(new AnimationEnded());
+                Event.Publish(new AnimationEnded("Move Cards " + _player));
             }
         }
     }
