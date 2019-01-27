@@ -191,8 +191,8 @@ namespace MonoDragons.GGJ.Data
                     {
                         Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Cold" });
                         Event.Publish(new StatusRemoved { Target = Player.House, Name = "Cold" });
-                        Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Hot", Events = new List<object> { new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack, Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }}}}});
-                        Event.Publish(new StatusApplied { Target = Player.House, Status = new Status { Name = "Hot", Events = new List<object> { new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack, Event = new PlayerDamageProposed { Target = Player.House, Amount = 1 }}}}});
+                        Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Hot", Events = new List<object> { new DamageEffectQueued { Target = Player.Cowboy, Event = new PlayerDamaged { Target = Player.Cowboy, Amount = 2 }}}}});
+                        Event.Publish(new StatusApplied { Target = Player.House, Status = new Status { Name = "Hot", Events = new List<object> { new DamageEffectQueued { Target = Player.House, Event = new PlayerDamaged { Target = Player.House, Amount = 1 }}}}});
                     }
                 } },
             { CardName.CoolDown, data =>
