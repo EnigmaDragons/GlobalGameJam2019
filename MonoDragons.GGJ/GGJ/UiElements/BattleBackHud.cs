@@ -2,6 +2,7 @@
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.UserInterface;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace MonoDragons.GGJ.UiElements
 {
@@ -19,7 +20,7 @@ namespace MonoDragons.GGJ.UiElements
 
         public void Draw(Transform2 parentTransform)
         {
-            _visuals.ForEach(x => x.Draw());
+            _visuals.ForEach(x => x.Draw(new Transform2(new Vector2(0, 26))));
         }
     }
 }
