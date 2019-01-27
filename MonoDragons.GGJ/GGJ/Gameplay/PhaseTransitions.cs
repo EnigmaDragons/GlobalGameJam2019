@@ -32,8 +32,17 @@ namespace MonoDragons.GGJ.Gameplay
             {
                 if (_gameData.CurrentPhase == Phase.ResolvingCards)
                 {
-                    Event.Publish(new TurnFinished { TurnNumber = _gameData.CurrentTurn });
-                    OnTurnFinished();
+                    if (_gameData.CowboyState.HP <= 0 || _gameData.HouseState.HP <= 0)
+                        _currentLevel++;
+                    if (_gameData.CowboyState.HP <= 0)
+                        Event.Publish(new PlayerDefeated { LevelNumber = _currentLevel, Winner = Player.House, IsGameOver = true });
+                    else if (_gameData.HouseState.HP <= 0)
+                        Event.Publish(new PlayerDefeated { LevelNumber = _currentLevel, Winner = Player.Cowboy, IsGameOver = false });
+                    else
+                    {
+                        Event.Publish(new TurnFinished { TurnNumber = _gameData.CurrentTurn });
+                        OnTurnFinished();
+                    }
                 }
                 else if (_gameData.CurrentPhase == Phase.StartingTurn)
                 {
@@ -61,10 +70,18 @@ namespace MonoDragons.GGJ.Gameplay
             _gameData.CurrentPhase = Phase.ResolvingCards;
             if (_animationsPending == 0)
             {
-                Event.Publish(new TurnFinished { TurnNumber = _gameData.CurrentTurn });
-                OnTurnFinished();
+                if (_gameData.CowboyState.HP <= 0 || _gameData.HouseState.HP <= 0)
+                    _currentLevel++;
+                if (_gameData.CowboyState.HP <= 0)
+                    Event.Publish(new PlayerDefeated { LevelNumber = _currentLevel, Winner = Player.House, IsGameOver = true });
+                else if (_gameData.HouseState.HP <= 0)
+                    Event.Publish(new PlayerDefeated { LevelNumber = _currentLevel, Winner = Player.Cowboy, IsGameOver = false });
+                else
+                {
+                    Event.Publish(new TurnFinished { TurnNumber = _gameData.CurrentTurn });
+                    OnTurnFinished();
+                }
             }
-                
         }
 
         private void OnTurnFinished()
@@ -86,19 +103,6 @@ namespace MonoDragons.GGJ.Gameplay
             {
                 _gameData.CurrentPhase = Phase.SelectingCards;
                 Event.Publish(new NextLevelRequested() { Level = 1 });
-            }
-            if (_currentLevel != _gameData.CurrentLevel) 
-                return;
-
-            if (_animationsPending == 0)
-            {
-                if (_gameData.CowboyState.HP <= 0 || _gameData.HouseState.HP <= 0)
-                    _currentLevel++;
-
-                if (_gameData.CowboyState.HP <= 0)
-                    Event.Publish(new PlayerDefeated { LevelNumber = _currentLevel, Winner = Player.House, IsGameOver = true });
-                else if (_gameData.HouseState.HP <= 0)
-                    Event.Publish(new PlayerDefeated { LevelNumber = _currentLevel, Winner = Player.Cowboy, IsGameOver = false });
             }
         }
 
