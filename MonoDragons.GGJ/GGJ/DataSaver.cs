@@ -1,6 +1,7 @@
 ﻿using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.IO;
 using MonoDragons.GGJ.Gameplay.Events;
+using System;
 
 namespace MonoDragons.GGJ
 {
@@ -16,7 +17,15 @@ namespace MonoDragons.GGJ
 
         private void Save(DataStabilized e)
         {
-            io.Save("Save", e);
+            try
+            {
+                io.Save("Save", e);
+            }
+            catch (Exception x)
+            {
+                Logger.WriteLine("Failed to save!");
+                Logger.Write(x.ToString());
+            }
         }
     }
 }

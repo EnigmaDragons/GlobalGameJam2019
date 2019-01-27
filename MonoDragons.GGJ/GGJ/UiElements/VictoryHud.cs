@@ -24,7 +24,7 @@ namespace MonoDragons.GGJ.UiElements
         {
             _gameOverLabel.IsVisible = () => _shouldDisplaySign;
             var mainMenuButton = new ImageTextButton(new Transform2(UI.OfScreen(0.4f, 0.8f), UI.OfScreenSize(0.20f, 0.10f)), 
-                () => Scene.NavigateTo(new LobbyScene(new NetworkArgs())), "Main Menu", "UI/sign", "UI/sign-hover", "UI/sign-press")
+                () => Scene.NavigateTo(new MainMenuScene(new NetworkArgs())), "Main Menu", "UI/sign", "UI/sign-hover", "UI/sign-press")
                     { Font = DefaultFont.Large, TextColor = UiConsts.DarkBrown };
             Branch.Add(mainMenuButton);
             _visuals = new List<IVisual>

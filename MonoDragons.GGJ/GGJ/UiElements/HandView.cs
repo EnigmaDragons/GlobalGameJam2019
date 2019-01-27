@@ -86,7 +86,7 @@ namespace MonoDragons.GGJ.Gameplay
             const int xMargin = CardView.WIDTH / 5;
             const int width = CardView.WIDTH + xMargin;
             const int height = CardView.HEIGHT;
-            const int xOff = 80;
+            const int xOff = 100;
             const int yOff = 880;
             const bool useFanOutEffect = false;
             var fanOutFactor = useFanOutEffect ? Math.Abs(_currentX - _from) / Math.Abs(_from - _destination) : 1.0f;
