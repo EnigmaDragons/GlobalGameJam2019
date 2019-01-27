@@ -64,7 +64,7 @@ namespace MonoDragons.GGJ.Gameplay
         {
             if (e.LevelNumber > NumLevels)
             {
-                Scene.NavigateTo(new CowboyVictoryScene());
+                Scene.NavigateTo(new CreditsScene(Player.Cowboy));
             }
             else if (!e.IsGameOver && _data.CurrentLevel < e.LevelNumber)
             {
