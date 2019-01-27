@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Gameplay.Events;
 
@@ -17,11 +18,14 @@ namespace MonoDragons.GGJ.Gameplay
             _data = data;
             Event.Subscribe<PlayerDamageProposed>(OnAttacked, this);
             Event.Subscribe<PlayerBlockProposed>(OnDefended, this);
-            Event.Subscribe<OnNotDamagedEffectQueued>(OnNotDamagedEffectQueued, this);
-            Event.Subscribe<OnDamageEffectQueued>(OnDamagedEffectQueued, this);
+            Event.Subscribe<DamageEffectQueued>(OnDamagedEffectQueued, this);
+            Event.Subscribe<NotDamagedEffectQueued>(OnNotDamagedEffectQueued, this);
+            Event.Subscribe<DamageBlockedEffectQueued>(OnDamageBlockedEffectQueued, this);
+            Event.Subscribe<DamageNotBlockedEffectQueued>(OnDamageNotBlockedEffectQueued, this);
             Event.Subscribe<CardSelected>(OnCardTypeSelected, this);
             Event.Subscribe<NextAttackEmpowered>(OnNextAttackEmpowered, this);
             Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
+            Event.Subscribe<BlockRecievedMultiplied>(OnBlockRecievedMultiplied, this);
             Event.Subscribe<CardResolutionBegun>(e => Resolve(), this);
             Event.Subscribe<PlayerDamaged>(OnPlayereDamaged, this);
         }
@@ -38,16 +42,28 @@ namespace MonoDragons.GGJ.Gameplay
                 State.AvailableBlock += e.Amount;
         }
 
-        private void OnNotDamagedEffectQueued(OnNotDamagedEffectQueued e)
+        private void OnDamagedEffectQueued(DamageEffectQueued e)
+        {
+            if (e.Target == _player)
+                State.OnDamaged.Add(e.Event);
+        }
+
+        private void OnNotDamagedEffectQueued(NotDamagedEffectQueued e)
         {
             if (e.Target == _player)
                 State.OnNotDamaged.Add(e.Event);
         }
 
-        private void OnDamagedEffectQueued(OnDamageEffectQueued e)
+        private void OnDamageBlockedEffectQueued(DamageBlockedEffectQueued e)
         {
             if (e.Target == _player)
-                State.OnDamaged.Add(e.Event);
+                State.OnDamageBlocked.Add(e.Event);
+        }
+
+        private void OnDamageNotBlockedEffectQueued(DamageNotBlockedEffectQueued e)
+        {
+            if (e.Target == _player)
+                State.OnDamageNotBlocked.Add(e.Event);
         }
 
         private void OnCardTypeSelected(CardSelected e)
@@ -83,15 +99,20 @@ namespace MonoDragons.GGJ.Gameplay
             State.DamageTakenMultipliers.ForEach(x => incomingDamage = x * incomingDamage);
             var availableBlock = State.AvailableBlock;
             State.BlockRecievedMultiplier.ForEach(x => availableBlock = availableBlock * x);
+            if (availableBlock > 0 && incomingDamage > 0)
+            {
+                Event.Publish(new DamageBlocked { Target = State.Player, Amount = Math.Min(availableBlock, incomingDamage)});
+                State.OnDamageBlocked.ForEach(Event.Publish);
+            }
+            else 
+                State.OnDamageNotBlocked.ForEach(Event.Publish);
             if (incomingDamage > availableBlock)
             {
                 Event.Publish(new PlayerDamaged { Amount = incomingDamage - availableBlock, Target = State.Player });
                 State.OnDamaged.ForEach(Event.Publish);
             }
             else
-            {
                 State.OnNotDamaged.ForEach(Event.Publish);
-            }
             Reset();
         }
 

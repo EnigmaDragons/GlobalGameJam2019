@@ -12,8 +12,10 @@ namespace MonoDragons.GGJ.Gameplay
         public int NextAttackBonus { get; set; }
         public int IncomingDamage { get; set; }
         public int AvailableBlock { get; set; }
-        public List<object> OnNotDamaged { get; set; }
         public List<object> OnDamaged { get; set; }
+        public List<object> OnNotDamaged { get; set; }
+        public List<object> OnDamageBlocked { get; set; }
+        public List<object> OnDamageNotBlocked { get; set; }
         public List<int> DamageTakenMultipliers { get; set; }
         public List<int> BlockRecievedMultiplier { get; set; }
 
@@ -22,8 +24,10 @@ namespace MonoDragons.GGJ.Gameplay
             Player = player;
             HP = hp;
             Cards = cards;
-            OnNotDamaged = new List<object>();
             OnDamaged = new List<object>();
+            OnNotDamaged = new List<object>();
+            OnDamageBlocked = new List<object>();
+            OnDamageNotBlocked = new List<object>();
             DamageTakenMultipliers = new List<int>();
             BlockRecievedMultiplier = new List<int>();
         }

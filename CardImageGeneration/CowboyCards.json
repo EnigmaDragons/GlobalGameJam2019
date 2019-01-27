@@ -82,6 +82,11 @@
             "Name": "Crack Shot",
             "Type": "Attack",
             "Effect": "Deal 2 Damage, if the opponent chose Charge, Deal 3 more"
+        },
+        {
+            "Name": "Reload",
+            "Type": "Defend",
+            "Effect": "Block 2 Damage, if you blocked no damage this turn, your next attack deals 4 more damage"
         }
     ],
     "Blueprint": 
