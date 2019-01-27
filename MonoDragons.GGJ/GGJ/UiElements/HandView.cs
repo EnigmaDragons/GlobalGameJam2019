@@ -17,7 +17,7 @@ namespace MonoDragons.GGJ.UiElements
         public ClickUIBranch Branch { get; private set; }
 
         private readonly GameData _data;
-        private readonly Point _offset;
+        private readonly Point _anchor;
         private CharacterState State => _data[_player];
         private readonly List<CardView> _cards = new List<CardView>();
         private readonly List<bool> _cardIsPlayable = new List<bool>();
@@ -32,12 +32,14 @@ namespace MonoDragons.GGJ.UiElements
         private float _currentX;
         private bool _isMoving;
         private Action _onArrived = () => { };
+        private bool _shouldAnchorLeft;
 
-        public HandView(Player player, GameData data, Vector2 offset)
+        public HandView(Player player, GameData data, Vector2 anchor)
         {
             _player = player;
             _data = data;
-            _offset = offset.ToPoint();
+            _shouldAnchorLeft = _player == Player.Cowboy;
+            _anchor = anchor.ToPoint();
             Branch = new ClickUIBranch("Hand", 1);
             _currentX = _data.CurrentPhase == Phase.Setup ? UI.OfScreenWidth(1.6f) : 0;
             if (_data.CurrentPhase != Phase.Setup)
@@ -102,11 +104,11 @@ namespace MonoDragons.GGJ.UiElements
             const bool useFanOutEffect = false;
             const int xMargin = CardView.WIDTH / 5;
             const int width = CardView.WIDTH + xMargin;
-            //const int height = CardView.HEIGHT;
-            var xOff = _offset.X;
-            var yOff = _offset.Y;
+            var xOff = _shouldAnchorLeft ? _anchor.X : UI.OfScreenWidth(1.0f) - _anchor.X - width;
+            var yOff = _anchor.Y;
             var fanOutFactor = useFanOutEffect ? Math.Abs(_currentX - _from) / Math.Abs(_from - _destination) : 1.0f;
-            return new Vector2(xOff + _currentX + (index * width) * (fanOutFactor), yOff);
+            var xMultiplier = _shouldAnchorLeft ? 1.0f : -1.0f;
+            return new Vector2(xOff + (xMultiplier) * (_currentX + (index * width) * (fanOutFactor)), yOff);
         }
         
         public void Draw(Transform2 parentTransform)
@@ -139,7 +141,7 @@ namespace MonoDragons.GGJ.UiElements
             _totalMovementMs = (float)duration.TotalMilliseconds;
             _onArrived = onFinished;
             _isMoving = true;
-            Event.Publish(new AnimationStarted("Move Cards"));
+            Event.Publish(new AnimationStarted("Move Cards " + _player));
         }
         
         public void Update(TimeSpan delta)
@@ -158,7 +160,7 @@ namespace MonoDragons.GGJ.UiElements
                 for (var i = 0; i < _cards.Count; i++)
                     _positions[i] = Position(i);
                 _onArrived();
-                Event.Publish(new AnimationEnded());
+                Event.Publish(new AnimationEnded("Move Cards " + _player));
             }
         }
     }

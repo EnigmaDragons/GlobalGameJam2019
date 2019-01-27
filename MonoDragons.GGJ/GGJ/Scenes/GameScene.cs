@@ -53,10 +53,11 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
             Add(new PhaseTransitions(_data));
-            Add(new LevelBackground(1));
+            Add(new LevelBackground());
             Add(new BattleBackHud(_player));
             Add(new Cowboy(_data.CurrentPhase));
             Add(houseChars);
+            Add(new CounteredEffect());
             Add(new BattleTopHud(_player, _data));
             Add(new CardRevealer(_data, _player, Player.Cowboy, new Vector2(160, 880 - CardView.HEIGHT)));
             Add(new CardRevealer(_data, _player, Player.House, new Vector2(1600 - CardView.WIDTH - 160, 880 - CardView.HEIGHT)));

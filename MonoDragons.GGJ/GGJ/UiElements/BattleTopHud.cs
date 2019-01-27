@@ -11,6 +11,7 @@ using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.Scenes;
 using System;
 using System.Collections.Generic;
+using MonoDragons.GGJ.UiElements.Events;
 
 namespace MonoDragons.GGJ.UiElements
 {
@@ -64,20 +65,16 @@ namespace MonoDragons.GGJ.UiElements
                 quitButton,
             };
             Event.Subscribe<LevelSetup>(OnLevelSetup, this);
-            Event.Subscribe<FinishedLevel>(OnLevelFinished, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<GameDisconnected>(OnDisconnected, this);
+            Event.Subscribe<FinishedLevel>(e => _shouldDisplaySign = false, this);
+            Event.Subscribe<FinishedCelebrating>(x => _shouldDisplaySign = false, this);
         }
 
         private void OnLevelSetup(LevelSetup e)
         {
             _cowboyHp.Text = _gameData.Get().CowboyState.HP.ToString();
             _houseHp.Text = _gameData.Get().HouseState.HP.ToString();
-        }
-
-        private void OnLevelFinished(FinishedLevel e)
-        {
-            _shouldDisplaySign = false;
         }
 
         private void OnDisconnected(GameDisconnected e)
@@ -107,7 +104,7 @@ namespace MonoDragons.GGJ.UiElements
 
         private void OnPlayerDefeated(PlayerDefeated e)
         {
-            _gameOverLabel.Text = e.Winner == _player ? "You Win!" : "You Defeated!";
+            _gameOverLabel.Text = e.Winner == _player ? "You are Victorious!" : "You have been Defeated!";
             _shouldDisplaySign = true;
             if (e.IsGameOver)
                 _fadeToBlack.Start(() => _isGameOver = e.IsGameOver);

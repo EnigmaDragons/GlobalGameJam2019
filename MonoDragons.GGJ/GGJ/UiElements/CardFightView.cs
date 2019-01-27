@@ -54,7 +54,7 @@ namespace MonoDragons.GGJ.UiElements
                     {
                         _animationsPlaying--;
                         FinishIfAble();
-                        Event.Publish(new AnimationEnded());
+                        Event.Publish(new AnimationEnded("Attack Shown"));
                     }, 2000, false);
                 });
             });
@@ -70,7 +70,7 @@ namespace MonoDragons.GGJ.UiElements
                     {
                         _animationsPlaying--;
                         FinishIfAble();
-                        Event.Publish(new AnimationEnded());
+                        Event.Publish(new AnimationEnded("Defend Shown"));
                     }, 2000, false);
                 });
             });

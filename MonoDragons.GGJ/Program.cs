@@ -39,6 +39,7 @@ namespace MonoDragons.Core
                 MasterVolume.Instance.MusicVolume = 0;
                 DebugLogWindow.Launch();
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
+                DebugLogWindow.Exclude(x => x.StartsWith("GameStab"));
                 netArgs = args.Length == 0 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
 #endif
                 using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Game", new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
@@ -61,9 +62,9 @@ namespace MonoDragons.Core
             {
                 { "Logo", () => new SimpleLogoScene("MainMenu", EnigmaDragonsResources.LogoImage) },
                 { "MainMenu", () => new MainMenuScene(args) },
-                { "Game", () => new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true) },
+                { "Game", () => new GameScene(new GameConfigured(Mode.SinglePlayer, Player.House, new GameData()), true) },
                 { "UI", () => new UiTestScene()},
-                { "Victory", () => new CowboyVictoryScene()}
+                { "Credits", () => new CreditsScene(Player.Cowboy)}
             });
         }
 

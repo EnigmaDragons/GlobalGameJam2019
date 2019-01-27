@@ -28,7 +28,12 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnDamageTakenMultiplied(DamageTakenMultiplied e)
         {
-            if (e.Target == _player)
+            if (e.Target != _player)
+                return;
+            
+            if (e.Type == MultiplierType.Double)
+                _statuses.Add(Image("vulnerable"));
+            else
                 _statuses.Add(new Label { Text = $"x{e.Type.ToString()}", HorizontalAlignment = HorizontalAlignment.Left, Transform = new Transform2(new Size2(150, 50))});
         }
 
@@ -46,6 +51,10 @@ namespace MonoDragons.GGJ.Gameplay
             
             if (e.Type == CardType.Attack)
                 Queue("no-attack");
+            else if (e.Type == CardType.Defend)
+                Queue("no-defend");
+            else if (e.Type == CardType.Charge)
+                Queue("no-charge");
             else
                 _nextStatuses.Add(new Label {Text = $"No {e.Type}"});
         }
@@ -56,9 +65,14 @@ namespace MonoDragons.GGJ.Gameplay
                 Queue($"plus{e.Amount}");
         }
 
-        public void Queue(string status)
+        public void Queue(string name)
         {
-            _nextStatuses.Add(new UiImage { Image = $"UI/{status}", Transform = new Transform2(new Size2(50, 50))});
+            _nextStatuses.Add(Image(name));
+        }
+
+        private UiImage Image(string name)
+        {
+            return new UiImage { Image = $"UI/{name}", Transform = new Transform2(new Size2(50, 50)) };
         }
             
         public void Update(TimeSpan delta)
