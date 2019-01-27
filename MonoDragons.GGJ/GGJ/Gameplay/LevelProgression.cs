@@ -38,9 +38,9 @@ namespace MonoDragons.GGJ.Gameplay
                 new CharacterState(Player.House, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),
-                        CreateCard(CardName.Lazer),
-                        CreateCard(CardName.WaterLeak),
-                        CreateCard(CardName.ElectricShockSuperAttack))));
+                        CreateCard(CardName.FanBlades),
+                        CreateCard(CardName.LightsOut),
+                        CreateCard(CardName.BlindingLights))));
 
             _house.Initialized(Enemies.Create(Enemy.Bed));
         }

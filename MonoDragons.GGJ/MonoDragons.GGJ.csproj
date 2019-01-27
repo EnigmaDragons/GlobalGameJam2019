@@ -63,6 +63,7 @@
     <Compile Include="GGJ\Gameplay\Events\BlockRecievedMultiplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardTypeLocked.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardResolutionBegun.cs" />
+    <Compile Include="GGJ\Gameplay\Events\StatusApplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\CounterEffectQueued.cs" />
     <Compile Include="GGJ\Gameplay\Events\CountersProcessed.cs" />
     <Compile Include="GGJ\Gameplay\Events\DamageBlocked.cs" />
