@@ -17,6 +17,7 @@ namespace MonoDragons.GGJ.UiElements
         private readonly CardView _thinking = new CardView(new CardState { Id = -1, CardName = CardName.None, Type = CardType.Pass }, "Thinking");
         public bool IsRevealed { get; set; }
         private bool _opponentHasChosen;
+        private bool _waitingForOpponent;
         private Transform2 _location;
         private TimerTask _displayTimer;
         private readonly Player _local;
@@ -35,6 +36,7 @@ namespace MonoDragons.GGJ.UiElements
             Event.Subscribe<CardSelected>(OnCardSelect, this);
             Event.Subscribe<AllCardsSelected>(OnCardsSelected, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+            Event.Subscribe<TurnStarted>(x => _waitingForOpponent = true, this);
             Event.Subscribe<LevelSetup>(x => _levelIsFinished = false, this);
         }
 
@@ -47,7 +49,10 @@ namespace MonoDragons.GGJ.UiElements
         private void OnCardSelect(CardSelected e)
         {
             if (e.Player != _player)
+            {
                 _opponentHasChosen = true;
+                _waitingForOpponent = false;
+            }
             else
                 ShowCard(e.CardId);
         }
@@ -62,7 +67,7 @@ namespace MonoDragons.GGJ.UiElements
             var t = parentTransform + _location;
             if (IsRevealed && Card.HasValue)
                 Card.Value.Draw(t);
-            if (!IsRevealed && !_opponentHasChosen)
+            if (_waitingForOpponent && !_opponentHasChosen)
                 _thinking.Draw(t);
         }
 
@@ -88,6 +93,7 @@ namespace MonoDragons.GGJ.UiElements
         private void CleanupRevelations()
         {
             _opponentHasChosen = false;
+            _waitingForOpponent = false;
             Card = new Optional<CardView>();
             if (_local != _player)
                 IsRevealed = false;

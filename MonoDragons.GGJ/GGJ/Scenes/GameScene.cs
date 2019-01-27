@@ -53,7 +53,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
             Add(new PhaseTransitions(_data));
-            Add(new LevelBackground(1));
+            Add(new LevelBackground());
             Add(new BattleBackHud(_player));
             Add(new Cowboy(_data.CurrentPhase));
             Add(houseChars);
