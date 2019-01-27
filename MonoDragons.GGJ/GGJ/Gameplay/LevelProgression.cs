@@ -43,7 +43,8 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.BlindingLights),
                         CreateCard(CardName.DustTheRoom),
                         CreateCard(CardName.HeatUp),
-                        CreateCard(CardName.CoolDown))));
+                        CreateCard(CardName.CoolDown),
+                        CreateCard(CardName.ShippingBoxesWall))));
 
             _house.Initialized(Enemies.Create(Enemy.Bed));
         }

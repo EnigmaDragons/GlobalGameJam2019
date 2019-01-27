@@ -33,7 +33,8 @@ namespace MonoDragons.GGJ.Data
             { CardName.BlindingLights, s => new CardView(s, "SmartHouseCard3") },
             { CardName.DustTheRoom, s => new CardView(s, "SmartHouseCard4") },
             { CardName.HeatUp, s => new CardView(s, "SmartHouseCard5") },
-            { CardName.CoolDown, s => new CardView(s, "SmartHouseCard6") }
+            { CardName.CoolDown, s => new CardView(s, "SmartHouseCard6") },
+            { CardName.ShippingBoxesWall, s => new CardView(s, "SmartHouseCard7") }
         };
 
         private static Dictionary<CardName, CardType> _cardTypes = new Dictionary<CardName, CardType>
@@ -62,7 +63,8 @@ namespace MonoDragons.GGJ.Data
             { CardName.BlindingLights, CardType.Attack },
             { CardName.DustTheRoom, CardType.Attack },
             { CardName.HeatUp, CardType.Charge },
-            { CardName.CoolDown, CardType.Charge }
+            { CardName.CoolDown, CardType.Charge },
+            { CardName.ShippingBoxesWall, CardType.Defend }
         };
 
         private static Dictionary<CardName, Action<GameData>> _cardActions = new Dictionary<CardName, Action<GameData>>
@@ -196,15 +198,16 @@ namespace MonoDragons.GGJ.Data
                     }
                 } },
             { CardName.CoolDown, data =>
-            {
-                if (data.CowboyState.Statuses.All(x => x.Name != "Cold"))
                 {
-                    Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Hot" });
-                    Event.Publish(new StatusRemoved { Target = Player.House, Name = "Hot" });
-                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Cold" }});
-                    Event.Publish(new StatusApplied { Target = Player.House, Status = new Status { Name = "Cold", Events = new List<object> { new PlayerBlockProposed { Target = Player.House, Amount = 1 }}}});
-                }
-            } }
+                    if (data.CowboyState.Statuses.All(x => x.Name != "Cold"))
+                    {
+                        Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Hot" });
+                        Event.Publish(new StatusRemoved { Target = Player.House, Name = "Hot" });
+                        Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Cold" }});
+                        Event.Publish(new StatusApplied { Target = Player.House, Status = new Status { Name = "Cold", Events = new List<object> { new PlayerBlockProposed { Target = Player.House, Amount = 1 }}}});
+                    }
+                } },
+            { CardName.ShippingBoxesWall, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House }) },
         };
 
         public static CardView Create(CardState s)
@@ -246,5 +249,6 @@ namespace MonoDragons.GGJ.Data
         DustTheRoom = 20,
         HeatUp = 21,
         CoolDown = 22,
+        ShippingBoxesWall = 23,
     }
 }
