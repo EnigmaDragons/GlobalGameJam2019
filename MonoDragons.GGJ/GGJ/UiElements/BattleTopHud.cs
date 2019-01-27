@@ -16,8 +16,9 @@ namespace MonoDragons.GGJ.UiElements
 {
     class BattleTopHud : IVisualAutomaton
     {
-        private readonly Label _cowboyHp = new Label { Transform = new Transform2(UI.OfScreen(0.038f, 0.02f), new Size2(92, 92)) };
-        private readonly Label _houseHp = new Label { Transform = new Transform2(UI.OfScreen(0.9f, 0.02f), new Size2(92, 92)) };
+        private static readonly Size2 HpSize = new Size2(68, 68);
+        private readonly Label _cowboyHp = new Label { Transform = new Transform2(UI.OfScreen(0.008f, 0.65f), HpSize) };
+        private readonly Label _houseHp = new Label { Transform = new Transform2(UI.OfScreen(0.946f, 0.65f), HpSize) };
         private readonly Label _gameOverLabel = new Label { Transform = new Transform2(UI.OfScreen(0.2f, 0.35f), UI.OfScreenSize(0.6f, 0.2f)), 
             Font = DefaultFont.Header, TextColor = UiConsts.DarkBrown };
 
@@ -44,10 +45,8 @@ namespace MonoDragons.GGJ.UiElements
             Branch.Add(quitButton);
             _visuals = new List<IVisual>
             {
-                new UiImage { Image= "UI/wood-box", Transform = new Transform2(UI.OfScreen(-0.04f, -0.14f), new Size2(300, 300))},
-                new UiImage { Image= "UI/wood-box", Transform = new Transform2(UI.OfScreen(0.85f, -0.14f), new Size2(300, 300))},
-                new UiImage { Image= "UI/heart", Transform = new Transform2(UI.OfScreen(0.038f, 0.02f), new Size2(92, 92))},
-                new UiImage { Image= "UI/heart", Transform = new Transform2(UI.OfScreen(0.9f, 0.02f), new Size2(92, 92))},
+                new UiImage { Image= "UI/heart", Transform = new Transform2(UI.OfScreen(0.008f, 0.65f), HpSize)},
+                new UiImage { Image= "UI/heart", Transform = new Transform2(UI.OfScreen(0.946f, 0.65f), HpSize)},
                 _cowboyHp,
                 _houseHp,
                 new UiColoredRectangle { Color = Color.FromNonPremultiplied(0, 0, 0, 160), IsActive = () => _isDisconnected, Transform = new Transform2(new Size2(1920, 1680))},

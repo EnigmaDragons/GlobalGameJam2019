@@ -47,7 +47,7 @@ namespace MonoDragons.GGJ.Scenes
 
             Add(new PhaseTransitions(_data));
             Add(new LevelBackground("House/level1"));
-            Add(new BattleBackHud());
+            Add(new BattleBackHud(_player));
             Add(new Cowboy());
             Add(houseChars);
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
