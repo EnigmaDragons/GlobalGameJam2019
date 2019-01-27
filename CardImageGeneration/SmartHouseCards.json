@@ -76,10 +76,10 @@
                 "FontStyle": "^Bold",
                 "Content": "~Effect",
                 "FontSize": "40",
-                "X": "80",
-                "Y": "580",
-                "Width": "610",
-                "Height": "350"
+                "X": "100",
+                "Y": "590",
+                "Width": "550",
+                "Height": "390"
             }
         ]
     }
