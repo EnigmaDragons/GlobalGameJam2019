@@ -52,8 +52,10 @@ namespace MonoDragons.GGJ.Scenes
             Add(new LastPlayedTypeLockProcessor(_data));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
-            Add(new PlayerCards(Player.Cowboy, _data, rng));
-            Add(new PlayerCards(Player.House, _data, rng));
+            var cowboyCards = new PlayerCards(Player.Cowboy, _data, rng);
+            Add(cowboyCards);
+            var houseCards = new PlayerCards(Player.House, _data, rng);
+            Add(houseCards);
             Add(new PhaseTransitions(_data));
             Add(new LevelBackground(1));
             Add(new BattleBackHud(_player));
@@ -68,7 +70,7 @@ namespace MonoDragons.GGJ.Scenes
             {
                 var ai = new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy,
                     _data,
-                    _player == Player.Cowboy ? new PlayerCards(Player.House, _data, rng) : new PlayerCards(Player.Cowboy, _data, rng));
+                    _player == Player.Cowboy ? houseCards : cowboyCards);
                 Add(ai);
             }
 
