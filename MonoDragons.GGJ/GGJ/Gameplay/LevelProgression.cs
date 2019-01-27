@@ -1,10 +1,13 @@
 ﻿using MonoDragons.Core.EventSystem;
+using MonoDragons.Core.Scenes;
 using MonoDragons.GGJ.Data;
+using MonoDragons.GGJ.Scenes;
 
 namespace MonoDragons.GGJ.Gameplay
 {
     public sealed class LevelProgression
     {
+        private const int NumLevels = 2;
         private readonly GameData _data;
         private readonly HouseCharacters _house;
 
@@ -62,7 +65,11 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnLevelFinished(FinishedLevel e)
         {
-            if (!e.IsGameOver && _data.CurrentLevel < e.LevelNumber)
+            if (e.LevelNumber > NumLevels)
+            {
+                Scene.NavigateTo(new CowboyVictoryScene());
+            }
+            else if (!e.IsGameOver && _data.CurrentLevel < e.LevelNumber)
             {
                 Event.Publish(new NextLevelRequested { Level = _data.CurrentLevel + 1 });
                 Logger.WriteLine("-----------------------------------------------------");

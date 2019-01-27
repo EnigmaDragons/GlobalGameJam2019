@@ -27,6 +27,10 @@ namespace MonoDragons.GGJ.Scenes
         public override void Init()
         {
             Sound.Music("The_Cowboy_Theme").Play();
+            
+            Add(new Sprite { Image = "Outside/desert_bg", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))});
+            Add(new Sprite { Image = "Outside/desert_front", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))});
+            
             Multiplayer.Disconnect();
             Add(Buttons.Text("Host", new Point(100, 160), BeginHostingGame));
             Add(Buttons.Text("Connect", new Point(100, 60), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
