@@ -1,5 +1,6 @@
 ﻿using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
+using MonoDragons.GGJ.UiElements.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace MonoDragons.GGJ.Gameplay
     public class PhaseTransitions : IAutomaton
     {
         private readonly GameData _gameData;
-        private int _currentTurn = 0;
         private int _currentLevel = 0;
+        private int _animationsPending = 0;
 
         private List<CardSelected> _selections = new List<CardSelected>();
 
@@ -18,11 +19,27 @@ namespace MonoDragons.GGJ.Gameplay
         {
             _currentLevel = gameData.CurrentLevel;
             _gameData = gameData;
-            Event.Subscribe<TurnStarted>(OnTurnStarted, this);
             Event.Subscribe<CardSelected>(CardSelected, this);
-            Event.Subscribe<TurnFinished>(OnTurnFinished, this);
+            Event.Subscribe<AnimationStarted>(e => _animationsPending++, this);
+            Event.Subscribe<AnimationEnded>(AnimationEnded, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<LevelSetup>(OnLevelSetup, this);
+        }
+
+        private void AnimationEnded(AnimationEnded obj)
+        {
+            if(--_animationsPending == 0)
+            {
+                if (_gameData.CurrentPhase == Phase.ResolvingCards)
+                {
+                    Event.Publish(new TurnFinished());
+                    OnTurnFinished();
+                }
+                else if (_gameData.CurrentPhase == Phase.StartingTurn)
+                {
+                    OnTurnStarted();
+                }
+            }
         }
 
         private void OnLevelSetup(LevelSetup e)
@@ -39,25 +56,30 @@ namespace MonoDragons.GGJ.Gameplay
                 _gameData.CurrentPhase = Phase.LeavingLevel;
         }
 
-        private void OnTurnStarted(TurnStarted e)
+        private void OnAllCardsSelected()
         {
-            if (e.TurnNumber < _currentTurn)
-                return;
+            _gameData.CurrentPhase = Phase.ResolvingCards;
+            if (_animationsPending == 0)
+            {
+                Event.Publish(new TurnFinished());
+                OnTurnFinished();
+            }
+                
+        }
 
-            _gameData.CurrentTurn = e.TurnNumber;
+        private void OnTurnFinished()
+        {
+            Event.Publish(new TurnStarted { TurnNumber = ++_gameData.CurrentTurn });
             _gameData.CurrentPhase = Phase.StartingTurn;
-            _currentTurn = e.TurnNumber;
+            if (_animationsPending == 0)
+                OnTurnStarted();
         }
 
-        private void OnTurnFinished(TurnFinished e)
+        private void OnTurnStarted()
         {
-            if (e.TurnNumber < _currentTurn)
-                return; 
-
-            _gameData.CurrentTurn = e.TurnNumber + 1;
-            Event.Publish(new TurnStarted { TurnNumber = _gameData.CurrentTurn });
+            _gameData.CurrentPhase = Phase.SelectingCards;
         }
-
+        
         public void Update(TimeSpan delta)
         {
             if (_currentLevel != _gameData.CurrentLevel) 
@@ -85,6 +107,7 @@ namespace MonoDragons.GGJ.Gameplay
                     HouseCard = _selections.First(x => x.Player == Player.House).CardId
                 });
                 _selections = new List<CardSelected>();
+                OnAllCardsSelected();
             }
         }
     }
