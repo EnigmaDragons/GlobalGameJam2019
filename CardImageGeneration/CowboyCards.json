@@ -37,6 +37,11 @@
             "Name": "Duck And Cover",
             "Type": "Defend",
             "Effect": "Block 5 Damage"
+        },
+        {
+            "Name": "Show Down",
+            "Type": "Charge",
+            "Effect": "If you took no damage this turn, gain +6 damage to your next attack"
         }
     ],
     "Blueprint": 

@@ -24,8 +24,9 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.CowboyPass),
                         CreateCard(CardName.CrackShot),
                         CreateCard(CardName.FanTheHammer),
-                        CreateCard(CardName.GunsBlazing))),
-                new CharacterState(Player.House, 3,
+                        CreateCard(CardName.GunsBlazing),
+                        CreateCard(CardName.ShowDown))),
+                new CharacterState(Player.House, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),
                         CreateCard(CardName.Lazer),
