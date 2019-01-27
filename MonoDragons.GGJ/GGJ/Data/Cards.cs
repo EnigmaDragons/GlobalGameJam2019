@@ -26,6 +26,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.Ricochet, s => new Card(s, "CowboyCard11")  },
             { CardName.BothBarrels, s => new Card(s, "CowboyCard12")  },
             { CardName.CrackShot, s => new Card(s, "CowboyCard13") },
+            { CardName.Reload, s => new Card(s, "CowboyCard14") },
 
             { CardName.HousePass, s => new Card(s, "SmartHouseCard0") },
             { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1") },
@@ -51,6 +52,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.Ricochet, CardType.Counter },
             { CardName.BothBarrels, CardType.Attack },
             { CardName.CrackShot, CardType.Attack },
+            { CardName.Reload, CardType.Defend },
 
             { CardName.HousePass, CardType.Pass },
             { CardName.ElectricShockSuperAttack, CardType.Attack },
@@ -75,7 +77,7 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Defend });
                 } },
             { CardName.DuckAndCover, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.Cowboy }) },
-            { CardName.ShowDown, data => Event.Publish(new OnNotDamagedEffectQueued { Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 6 } }) },
+            { CardName.ShowDown, data => Event.Publish(new NotDamagedEffectQueued { Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 6 } }) },
             { CardName.RushTheEnemy, data =>
                 {
                     Event.Publish(new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 2 });
@@ -85,7 +87,7 @@ namespace MonoDragons.GGJ.Data
                 {
                     Event.Publish(new NextTurnEffectQueued
                     {
-                        Event = new OnDamageEffectQueued
+                        Event = new DamageEffectQueued
                         {
                             Target = Player.House,
                             Event = new PlayerDamaged {Target = Player.House, Amount = 6}
@@ -93,7 +95,7 @@ namespace MonoDragons.GGJ.Data
                     });
                     Event.Publish(new NextTurnEffectQueued
                     {
-                        Event = new OnNotDamagedEffectQueued
+                        Event = new NotDamagedEffectQueued
                         {
                             Target = Player.House,
                             Event = new PlayerDamaged {Target = Player.Cowboy, Amount = 6}
@@ -144,6 +146,12 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
                         Event = new PlayerDamageProposed { Target = Player.House, Amount = 3 }});
                 } },
+            { CardName.Reload, data =>
+                {
+                    Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new DamageNotBlockedEffectQueued { Target = Player.Cowboy,
+                        Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 4 } });
+                } },
 
             { CardName.HousePass, data => {} },
             { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
@@ -181,6 +189,7 @@ namespace MonoDragons.GGJ.Data
         Ricochet = 16,
         BothBarrels = 17,
         CrackShot = 18,
+        Reload = 19,
 
         HousePass = 5,
         ElectricShockSuperAttack = 6,
