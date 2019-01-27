@@ -2,36 +2,34 @@
 using System.Collections.Generic;
 using MonoDragons.Core.EventSystem;
 using System;
-using System.Linq;
 using MonoDragons.GGJ.Gameplay.Events;
 
 namespace MonoDragons.GGJ.Data
 {
     public sealed class Cards
     {
-        private static Dictionary<CardName, Func<CardState, Card>> _cards = new Dictionary<CardName, Func<CardState, Card>> {
-            { CardName.None, s => new Card(s, "CowboyCard0") },
+        private static Dictionary<CardName, Func<CardState, CardView>> _cards = new Dictionary<CardName, Func<CardState, CardView>> {
+            { CardName.None, s => new CardView(s, "CowboyCard0") },
+            { CardName.CowboyPass, s => new CardView(s,"CowboyCard0") },
+            { CardName.SixShooter, s => new CardView(s, "CowboyCard1") },
+            { CardName.FanTheHammer, s => new CardView(s, "CowboyCard2") },
+            { CardName.GunsBlazing, s => new CardView(s, "CowboyCard3") },
+            { CardName.DuckAndCover, s => new CardView(s, "CowboyCard4") },
+            { CardName.ShowDown, s => new CardView(s, "CowboyCard5") },
+            { CardName.RushTheEnemy, s => new CardView(s, "CowboyCard6") },
+            { CardName.LightTheFuse, s => new CardView(s, "CowboyCard7") },
+            { CardName.Barricade, s => new CardView(s, "CowboyCard8") },
+            { CardName.QuickDraw, s => new CardView(s, "CowboyCard9")  },
+            { CardName.Lasso, s => new CardView(s, "CowboyCard10")  },
+            { CardName.Ricochet, s => new CardView(s, "CowboyCard11")  },
+            { CardName.BothBarrels, s => new CardView(s, "CowboyCard12")  },
+            { CardName.CrackShot, s => new CardView(s, "CowboyCard13") },
+            { CardName.Reload, s => new CardView(s, "CowboyCard14") },
 
-            { CardName.CowboyPass, s => new Card(s,"CowboyCard0") },
-            { CardName.SixShooter, s => new Card(s, "CowboyCard1") },
-            { CardName.FanTheHammer, s => new Card(s, "CowboyCard2") },
-            { CardName.GunsBlazing, s => new Card(s, "CowboyCard3") },
-            { CardName.DuckAndCover, s => new Card(s, "CowboyCard4") },
-            { CardName.ShowDown, s => new Card(s, "CowboyCard5") },
-            { CardName.RushTheEnemy, s => new Card(s, "CowboyCard6") },
-            { CardName.LightTheFuse, s => new Card(s, "CowboyCard7") },
-            { CardName.Barricade, s => new Card(s, "CowboyCard8") },
-            { CardName.QuickDraw, s => new Card(s, "CowboyCard9")  },
-            { CardName.Lasso, s => new Card(s, "CowboyCard10")  },
-            { CardName.Ricochet, s => new Card(s, "CowboyCard11")  },
-            { CardName.BothBarrels, s => new Card(s, "CowboyCard12")  },
-            { CardName.CrackShot, s => new Card(s, "CowboyCard13") },
-            { CardName.Reload, s => new Card(s, "CowboyCard14") },
-
-            { CardName.HousePass, s => new Card(s, "SmartHouseCard0") },
-            { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1") },
-            { CardName.WaterLeak, s => new Card(s, "SmartHouseCard2") },
-            { CardName.Lazer, s => new Card(s, "SmartHouseCard3") }
+            { CardName.HousePass, s => new CardView(s, "SmartHouseCard0") },
+            { CardName.ElectricShockSuperAttack, s => new CardView(s, "SmartHouseCard1") },
+            { CardName.WaterLeak, s => new CardView(s, "SmartHouseCard2") },
+            { CardName.Lazer, s => new CardView(s, "SmartHouseCard3") }
         };
 
         private static Dictionary<CardName, CardType> _cardTypes = new Dictionary<CardName, CardType>
@@ -159,7 +157,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.Lazer, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
         };
 
-        public static Card Create(CardState s)
+        public static CardView Create(CardState s)
         {
             s.Type = _cardTypes[s.CardName];
             return _cards[s.CardName](s);

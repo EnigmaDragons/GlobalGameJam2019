@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.UserInterface;
 
 namespace MonoDragons.GGJ.Gameplay
 {
-    public class Card : IVisual
+    public class CardView : IVisual
     {
         //5 : 7 ratio
         public const int WIDTH = 250;
@@ -14,7 +15,7 @@ namespace MonoDragons.GGJ.Gameplay
         public CardState State { get; }
         public int Id => State.Id;
 
-        public Card(CardState state, string imageName)
+        public CardView(CardState state, string imageName)
         {
             State = state;
             _name = imageName;
