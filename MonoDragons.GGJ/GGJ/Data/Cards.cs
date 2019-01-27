@@ -18,6 +18,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.GunsBlazing, s => new Card(s, "CowboyCard3") },
             { CardName.DuckAndCover, s => new Card(s, "CowboyCard4") },
             { CardName.ShowDown, s => new Card(s, "CowboyCard5") },
+            { CardName.RushTheEnemy, s => new Card(s, "CowboyCard6") },
 
             { CardName.HousePass, s => new Card(s, "SmartHouseCard0") },
             { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1") },
@@ -35,6 +36,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.GunsBlazing, CardType.Attack },
             { CardName.DuckAndCover, CardType.Defend },
             { CardName.ShowDown, CardType.Charge },
+            { CardName.RushTheEnemy, CardType.Attack },
 
             { CardName.HousePass, CardType.Pass },
             { CardName.ElectricShockSuperAttack, CardType.Attack },
@@ -60,6 +62,11 @@ namespace MonoDragons.GGJ.Data
                 } },
             { CardName.DuckAndCover, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.Cowboy }) },
             { CardName.ShowDown, data => Event.Publish(new OnNotDamagedEffectQueued { Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 6 } }) },
+            { CardName.RushTheEnemy, data =>
+            {
+                Event.Publish(new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 2 });
+                Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 5 });
+            } },
 
             { CardName.HousePass, data => {} },
             { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
@@ -89,6 +96,7 @@ namespace MonoDragons.GGJ.Data
         GunsBlazing = 4,
         DuckAndCover = 9,
         ShowDown = 10,
+        RushTheEnemy = 11,
 
         HousePass = 5,
         ElectricShockSuperAttack = 6,

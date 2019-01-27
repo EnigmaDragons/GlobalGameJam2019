@@ -9,6 +9,7 @@ namespace MonoDragons.GGJ.Gameplay
         private int _incomingDamage = 0;
         private int _availableBlock = 0;
         private List<object> _onNotDamaged = new List<object>();
+        private List<int> _damageTakenMultipliers = new List<int>();
         private readonly Player _player;
         private readonly GameData _data;
         private CharacterState State => _data[_player];
@@ -23,6 +24,7 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<OnNotDamagedEffectQueued>(OnNotDamagedEffectQueued, this);
             Event.Subscribe<CardSelected>(OnCardTypeSelected, this);
             Event.Subscribe<NextAttackEmpowered>(OnNextAttackEmpowered, this);
+            Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
             Event.Subscribe<CardResolutionBegun>(e => Resolve(), this);
         }
 
@@ -59,11 +61,19 @@ namespace MonoDragons.GGJ.Gameplay
                 State.NextAttackBonus += e.Amount;
         }
 
+        private void OnDamageTakenMultiplied(DamageTakenMultiplied e)
+        {
+            if (e.Target == _player)
+                _damageTakenMultipliers.Add(e.Multiplier);
+        }
+
         private void Resolve()
         {
-            if (_incomingDamage > _availableBlock)
+            var incomingDamage = _incomingDamage;
+            _damageTakenMultipliers.ForEach(x => incomingDamage = x * incomingDamage);
+            if (incomingDamage > _availableBlock)
             {
-                var damage = _incomingDamage - _availableBlock;
+                var damage = incomingDamage - _availableBlock;
                 State.HP -= damage;
                 Event.Publish(new PlayerDamaged { Amount = damage, Target = State.Player });
             }
@@ -71,9 +81,15 @@ namespace MonoDragons.GGJ.Gameplay
             {
                 _onNotDamaged.ForEach(Event.Publish);
             }
+            Reset();
+        }
+
+        private void Reset()
+        {
             _incomingDamage = 0;
             _availableBlock = 0;
             _onNotDamaged = new List<object>();
+            _damageTakenMultipliers = new List<int>();
         }
     }
 }

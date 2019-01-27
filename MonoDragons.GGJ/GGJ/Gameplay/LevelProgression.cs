@@ -25,7 +25,8 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.CrackShot),
                         CreateCard(CardName.FanTheHammer),
                         CreateCard(CardName.GunsBlazing),
-                        CreateCard(CardName.ShowDown))),
+                        CreateCard(CardName.ShowDown),
+                        CreateCard(CardName.RushTheEnemy))),
                 new CharacterState(Player.House, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),
