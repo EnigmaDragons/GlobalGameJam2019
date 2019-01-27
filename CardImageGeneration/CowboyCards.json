@@ -71,7 +71,7 @@
         {
             "Name": "Ricochet",
             "Type": "Counter",
-            "Effect": "If the opponent chose Defend, you deal 8 damage ignoring block"
+            "Effect": "If the opponent chose Defend, Deal 8 damage ignoring block"
         },
         {
             "Name": "Both Barrels",

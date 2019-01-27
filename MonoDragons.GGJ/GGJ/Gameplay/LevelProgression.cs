@@ -38,13 +38,16 @@ namespace MonoDragons.GGJ.Gameplay
                 new CharacterState(Player.House, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),
-                        CreateCard(CardName.FanBlades),
+                        CreateCard(CardName.Lamp),
                         CreateCard(CardName.LightsOut),
                         CreateCard(CardName.BlindingLights),
                         CreateCard(CardName.DustTheRoom),
                         CreateCard(CardName.HeatUp),
                         CreateCard(CardName.CoolDown),
-                        CreateCard(CardName.ShippingBoxesWall))));
+                        CreateCard(CardName.ShippingBoxesWall),
+                        CreateCard(CardName.SpinningFanBlades),
+                        CreateCard(CardName.RoombaAttack),
+                        CreateCard(CardName.PowerCordTrip))));
 
             _house.Initialized(Enemies.Create(Enemy.Bed));
         }

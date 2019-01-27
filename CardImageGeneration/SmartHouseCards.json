@@ -19,7 +19,7 @@
             "Effect": ""
         },
         {
-            "Name": "Fan Blades",
+            "Name": "Lamp",
             "Type": "Attack",
             "Effect": "Deal 3 Damage"
         },
@@ -52,6 +52,21 @@
             "Name": "Shipping Boxes Wall",
             "Type": "Defend",
             "Effect": "Block 5 Damage"
+        },
+        {
+            "Name": "Spinning Fan Blades",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Charge, Deal 12 Damage"
+        },
+        {
+            "Name": "Roomba Attack",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Defend, Deal 6 damage ignoring Block, and the opponent cannot choose Defend next turn"
+        },
+        {
+            "Name": "Power Cord Trip",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Attack, Deal 6 damage and the opponent must pass on their next turn"
         }
     ],
     "Blueprint": 

@@ -28,13 +28,16 @@ namespace MonoDragons.GGJ.Data
             { CardName.Reload, s => new CardView(s, "CowboyCard14") },
 
             { CardName.HousePass, s => new CardView(s, "SmartHouseCard0") },
-            { CardName.FanBlades, s => new CardView(s, "SmartHouseCard1") },
+            { CardName.Lamp, s => new CardView(s, "SmartHouseCard1") },
             { CardName.LightsOut, s => new CardView(s, "SmartHouseCard2") },
             { CardName.BlindingLights, s => new CardView(s, "SmartHouseCard3") },
             { CardName.DustTheRoom, s => new CardView(s, "SmartHouseCard4") },
             { CardName.HeatUp, s => new CardView(s, "SmartHouseCard5") },
             { CardName.CoolDown, s => new CardView(s, "SmartHouseCard6") },
-            { CardName.ShippingBoxesWall, s => new CardView(s, "SmartHouseCard7") }
+            { CardName.ShippingBoxesWall, s => new CardView(s, "SmartHouseCard7") },
+            { CardName.SpinningFanBlades, s => new CardView(s, "SmartHouseCard8") },
+            { CardName.RoombaAttack, s => new CardView(s, "SmartHouseCard9") },
+            { CardName.PowerCordTrip, s => new CardView(s, "SmartHouseCard10") }
         };
 
         private static Dictionary<CardName, CardType> _cardTypes = new Dictionary<CardName, CardType>
@@ -58,13 +61,16 @@ namespace MonoDragons.GGJ.Data
             { CardName.Reload, CardType.Defend },
 
             { CardName.HousePass, CardType.Pass },
-            { CardName.FanBlades, CardType.Attack },
+            { CardName.Lamp, CardType.Attack },
             { CardName.LightsOut, CardType.Defend },
             { CardName.BlindingLights, CardType.Attack },
             { CardName.DustTheRoom, CardType.Attack },
             { CardName.HeatUp, CardType.Charge },
             { CardName.CoolDown, CardType.Charge },
-            { CardName.ShippingBoxesWall, CardType.Defend }
+            { CardName.ShippingBoxesWall, CardType.Defend },
+            { CardName.SpinningFanBlades, CardType.Counter },
+            { CardName.RoombaAttack, CardType.Counter },
+            { CardName.PowerCordTrip, CardType.Counter }
         };
 
         private static Dictionary<CardName, Action<GameData>> _cardActions = new Dictionary<CardName, Action<GameData>>
@@ -161,7 +167,7 @@ namespace MonoDragons.GGJ.Data
                 } },
 
             { CardName.HousePass, data => {} },
-            { CardName.FanBlades, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
+            { CardName.Lamp, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
             { CardName.LightsOut, data =>
                 {
                     Event.Publish(new PlayerBlockProposed { Amount = 3, Target = Player.House } );
@@ -208,6 +214,33 @@ namespace MonoDragons.GGJ.Data
                     }
                 } },
             { CardName.ShippingBoxesWall, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House }) },
+            { CardName.SpinningFanBlades, data =>
+                {
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 12 } });
+                } },
+            { CardName.RoombaAttack, data =>
+                {
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
+                        Event = new BlockRecievedMultiplied { Target = Player.House, Multiplier = 0 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Defend }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 6 } });
+                } },
+            { CardName.PowerCordTrip, data =>
+                {
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Attack }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Defend }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Charge }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Counter }});
+                } },
         };
 
         public static CardView Create(CardState s)
@@ -243,12 +276,15 @@ namespace MonoDragons.GGJ.Data
         Reload = 19,
 
         HousePass = 5,
-        FanBlades = 6,
+        Lamp = 6,
         LightsOut = 7,
         BlindingLights = 8,
         DustTheRoom = 20,
         HeatUp = 21,
         CoolDown = 22,
         ShippingBoxesWall = 23,
+        SpinningFanBlades = 24,
+        RoombaAttack = 25,
+        PowerCordTrip = 26
     }
 }
