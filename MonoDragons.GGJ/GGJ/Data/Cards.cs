@@ -27,9 +27,10 @@ namespace MonoDragons.GGJ.Data
             { CardName.Reload, s => new CardView(s, "CowboyCard14") },
 
             { CardName.HousePass, s => new CardView(s, "SmartHouseCard0") },
-            { CardName.ElectricShockSuperAttack, s => new CardView(s, "SmartHouseCard1") },
-            { CardName.WaterLeak, s => new CardView(s, "SmartHouseCard2") },
-            { CardName.Lazer, s => new CardView(s, "SmartHouseCard3") }
+            { CardName.FanBlades, s => new CardView(s, "SmartHouseCard1") },
+            { CardName.LightsOut, s => new CardView(s, "SmartHouseCard2") },
+            { CardName.BlindingLights, s => new CardView(s, "SmartHouseCard3") },
+            { CardName.DustTheRoom, s => new CardView(s, "SmartHouseCard4") }
         };
 
         private static Dictionary<CardName, CardType> _cardTypes = new Dictionary<CardName, CardType>
@@ -53,9 +54,10 @@ namespace MonoDragons.GGJ.Data
             { CardName.Reload, CardType.Defend },
 
             { CardName.HousePass, CardType.Pass },
-            { CardName.ElectricShockSuperAttack, CardType.Attack },
-            { CardName.WaterLeak, CardType.Attack },
-            { CardName.Lazer, CardType.Attack }
+            { CardName.FanBlades, CardType.Attack },
+            { CardName.LightsOut, CardType.Defend },
+            { CardName.BlindingLights, CardType.Attack },
+            { CardName.DustTheRoom, CardType.Attack }
         };
 
         private static Dictionary<CardName, Action<GameData>> _cardActions = new Dictionary<CardName, Action<GameData>>
@@ -152,9 +154,32 @@ namespace MonoDragons.GGJ.Data
                 } },
 
             { CardName.HousePass, data => {} },
-            { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
-            { CardName.WaterLeak, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
-            { CardName.Lazer, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
+            { CardName.FanBlades, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
+            { CardName.LightsOut, data =>
+                {
+                    Event.Publish(new PlayerBlockProposed { Amount = 3, Target = Player.House } );
+                    Event.Publish(new NextTurnEffectQueued { Event = new StatusApplied { Target = Player.Cowboy, Status = "Darkness" } });
+                    if (data.CowboyState.Statuses.Contains("Lightness"))
+                        Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House });
+                }
+            },
+            { CardName.BlindingLights, data =>
+                {
+                    Event.Publish(new PlayerDamageProposed { Amount = 1, Target = Player.Cowboy });
+                    Event.Publish(new PlayerBlockProposed { Amount = 1, Target = Player.House } );
+                    Event.Publish(new NextTurnEffectQueued { Event = new StatusApplied { Target = Player.Cowboy, Status = "Lightness" } });
+                    if (data.CowboyState.Statuses.Contains("Darkness"))
+                    {
+                        Event.Publish(new PlayerDamageProposed { Amount = 2, Target = Player.Cowboy });
+                        Event.Publish(new PlayerBlockProposed { Amount = 2, Target = Player.House } );
+                    }
+                }
+            },
+            { CardName.DustTheRoom, data =>
+                {
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }});
+                } },
         };
 
         public static CardView Create(CardState s)
@@ -190,8 +215,9 @@ namespace MonoDragons.GGJ.Data
         Reload = 19,
 
         HousePass = 5,
-        ElectricShockSuperAttack = 6,
-        WaterLeak = 7,
-        Lazer = 8
+        FanBlades = 6,
+        LightsOut = 7,
+        BlindingLights = 8,
+        DustTheRoom = 20,
     }
 }

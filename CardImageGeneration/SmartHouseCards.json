@@ -19,19 +19,24 @@
             "Effect": ""
         },
         {
-            "Name": "Electric Shock Super Attack",
+            "Name": "Fan Blades",
             "Type": "Attack",
             "Effect": "Deal 3 Damage"
         },
         {
-            "Name": "Water Leak",
+            "Name": "Lights Out",
             "Type": "Attack",
-            "Effect": "Deal 3 Damage"
+            "Effect": "Block 3 Damage, Apply Darkness next turn, if they have Lightness Block 5 more"
         },
         {
-            "Name": "Lazer",
+            "Name": "Blinding Lights",
             "Type": "Attack",
-            "Effect": "Deal 3 Damage"
+            "Effect": "Deal 1 Damage and Block 1 Damage, Apply Lightness next turn, if they have Darkness Deal 2 more and Block 2 more"
+        },
+        {
+            "Name": "Dust The Room",
+            "Type": "Attack",
+            "Effect": "Deal 2 Damage this and next turn"
         }
     ],
     "Blueprint": 
@@ -76,10 +81,10 @@
                 "FontStyle": "^Bold",
                 "Content": "~Effect",
                 "FontSize": "40",
-                "X": "80",
-                "Y": "580",
-                "Width": "610",
-                "Height": "350"
+                "X": "100",
+                "Y": "590",
+                "Width": "550",
+                "Height": "390"
             }
         ]
     }
