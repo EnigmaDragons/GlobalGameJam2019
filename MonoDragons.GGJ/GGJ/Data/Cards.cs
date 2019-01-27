@@ -26,6 +26,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.BothBarrels, s => new CardView(s, "CowboyCard12")  },
             { CardName.CrackShot, s => new CardView(s, "CowboyCard13") },
             { CardName.Reload, s => new CardView(s, "CowboyCard14") },
+            { CardName.Wanted, s => new CardView(s, "CowboyCard15") },
 
             { CardName.HousePass, s => new CardView(s, "SmartHouseCard0") },
             { CardName.Lamp, s => new CardView(s, "SmartHouseCard1") },
@@ -73,6 +74,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.BothBarrels, CardType.Attack },
             { CardName.CrackShot, CardType.Attack },
             { CardName.Reload, CardType.Defend },
+            { CardName.Wanted, CardType.Charge },
 
             { CardName.HousePass, CardType.Pass },
             { CardName.Lamp, CardType.Attack },
@@ -193,6 +195,14 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new DamageNotBlockedEffectQueued { Target = Player.Cowboy,
                         Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 4 } });
                 } },
+            { CardName.Wanted, data =>
+                {
+                    Event.Publish(new NextAttackEmpowered { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 0.5m }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new BlockRecievedMultiplied { Target = Player.House, Multiplier = 0.5m }});
+                } },
 
             { CardName.HousePass, data => {} },
             { CardName.Lamp, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
@@ -201,7 +211,10 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new PlayerBlockProposed { Amount = 3, Target = Player.House } );
                     Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Darkness", Events = new List<object> { new NextTurnEffectQueued { Event = new StatusRemoved { Name = "Darkness", Target = Player.Cowboy } } } }});
                     if (data.CowboyState.Statuses.Any(x => x.Name == "Lightness"))
-                        Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House });
+                    {
+                        Event.Publish(new PlayerBlockProposed { Amount = 6, Target = Player.House });
+                        Event.Publish(new NextAttackEmpowered { Amount = 3, Target = Player.House });
+                    }
                 }
             },
             { CardName.BlindingLights, data =>
@@ -213,6 +226,7 @@ namespace MonoDragons.GGJ.Data
                     {
                         Event.Publish(new PlayerDamageProposed { Amount = 2, Target = Player.Cowboy });
                         Event.Publish(new PlayerBlockProposed { Amount = 2, Target = Player.House } );
+                        Event.Publish(new NextAttackEmpowered { Amount = 3, Target = Player.House });
                     }
                 }
             },
@@ -223,23 +237,15 @@ namespace MonoDragons.GGJ.Data
                 } },
             { CardName.HeatUp, data =>
                 {
-                    if (data.CowboyState.Statuses.All(x => x.Name != "Hot"))
-                    {
-                        Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Cold" });
-                        Event.Publish(new StatusRemoved { Target = Player.House, Name = "Cold" });
-                        Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Hot", Events = new List<object> { new DamageEffectQueued { Target = Player.Cowboy, Event = new PlayerDamaged { Target = Player.Cowboy, Amount = 2 }}}}});
-                        Event.Publish(new StatusApplied { Target = Player.House, Status = new Status { Name = "Hot", Events = new List<object> { new DamageEffectQueued { Target = Player.House, Event = new PlayerDamaged { Target = Player.House, Amount = 1 }}}}});
-                    }
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 2 });
+                    Event.Publish(new NextAttackEmpowered { Target = Player.House, Amount = 2 });
+                    Event.Publish(new DamageEffectQueued { Target = Player.House, Event = new NextAttackEmpowered { Target = Player.House, Amount = 4 }});
                 } },
             { CardName.CoolDown, data =>
                 {
-                    if (data.CowboyState.Statuses.All(x => x.Name != "Cold"))
-                    {
-                        Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Hot" });
-                        Event.Publish(new StatusRemoved { Target = Player.House, Name = "Hot" });
-                        Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Cold" }});
-                        Event.Publish(new StatusApplied { Target = Player.House, Status = new Status { Name = "Cold", Events = new List<object> { new PlayerBlockProposed { Target = Player.House, Amount = 1 }}}});
-                    }
+                    Event.Publish(new NextAttackEmpowered { Target = Player.House, Amount = 3 });
+                    Event.Publish(new NextTurnEffectQueued { Event = new DamageTakenMultiplied { Target = Player.House, Multiplier = 0.5m }});
                 } },
             { CardName.ShippingBoxesWall, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House }) },
             { CardName.SpinningFanBlades, data =>
@@ -386,6 +392,7 @@ namespace MonoDragons.GGJ.Data
         SpinningFanBlades = 24,
         RoombaAttack = 25,
         PowerCordTrip = 26,
+        Wanted = 39,
 
         BedderLuckNextTime = 27,
         PillowFight = 28,

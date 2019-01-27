@@ -87,6 +87,11 @@
             "Name": "Reload",
             "Type": "Defend",
             "Effect": "Block 2 Damage, if you blocked no damage this turn, your next attack deals 4 more damage"
+        },
+        {
+            "Name": "Wanted Dead Or Alive",
+            "Type": "Charge",
+            "Effect": "Your next Attack Deals 2 more damage, if the opponent chose Attack, next turn the opponent Deals half Damage and gains only half Block"
         }
     ],
     "Blueprint": 

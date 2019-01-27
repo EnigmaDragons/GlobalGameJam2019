@@ -30,6 +30,7 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<StatusApplied>(OnStatusApplied, this);
             Event.Subscribe<StatusRemoved>(OnStatusRemoved, this);
             Event.Subscribe<EnergyGained>(OnEnergyGained, this);
+            Event.Subscribe<EnergyLossed>(OnEnergyLossed, this);
             Event.Subscribe<CardResolutionBegun>(e => Resolve(), this);
             Event.Subscribe<PlayerDamaged>(OnPlayereDamaged, this);
         }
@@ -75,6 +76,8 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnEnergyGained(EnergyGained e) => ExecuteIfTarget(e.Target, () => State.Energy += e.Amount);
 
+        private void OnEnergyLossed(EnergyLossed e) => ExecuteIfTarget(e.Target, () => State.Energy -= e.Amount);
+
         private void ExecuteIfTarget(Player target, Action action)
         {
             if (target == _player)
@@ -83,10 +86,12 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void Resolve()
         {
-            var incomingDamage = State.IncomingDamage;
-            State.DamageTakenMultipliers.ForEach(x => incomingDamage = x * incomingDamage);
-            var availableBlock = State.AvailableBlock;
-            State.BlockRecievedMultiplier.ForEach(x => availableBlock = availableBlock * x);
+            decimal incomingDamageDec = State.IncomingDamage;
+            State.DamageTakenMultipliers.ForEach(x => incomingDamageDec = x * incomingDamageDec);
+            var incomingDamage = (int)Math.Floor(incomingDamageDec);
+            decimal availableBlockDec = State.AvailableBlock;
+            State.BlockRecievedMultiplier.ForEach(x => availableBlockDec = availableBlockDec * x);
+            var availableBlock = (int) Math.Floor(availableBlockDec);
             if (availableBlock > 0 && incomingDamage > 0)
             {
                 Event.Publish(new DamageBlocked { Target = State.Player, Amount = Math.Min(availableBlock, incomingDamage)});
@@ -112,8 +117,8 @@ namespace MonoDragons.GGJ.Gameplay
             State.OnNotDamaged = new List<object>();
             State.OnDamageBlocked = new List<object>();
             State.OnDamageNotBlocked = new List<object>();
-            State.DamageTakenMultipliers = new List<int>();
-            State.BlockRecievedMultiplier = new List<int>();
+            State.DamageTakenMultipliers = new List<decimal>();
+            State.BlockRecievedMultiplier = new List<decimal>();
         }
 
         private void OnPlayereDamaged(PlayerDamaged e)
