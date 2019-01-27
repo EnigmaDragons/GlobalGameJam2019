@@ -104,7 +104,7 @@ namespace MonoDragons.GGJ.UiElements
 
         private void OnPlayerDefeated(PlayerDefeated e)
         {
-            _gameOverLabel.Text = e.Winner == _player ? "You Win!" : "You Defeated!";
+            _gameOverLabel.Text = e.Winner == _player ? "You are Victorious!" : "You have been Defeated!";
             _shouldDisplaySign = true;
             if (e.IsGameOver)
                 _fadeToBlack.Start(() => _isGameOver = e.IsGameOver);
