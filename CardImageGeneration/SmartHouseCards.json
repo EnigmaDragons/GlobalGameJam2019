@@ -66,8 +66,38 @@
         {
             "Name": "Power Cord Trip",
             "Type": "Counter",
-            "Effect": "If the opponent chose Attack, Deal 6 damage and the opponent must pass on their next turn"
-        }
+            "Effect": "If the opponent chose Attack, Deal 3 damage and the opponent must pass on their next turn"
+        },
+        {
+            "Name": "Bed-der Luck Next Time",
+            "Type": "Attack",
+            "Effect": "Gain 1 Energy, Then expend your energy to deal 2 Damage per Energy"
+        },
+        {
+            "Name": "Pillow Fight",
+            "Type": "Attack",
+            "Effect": "Deal 2 Damage and Gain 1 Energy"
+        },
+        {
+            "Name": "Resting",
+            "Type": "Charge",
+            "Effect": "Gain 3 Energy"
+        },
+        {
+            "Name": "Pillow Fort",
+            "Type": "Defend",
+            "Effect": "Block 2 Damage, Gain 1 Energy, and Block 1 Damage next turn"
+        },
+        {
+            "Name": "That's Curtains For You",
+            "Type": "Attack",
+            "Effect": "Deal 1 Damage, Gain 1 Energy, and if the opponent chose Attack, Deal 2 more"
+        },
+        {
+            "Name": "Monster Under The Bed",
+            "Type": "Attack",
+            "Effect": "Deal 1 Damage, Gain 1 Energy, and if the opponent chose Charge, Deal 4 more"
+        },
     ],
     "Blueprint": 
     {

@@ -32,7 +32,7 @@ namespace MonoDragons.GGJ.Gameplay
             {
                 if (_gameData.CurrentPhase == Phase.ResolvingCards)
                 {
-                    Event.Publish(new TurnFinished());
+                    Event.Publish(new TurnFinished { TurnNumber = _gameData.CurrentTurn });
                     OnTurnFinished();
                 }
                 else if (_gameData.CurrentPhase == Phase.StartingTurn)
