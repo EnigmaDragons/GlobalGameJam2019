@@ -74,7 +74,7 @@ namespace MonoDragons.GGJ.Gameplay
                 if (!_levelIsFinished)
                     Event.Publish(new AnimationEnded());
             }, 2000, false);
-            Event.Publish(new AnimationStarted());
+            Event.Publish(new AnimationStarted("Show Played Card"));
             Event.Publish(new AllCardsRevealed { TurnNumber = e.TurnNumber, CowboyCard = e.CowboyCard, HouseCard = e.HouseCard });
         }
 

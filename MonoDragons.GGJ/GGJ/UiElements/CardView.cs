@@ -8,9 +8,8 @@ namespace MonoDragons.GGJ.Gameplay
 {
     public class CardView : IVisual
     {
-        //5 : 7 ratio
-        public const int WIDTH = 250;
-        public const int HEIGHT = 350;
+        public const int WIDTH = 160;
+        public const int HEIGHT = (int)(7f * (WIDTH / 5f));
         private readonly string _name;
         public CardState State { get; }
         public int Id => State.Id;
