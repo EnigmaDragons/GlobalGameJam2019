@@ -19,7 +19,7 @@ namespace MonoDragons.GGJ.Gameplay
         private bool _levelIsFinished;
 
         public CardRevealer(Player local, Player player, Vector2 location) : this(local, player, location, new Optional<Card>()) { }
-        public CardRevealer(Player local, Player player, Vector2 location, Card card, bool isRevealed = false) : this(local, player, location, new Optional<Card>(card)) { }
+        public CardRevealer(Player local, Player player, Vector2 location, Card card) : this(local, player, location, new Optional<Card>(card)) { }
         public CardRevealer(Player local, Player player, Vector2 location, Optional<Card> card)
         {
             _location = new Transform2(location);
@@ -44,7 +44,12 @@ namespace MonoDragons.GGJ.Gameplay
             if (e.Player != _player)
                 return;
 
-            Card = new Optional<Card>(Cards.Create(State<GameData>.Current.AllCards[e.CardId]));
+            ShowCard(e.CardId);
+        }
+
+        private void ShowCard(int cardId)
+        {
+            Card = new Optional<Card>(Cards.Create(State<GameData>.Current.AllCards[cardId]));
         }
 
         public void Draw(Transform2 parentTransform)
@@ -61,6 +66,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void OnCardsSelected(AllCardsSelected e)
         {
             IsRevealed = true;
+            ShowCard(_player == Player.Cowboy ? e.CowboyCard : e.HouseCard);
             _displayTimer = new TimerTask(() =>
             {
                 CleanupRevelations();
