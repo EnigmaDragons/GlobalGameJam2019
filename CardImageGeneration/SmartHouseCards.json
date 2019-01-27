@@ -32,6 +32,11 @@
             "Name": "Blinding Lights",
             "Type": "Attack",
             "Effect": "Deal 1 Damage and Block 1 Damage, Apply Lightness next turn, if they have Darkness Deal 2 more and Block 2 more"
+        },
+        {
+            "Name": "Dust The Room",
+            "Type": "Attack",
+            "Effect": "Deal 2 Damage this and next turn"
         }
     ],
     "Blueprint": 

@@ -40,7 +40,8 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.HousePass),
                         CreateCard(CardName.FanBlades),
                         CreateCard(CardName.LightsOut),
-                        CreateCard(CardName.BlindingLights))));
+                        CreateCard(CardName.BlindingLights),
+                        CreateCard(CardName.DustTheRoom))));
 
             _house.Initialized(Enemies.Create(Enemy.Bed));
         }

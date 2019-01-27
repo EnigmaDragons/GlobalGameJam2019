@@ -29,7 +29,8 @@ namespace MonoDragons.GGJ.Data
             { CardName.HousePass, s => new CardView(s, "SmartHouseCard0") },
             { CardName.FanBlades, s => new CardView(s, "SmartHouseCard1") },
             { CardName.LightsOut, s => new CardView(s, "SmartHouseCard2") },
-            { CardName.BlindingLights, s => new CardView(s, "SmartHouseCard3") }
+            { CardName.BlindingLights, s => new CardView(s, "SmartHouseCard3") },
+            { CardName.DustTheRoom, s => new CardView(s, "SmartHouseCard4") }
         };
 
         private static Dictionary<CardName, CardType> _cardTypes = new Dictionary<CardName, CardType>
@@ -55,7 +56,8 @@ namespace MonoDragons.GGJ.Data
             { CardName.HousePass, CardType.Pass },
             { CardName.FanBlades, CardType.Attack },
             { CardName.LightsOut, CardType.Defend },
-            { CardName.BlindingLights, CardType.Attack }
+            { CardName.BlindingLights, CardType.Attack },
+            { CardName.DustTheRoom, CardType.Attack }
         };
 
         private static Dictionary<CardName, Action<GameData>> _cardActions = new Dictionary<CardName, Action<GameData>>
@@ -173,6 +175,11 @@ namespace MonoDragons.GGJ.Data
                     }
                 }
             },
+            { CardName.DustTheRoom, data =>
+                {
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }});
+                } },
         };
 
         public static CardView Create(CardState s)
@@ -210,6 +217,7 @@ namespace MonoDragons.GGJ.Data
         HousePass = 5,
         FanBlades = 6,
         LightsOut = 7,
-        BlindingLights = 8
+        BlindingLights = 8,
+        DustTheRoom = 20,
     }
 }
