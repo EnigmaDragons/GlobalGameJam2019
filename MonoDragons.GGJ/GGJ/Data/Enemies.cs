@@ -40,7 +40,7 @@ namespace MonoDragons.GGJ.Data
             if (enemy == Enemy.Bed)
                 return new Bed();
             if (enemy == Enemy.Computer)
-                return new Bed();
+                return new Computer();
             throw new KeyNotFoundException($"Unknown Enemy: {enemy}");
         }
 

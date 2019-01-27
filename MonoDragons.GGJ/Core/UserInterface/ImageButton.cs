@@ -12,10 +12,10 @@ namespace MonoDragons.Core.UserInterface
         private readonly Transform2 _transform;
         private readonly Func<bool> _isVisible;
 
-        public Action OnClick { get; set; } = () => { };
-        public Action OnPress { get; set; } = () => { };
-        public Action OnEnter { get; set; } = () => { };
-        public Action OnExit { get; set; } = () => { };
+        public Action OnClick { private get; set; } = () => { };
+        public Action OnPress { private get; set; } = () => { };
+        public Action OnEnter { private get; set; } = () => { };
+        public Action OnExit { private get; set; } = () => { };
 
         private string _current;
 
