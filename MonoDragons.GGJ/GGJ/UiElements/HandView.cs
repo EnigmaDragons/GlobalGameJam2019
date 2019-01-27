@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using MonoDragons.GGJ.UiElements.Events;
+using MonoDragons.GGJ.Gameplay.Events;
 
 namespace MonoDragons.GGJ.Gameplay
 {

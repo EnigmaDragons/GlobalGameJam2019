@@ -2,6 +2,7 @@
 using System.Linq;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Gameplay;
+using MonoDragons.GGJ.Gameplay.Events;
 
 namespace MonoDragons.GGJ.AI
 {

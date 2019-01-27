@@ -13,6 +13,7 @@ using MonoDragons.Core.Render;
 using MonoDragons.Core.Scenes;
 using MonoDragons.GGJ;
 using MonoDragons.GGJ.Gameplay;
+using MonoDragons.GGJ.Gameplay.Events;
 using MonoDragons.GGJ.Scenes;
 using MainMenuScene = MonoDragons.GGJ.Scenes.MainMenuScene;
 

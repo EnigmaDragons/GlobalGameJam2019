@@ -1,14 +1,18 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
 using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
+using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
+using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.AI;
 using MonoDragons.GGJ.Data;
 using MonoDragons.GGJ.Gameplay;
+using MonoDragons.GGJ.Gameplay.Events;
 using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Scenes
@@ -21,9 +25,14 @@ namespace MonoDragons.GGJ.Scenes
         private CardRevealer _houseRevealer;
         private readonly GameData _data;
         private HandView _handView;
+        private bool _isHost;
+        private bool _hasCowboyRequestedRematch = false;
+        private bool _hasHouseRequestedRematch = false;
+        private bool _gameEnded = false;
 
         public GameScene(GameConfigured config, bool isHost)
         {
+            _isHost = isHost;
             _player = isHost ? config.HostRole : (config.HostRole == Player.Cowboy ? Player.House : Player.Cowboy);
             _mode = config.Mode;
             _data = config.StartingData;
@@ -85,8 +94,49 @@ namespace MonoDragons.GGJ.Scenes
                 if (keys.IsKeyDown(Keys.F2))
                     Event.Publish(new NextLevelRequested { Level = 1 });
             }));
-            
-            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);  
+
+            if (_mode == Mode.MultiPlayer)
+                Add(new ImageTextButton(
+                    new Transform2(UI.OfScreenSize(0.41f, 0.25f).ToPoint().ToVector2(), UI.OfScreenSize(0.18f, 0.09f)),
+                    () => Event.Publish(new RematchRequested(_player)),
+                    "Rematch",
+                    "UI/sign", "UI/sign-hover", "UI/sign-press",
+                    () => _gameEnded && (_player == Player.House ? !_hasHouseRequestedRematch : !_hasCowboyRequestedRematch))
+                    {
+                        Font = DefaultFont.Large,
+                        TextColor = UiConsts.DarkBrown
+                    });
+
+            Event.Subscribe<RematchRequested>(OnRematchRequested, this);
+            Event.Subscribe<GameConfigured>(OnGameConfigured, this);
+            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+            Event.Subscribe<GameDisconnected>(OnDisconnected, this);
+        }
+
+        private void OnDisconnected(GameDisconnected obj)
+        {
+            if (_gameEnded)
+                Scene.NavigateTo(new MainMenuScene(new NetworkArgs()));
+        }
+
+        private void OnGameConfigured(GameConfigured e)
+        {
+            if(!_isHost)
+                Scene.NavigateTo(new GameScene(e, false));
+        }
+
+        private void OnRematchRequested(RematchRequested e)
+        {
+            if (e.Player == Player.Cowboy)
+                _hasCowboyRequestedRematch = true;
+            else
+                _hasHouseRequestedRematch = true;
+            if(_hasCowboyRequestedRematch && _hasHouseRequestedRematch && _isHost)
+            {
+                var config = new GameConfigured(Mode.MultiPlayer, Rng.Bool() ? Player.Cowboy : Player.House, new GameData());
+                Event.Publish(config);
+                Scene.NavigateTo(new GameScene(config, true));
+            }
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)
@@ -94,6 +144,7 @@ namespace MonoDragons.GGJ.Scenes
             if (!e.IsGameOver)
                 return;
 
+            _gameEnded = true;
             ClickUi.Remove(_handView.Branch);
         }
     }

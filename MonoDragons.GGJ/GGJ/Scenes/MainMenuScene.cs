@@ -12,6 +12,7 @@ using MonoDragons.Core.Scenes;
 using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.Gameplay;
+using MonoDragons.GGJ.Gameplay.Events;
 using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Scenes
@@ -19,7 +20,7 @@ namespace MonoDragons.GGJ.Scenes
     public sealed class MainMenuScene : ClickUiScene
     {
         private const string AppId = "Bed Dead Redemption";
-        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfigured) };
+        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfigured), typeof(RematchRequested) };
         private Label _hostEndpoint;
         private readonly NetworkArgs _args;
         private readonly AppDataJsonIo _io;

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Inputs;
+using MonoDragons.Core.IO;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
-using MonoDragons.GGJ.Gameplay;
+using MonoDragons.GGJ.Gameplay.Events;
 using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Scenes
@@ -30,6 +30,7 @@ namespace MonoDragons.GGJ.Scenes
             _port = netArgs.Port;
             _isHost = false;
             _config = new Optional<GameConfigured>();
+            new AppDataJsonIo("GGJ2019").Save("GamePrefs", netArgs.Ip.ToString() + ":" + netArgs.Port);
         }
 
         public WaitingForConnectionScene(string message, NetworkArgs netArgs, GameConfigured config)
@@ -40,6 +41,7 @@ namespace MonoDragons.GGJ.Scenes
             _port = netArgs.Port;
             _isHost = true;
             _config = new Optional<GameConfigured>(config);
+            new AppDataJsonIo("GGJ2019").Save("GamePrefs", netArgs.Ip.ToString() + ":" + netArgs.Port);
         }
 
         public override void Init()
