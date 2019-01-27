@@ -41,14 +41,8 @@ namespace MonoDragons.GGJ.Scenes
 
             Multiplayer.Disconnect();
             Add(Buttons.Wood("Host Game", UI.OfScreenSize(0.41f, 0.64f).ToPoint(), () => BeginHostingGame()));
-            //Add(Buttons.Wood("Host Loaded Game", UI.OfScreenSize(0.71f, 0.64f).ToPoint(), () => BeginHostingGame(true)));
             Add(Buttons.Wood("Connect To Game", UI.OfScreenSize(0.41f, 0.75f).ToPoint(), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
             Add(Buttons.Wood("Play Solo", UI.OfScreenSize(0.41f, 0.86f).ToPoint(), CreateSinglePlayerGame));
-            if (_io.HasSave("Save"))
-            {
-                Add(Buttons.Wood("Load Game as Cowboy", UI.OfScreenSize(0.11f, 0.86f).ToPoint(), () => CreateSinglePlayerGame(Player.Cowboy)));
-                Add(Buttons.Wood("Load Game as House", UI.OfScreenSize(0.71f, 0.86f).ToPoint(), () => CreateSinglePlayerGame(Player.House)));
-            }
             Add(new UiImage{ Image = "UI/wood-textbox", Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f))});
             _hostEndpoint =  new Label { Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), Font = DefaultFont.Medium};
             Add(_hostEndpoint);

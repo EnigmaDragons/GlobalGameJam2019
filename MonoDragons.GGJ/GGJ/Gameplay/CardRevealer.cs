@@ -13,7 +13,9 @@ namespace MonoDragons.GGJ.Gameplay
     {
         // TODO: Encapsulate this
         public Optional<CardView> Card { get; set; }
+        private readonly CardView _thinking = new CardView(new CardState { Id = -1, CardName = CardName.None, Type = CardType.Pass }, "Thinking");
         public bool IsRevealed { get; set; }
+        private bool _opponentHasChosen;
         private Transform2 _location;
         private TimerTask _displayTimer;
         private readonly Player _local;
@@ -44,9 +46,9 @@ namespace MonoDragons.GGJ.Gameplay
         private void OnCardSelect(CardSelected e)
         {
             if (e.Player != _player)
-                return;
-
-            ShowCard(e.CardId);
+                _opponentHasChosen = true;
+            else
+                ShowCard(e.CardId);
         }
 
         private void ShowCard(int cardId)
@@ -56,8 +58,11 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Draw(Transform2 parentTransform)
         {
+            var t = parentTransform + _location;
             if (IsRevealed && Card.HasValue)
-                Card.Value.Draw(_location);
+                Card.Value.Draw(t);
+            if (!IsRevealed && !_opponentHasChosen)
+                _thinking.Draw(t);
         }
 
         public void Update(TimeSpan delta)
@@ -81,6 +86,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void CleanupRevelations()
         {
+            _opponentHasChosen = false;
             Card = new Optional<CardView>();
             if (_local != _player)
                 IsRevealed = false;
