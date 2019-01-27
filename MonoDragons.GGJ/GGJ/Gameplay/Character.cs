@@ -18,10 +18,12 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<PlayerDamageProposed>(OnAttacked, this);
             Event.Subscribe<PlayerBlockProposed>(OnDefended, this);
             Event.Subscribe<OnNotDamagedEffectQueued>(OnNotDamagedEffectQueued, this);
+            Event.Subscribe<OnDamageEffectQueued>(OnDamagedEffectQueued, this);
             Event.Subscribe<CardSelected>(OnCardTypeSelected, this);
             Event.Subscribe<NextAttackEmpowered>(OnNextAttackEmpowered, this);
             Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
             Event.Subscribe<CardResolutionBegun>(e => Resolve(), this);
+            Event.Subscribe<PlayerDamaged>(OnPlayereDamaged, this);
         }
 
         private void OnAttacked(PlayerDamageProposed e)
@@ -40,6 +42,12 @@ namespace MonoDragons.GGJ.Gameplay
         {
             if (e.Target == _player)
                 State.OnNotDamaged.Add(e.Event);
+        }
+
+        private void OnDamagedEffectQueued(OnDamageEffectQueued e)
+        {
+            if (e.Target == _player)
+                State.OnDamaged.Add(e.Event);
         }
 
         private void OnCardTypeSelected(CardSelected e)
@@ -69,9 +77,8 @@ namespace MonoDragons.GGJ.Gameplay
             State.DamageTakenMultipliers.ForEach(x => incomingDamage = x * incomingDamage);
             if (incomingDamage > State.AvailableBlock)
             {
-                var damage = incomingDamage - State.AvailableBlock;
-                State.HP -= damage;
-                Event.Publish(new PlayerDamaged { Amount = damage, Target = State.Player });
+                Event.Publish(new PlayerDamaged { Amount = incomingDamage - State.AvailableBlock, Target = State.Player });
+                State.OnDamaged.ForEach(Event.Publish);
             }
             else
             {
@@ -80,11 +87,18 @@ namespace MonoDragons.GGJ.Gameplay
             Reset();
         }
 
+        private void OnPlayereDamaged(PlayerDamaged e)
+        {
+            if (e.Target == _player)
+                State.HP -= e.Amount;
+        }
+
         private void Reset()
         {
             State.IncomingDamage = 0;
             State.AvailableBlock = 0;
             State.OnNotDamaged = new List<object>();
+            State.OnDamaged = new List<object>();
             State.DamageTakenMultipliers = new List<int>();
         }
     }

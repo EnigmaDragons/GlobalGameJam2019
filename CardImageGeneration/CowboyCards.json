@@ -47,6 +47,16 @@
             "Name": "Rush The Enemy",
             "Type": "Attack",
             "Effect": "Deal 5 Damage\nYou take double damage this turn"
+        },
+        {
+            "Name": "Light The Fuse",
+            "Type": "Charge",
+            "Effect": "Next turn if you dealt damage, deal 6 unpreventable Damage, else take 6 unpreventable Damage"
+        },
+        {
+            "Name": "Barricade",
+            "Type": "Defend",
+            "Effect": "Block 3 Damage this turn and next turn"
         }
     ],
     "Blueprint": 

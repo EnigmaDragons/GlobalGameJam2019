@@ -40,6 +40,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new PhaseTransitions(_data));
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud());
+            Add(new NextTurnEffectProcessor());
             Add(new Cowboy());
             Add(houseChars);
             Add(new Bed());
