@@ -2,6 +2,7 @@
 using System.Net;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
+using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
@@ -25,6 +26,7 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
+            Sound.Music("The_Cowboy_Theme").Play();
             Multiplayer.Disconnect();
             Add(Buttons.Text("Host", new Point(100, 160), BeginHostingGame));
             Add(Buttons.Text("Connect", new Point(100, 60), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));

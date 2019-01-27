@@ -6,6 +6,7 @@ using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Render;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Gameplay
 {
@@ -18,6 +19,8 @@ namespace MonoDragons.GGJ.Gameplay
             Running,
         }
 
+        private readonly DamageNumbersView _dmgView = new DamageNumbersView(Player.Cowboy);
+        private readonly Vector2 _dmgOffset = new Vector2(68, 0);
         private readonly DictionaryWithDefault<CharState, SpriteAnimation> _anims = 
             new DictionaryWithDefault<CharState, SpriteAnimation>(Anim("__Hoodie_idle with gun"))
             {
@@ -58,6 +61,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Update(TimeSpan delta)
         {
+            _dmgView.Update(delta);
             _anims[_state].Update(delta);
             UpdateMovement(delta);
         }
@@ -81,6 +85,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Draw(Transform2 parentTransform)
         {
+            _dmgView.Draw(parentTransform + _loc + _dmgOffset);
             _anims[_state].Draw(parentTransform + _loc);
         }
 

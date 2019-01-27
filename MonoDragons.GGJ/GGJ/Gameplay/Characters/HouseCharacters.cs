@@ -11,6 +11,8 @@ namespace MonoDragons.GGJ.Gameplay
     {
         private readonly MustInit<IHouseChar> _char = new MustInit<IHouseChar>("House Current Char");
         private readonly Explosion _exp = new Explosion();
+        private readonly DamageNumbersView _dmgView = new DamageNumbersView(Player.House);
+        private readonly Vector2 _dmgViewOffset = new Vector2(120, 0);
         private bool _shouldShow;
 
         public HouseCharacters()
@@ -34,6 +36,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Update(TimeSpan delta)
         {
+            _dmgView.Update(delta);
             _char.Get().Update(delta);
             _exp.Update(delta);
         }
@@ -44,6 +47,7 @@ namespace MonoDragons.GGJ.Gameplay
                 return;
             
             _char.Get().Draw(parentTransform);
+            _dmgView.Draw(parentTransform + _char.Get().Transform.Location + _dmgViewOffset);
             _exp.Draw(parentTransform + _char.Get().Transform.Location);
         }
     }
