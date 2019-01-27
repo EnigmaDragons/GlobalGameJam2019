@@ -16,6 +16,7 @@ namespace MonoDragons.GGJ.Gameplay
         public ClickUIBranch Branch { get; private set; }
 
         private readonly GameData _data;
+        private readonly Point _offset;
         private CharacterState State => _data[_player];
         private readonly List<CardView> _cards = new List<CardView>();
         private readonly List<bool> _cardIsPlayable = new List<bool>();
@@ -31,10 +32,11 @@ namespace MonoDragons.GGJ.Gameplay
         private bool _isMoving;
         private Action _onArrived = () => { };
 
-        public HandView(Player player, GameData data)
+        public HandView(Player player, GameData data, Vector2 offset)
         {
             _player = player;
             _data = data;
+            _offset = offset.ToPoint();
             Branch = new ClickUIBranch("Hand", 1);
             _currentX = _data.CurrentPhase == Phase.Setup ? UI.OfScreenWidth(1.6f) : 0;
             if (_data.CurrentPhase != Phase.Setup)
@@ -96,14 +98,14 @@ namespace MonoDragons.GGJ.Gameplay
 
         private Vector2 Position(int index)
         {
+            const bool useFanOutEffect = false;
             const int xMargin = CardView.WIDTH / 5;
             const int width = CardView.WIDTH + xMargin;
-            const int height = CardView.HEIGHT;
-            const int xOff = 100;
-            const int yOff = 880;
-            const bool useFanOutEffect = false;
+            //const int height = CardView.HEIGHT;
+            var xOff = _offset.X;
+            var yOff = _offset.Y;
             var fanOutFactor = useFanOutEffect ? Math.Abs(_currentX - _from) / Math.Abs(_from - _destination) : 1.0f;
-            return new Vector2(xOff + _currentX + (index * width) * (fanOutFactor), yOff - height);
+            return new Vector2(xOff + _currentX + (index * width) * (fanOutFactor), yOff);
         }
         
         public void Draw(Transform2 parentTransform)
@@ -120,7 +122,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void DiscardAll()
         {
             Branch.ClearElements();
-            Move(0, -UI.OfScreenWidth(0.5f), TimeSpan.FromMilliseconds(1500), () =>
+            Move(0, -UI.OfScreenWidth(0.5f), TimeSpan.FromMilliseconds(1000), () =>
             {
                 _positions.Clear();
                 _cards.Clear();

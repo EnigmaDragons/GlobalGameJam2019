@@ -17,8 +17,6 @@ namespace MonoDragons.GGJ.Scenes
     {
         private readonly Player _player;
         private readonly Mode _mode;
-        private CardRevealer _cowboyRevealer;
-        private CardRevealer _houseRevealer;
         private readonly GameData _data;
         private HandView _handView;
 
@@ -35,6 +33,7 @@ namespace MonoDragons.GGJ.Scenes
             Sound.Music("fight-it").Play();
             State<GameData>.Init(_data);
             var houseChars = new HouseCharacters(_data);
+            
             Add(new DataSaver());
             Add(new LevelProgression(_data, houseChars));
             Add(new CardEffectProcessor(_data));
@@ -44,31 +43,23 @@ namespace MonoDragons.GGJ.Scenes
             Add(new LastPlayedTypeLockProcessor(_data));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
-            var cowboyCards = new PlayerCards(Player.Cowboy, _data, rng);
-            Add(cowboyCards);
-            var houseCards = new PlayerCards(Player.House, _data, rng);
-            Add(houseCards);
+            Add(new PlayerCards(Player.Cowboy, _data, rng));
+            Add(new PlayerCards(Player.House, _data, rng));
             Add(new PhaseTransitions(_data));
-            Add(new LevelBackground("House/level1"));
+            Add(new LevelBackground(1));
             Add(new BattleBackHud(_player));
             Add(new Cowboy(_data.CurrentPhase));
             Add(houseChars);
-            Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
-                IsVisible = () => _player == Player.House
-                    ? _houseRevealer.Card.HasValue && !_cowboyRevealer.Card.HasValue
-                    : _cowboyRevealer.Card.HasValue && !_houseRevealer.Card.HasValue});
-            _cowboyRevealer = new CardRevealer(_player, Player.Cowboy, new Vector2(400, 350));
-            Add(_cowboyRevealer);
-            _houseRevealer = new CardRevealer(_player, Player.House, new Vector2(1200, 350));
-            Add(_houseRevealer);
-            _handView = new HandView(_player, _data);
-            Add(_handView);
             Add(new BattleTopHud(_player, _data));
+            Add(new CardRevealer(_player, Player.Cowboy, new Vector2(160, 880 - CardView.HEIGHT)));
+            Add(new CardRevealer(_player, Player.House, new Vector2(1600 - CardView.WIDTH - 160, 880 - CardView.HEIGHT)));
+            _handView = new HandView(_player, _data, new Vector2(110, 880 - CardView.HEIGHT));
+            Add(_handView);
             if (_mode == Mode.SinglePlayer)
             {
                 var ai = new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy,
                     _data,
-                    _player == Player.Cowboy ? houseCards : cowboyCards);
+                    _player == Player.Cowboy ? new PlayerCards(Player.House, _data, rng) : new PlayerCards(Player.Cowboy, _data, rng));
                 Add(ai);
             }
 
@@ -77,13 +68,13 @@ namespace MonoDragons.GGJ.Scenes
             {
                 var keys = Keyboard.GetState();
                 if (keys.IsKeyDown(Keys.C))
-                    Event.Publish(new PlayerDefeated { Winner = Player.Cowboy, IsGameOver = true });
+                    Event.Publish(new PlayerDefeated { LevelNumber = _data.CurrentLevel, Winner = Player.Cowboy, IsGameOver = false });
                 if (keys.IsKeyDown(Keys.H))
-                    Event.Publish(new PlayerDefeated { Winner = Player.House, IsGameOver = true });
+                    Event.Publish(new PlayerDefeated { LevelNumber = _data.CurrentLevel, Winner = Player.House, IsGameOver = true });
                 if (keys.IsKeyDown(Keys.Q))
                     Scene.NavigateTo("Lobby");
                 if (keys.IsKeyDown(Keys.F2))
-                    Event.Publish(new NextLevelRequested { Level = 1 });
+                    Event.Publish(new NextLevelRequested { Level = 2 });
             }));
             
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);  

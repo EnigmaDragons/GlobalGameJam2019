@@ -19,9 +19,9 @@ namespace MonoDragons.GGJ.UiElements
         private bool _isMoving;
         private int _newLevel;
 
-        public LevelBackground(string bg)
+        public LevelBackground(int level)
         {
-            _bg = new Sprite { Image = bg, Transform = new Transform2(GetBgSize()) };   
+            _bg = new Sprite { Image = $"House/level{level}", Transform = new Transform2(GetBgSize()) };   
             _next = new Sprite { Transform = new Transform2(GetBgSize()), IsActive = () => _isMoving};
             Event.Subscribe<NextLevelRequested>(OnLevelRequested, this);
         }
@@ -34,9 +34,10 @@ namespace MonoDragons.GGJ.UiElements
         
         private void TransitionTo(int level)
         {
+            var image = $"House/level{level}";
             _currentX = 0;
             _elapsedMs = 0;
-            _next.Image = $"House/level{level}";
+            _next.Image = image;
             _isMoving = true;
         }
         
