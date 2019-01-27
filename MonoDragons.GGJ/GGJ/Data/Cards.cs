@@ -24,6 +24,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.QuickDraw, s => new Card(s, "CowboyCard9")  },
             { CardName.Lasso, s => new Card(s, "CowboyCard10")  },
             { CardName.Ricochet, s => new Card(s, "CowboyCard11")  },
+            { CardName.BothBarrels, s => new Card(s, "CowboyCard12")  },
 
             { CardName.HousePass, s => new Card(s, "SmartHouseCard0") },
             { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1") },
@@ -47,6 +48,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.QuickDraw, CardType.Counter },
             { CardName.Lasso, CardType.Counter },
             { CardName.Ricochet, CardType.Counter },
+            { CardName.BothBarrels, CardType.Attack },
 
             { CardName.HousePass, CardType.Pass },
             { CardName.ElectricShockSuperAttack, CardType.Attack },
@@ -128,6 +130,12 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
                         Event = new PlayerDamageProposed { Target = Player.House, Amount = 8 } });
                 } },
+            { CardName.BothBarrels, data =>
+                {
+                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 2 });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 2 }});
+                } },
 
             { CardName.HousePass, data => {} },
             { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
@@ -163,6 +171,7 @@ namespace MonoDragons.GGJ.Data
         QuickDraw = 14,
         Lasso = 15,
         Ricochet = 16,
+        BothBarrels = 17,
 
         HousePass = 5,
         ElectricShockSuperAttack = 6,
