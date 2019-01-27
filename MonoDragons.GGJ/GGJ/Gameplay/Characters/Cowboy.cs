@@ -31,11 +31,14 @@ namespace MonoDragons.GGJ.Gameplay
         private Action _onArrival = () => {};
         private bool _isMoving;
 
-        private Vector2 _loc = GetLoc(new Vector2(-400, UI.OfScreenHeight(0.375f)),
-            new Vector2(-400, UI.OfScreenHeight(0.375f)), 1.0f);
+        private Vector2 _loc; 
 
-        public Cowboy(float scale = 0.5f)
+        public Cowboy(Phase phase, float scale = 0.5f)
         {
+            if (phase != Phase.Setup)
+                _loc = GetLoc(new Vector2(60, UI.OfScreenHeight(0.375f)), new Vector2(60, UI.OfScreenHeight(0.375f)), 1.0f);
+            else
+                _loc = GetLoc(new Vector2(-400, UI.OfScreenHeight(0.375f)), new Vector2(-400, UI.OfScreenHeight(0.375f)), 1.0f);
             _anims = new DictionaryWithDefault<CharState, SpriteAnimation>(Anim("__Hoodie_idle with gun", scale))
             {
                 { CharState.Walking, Anim("__Hoodie_walk with gun", scale) },

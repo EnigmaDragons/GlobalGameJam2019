@@ -8,9 +8,10 @@ namespace MonoDragons.GGJ
     public sealed class GameData
     {
         public int CurrentCardId { get; set; } = 0;
-        public int CurrentTurn { get; set; }
+        public int CurrentTurn { get; set; } = -1;
         public Phase CurrentPhase { get; set; } = Phase.Setup;
         public int CurrentLevel { get; set; } = 0;
+        public Enemy CurrentEnemy { get; set; } = Enemy.None;
         public Dictionary<int, CardState> AllCards { get; } = new Dictionary<int, CardState>();
         public CharacterState CowboyState { get; set; }
         public CharacterState HouseState { get; set; }

@@ -17,10 +17,9 @@ namespace MonoDragons.GGJ.Gameplay
         {
             _data = data;
             _house = house;
+            _enemyOrder = new List<Enemy> { Enemy.Bed, Enemy.Computer };
             Event.Subscribe<FinishedLevel>(OnLevelFinished, this);
             Event.Subscribe<NextLevelRequested>(x => SetupCharacters(x.Level), this);
-            _enemyOrder = new List<Enemy> { Enemy.Bed, Enemy.Computer };
-            _enemyOrder.Shuffle();
         }
         
         private void SetupCharacters(int level)
@@ -43,6 +42,7 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.CrackShot),
                         CreateCard(CardName.Reload))),
                 new CharacterState(Player.House, 10 + level * 10, new PlayerCardsState(Enemies.CreateEnemyDeck(_data, _enemyOrder[level - 1]))));
+            _data.CurrentEnemy = _enemyOrder[level - 1];
             _house.Initialized(Enemies.Create(_enemyOrder[level - 1]));
         }
 

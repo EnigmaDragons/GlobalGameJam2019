@@ -6,6 +6,7 @@ using MonoDragons.Core;
 using MonoDragons.Core.Animations;
 using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.Engine;
+using MonoDragons.Core.IO;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.Text;
@@ -21,10 +22,12 @@ namespace MonoDragons.GGJ.Scenes
         private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfigured) };
         private Label _hostEndpoint;
         private readonly NetworkArgs _args;
+        private readonly AppDataJsonIo _io;
 
         public MainMenuScene(NetworkArgs args)
         {
             _args = args;
+            _io = new AppDataJsonIo("GGJ2019");
         }
 
         public override void Init()
@@ -36,9 +39,15 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Sprite { Image = "UI/title", Transform = new Transform2(new Vector2((1600 - 720) / 2, UI.OfScreenHeight(0.062f)), new Size2(720, 355))});
 
             Multiplayer.Disconnect();
-            Add(Buttons.Wood("Host Game", UI.OfScreenSize(0.41f, 0.64f).ToPoint(), BeginHostingGame));
+            Add(Buttons.Wood("Host Game", UI.OfScreenSize(0.41f, 0.64f).ToPoint(), () => BeginHostingGame()));
+            //Add(Buttons.Wood("Host Loaded Game", UI.OfScreenSize(0.71f, 0.64f).ToPoint(), () => BeginHostingGame(true)));
             Add(Buttons.Wood("Connect To Game", UI.OfScreenSize(0.41f, 0.75f).ToPoint(), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
             Add(Buttons.Wood("Play Solo", UI.OfScreenSize(0.41f, 0.86f).ToPoint(), CreateSinglePlayerGame));
+            if (_io.HasSave("Save"))
+            {
+                Add(Buttons.Wood("Load Game as Cowboy", UI.OfScreenSize(0.11f, 0.86f).ToPoint(), () => CreateSinglePlayerGame(Player.Cowboy)));
+                Add(Buttons.Wood("Load Game as House", UI.OfScreenSize(0.71f, 0.86f).ToPoint(), () => CreateSinglePlayerGame(Player.House)));
+            }
             Add(new UiImage{ Image = "UI/wood-textbox", Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f))});
             _hostEndpoint =  new Label { Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), Font = DefaultFont.Medium};
             Add(_hostEndpoint);
@@ -54,6 +63,12 @@ namespace MonoDragons.GGJ.Scenes
                 Add(new ActionAutomaton(BeginHostingGame));
         }
 
+        private void CreateSinglePlayerGame(Player player)
+        {
+            var debug = _io.Load<GameData>("Save");
+            Scene.NavigateTo(new GameScene(new GameConfigured(Mode.SinglePlayer, player, _io.Load<GameData>("Save")), true));
+        }
+
         private void CreateSinglePlayerGame()
         {
             Scene.NavigateTo(new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true));
@@ -64,7 +79,8 @@ namespace MonoDragons.GGJ.Scenes
             var ipEndpoint = ParseURL(_hostEndpoint.Text);
             Multiplayer.HostGame(AppId, ipEndpoint.Port, NetTypes);
             var networkArgs = new NetworkArgs(_args.ShouldAutoLaunch, true, ipEndpoint.Address.ToString(), ipEndpoint.Port);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {ipEndpoint.Port}", networkArgs));
+            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {ipEndpoint.Port}", networkArgs,
+                new GameConfigured(Mode.MultiPlayer, Rng.Bool() ? Player.Cowboy: Player.House, new GameData())));
         }
 
         private void ConnectToGame(IPEndPoint endPoint)

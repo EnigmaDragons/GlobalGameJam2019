@@ -27,7 +27,7 @@ namespace MonoDragons.GGJ.Gameplay
         private float _elapsedMs = 0f;
         private float _from;
         private float _destination;
-        private float _currentX = UI.OfScreenWidth(1.6f);
+        private float _currentX;
         private bool _isMoving;
         private Action _onArrived = () => { };
 
@@ -36,6 +36,19 @@ namespace MonoDragons.GGJ.Gameplay
             _player = player;
             _data = data;
             Branch = new ClickUIBranch("Hand", 1);
+            _currentX = _data.CurrentPhase == Phase.Setup ? UI.OfScreenWidth(1.6f) : 0;
+            if (_data.CurrentPhase != Phase.Setup)
+                for(var i = 0; i < _data[player].Cards.HandZone.Count; i++)
+                {
+                    var idx = i;
+                    var cardView = Cards.Create(_data.AllCards[_data[player].Cards.HandZone[i]]);
+                    _cards.Add(cardView);
+                    var isPlayable = !State.Cards.UnplayableTypes.Contains(cardView.State.Type);
+                    _cardIsPlayable.Add(isPlayable);
+                    _positions.Add(Position(i));
+                    if (isPlayable)
+                        Branch.Add(new SimpleClickable(new Rectangle(_positions[i].ToPoint(), new Point(CardView.WIDTH, CardView.HEIGHT)), () => CardSelected(idx)));
+                }
             Event.Subscribe<CardSelected>(OnCardSelected, this);
             Event.Subscribe<HandDrawn>(OnHandDrawn, this);
         }

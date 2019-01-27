@@ -5,7 +5,7 @@ using System;
 
 namespace MonoDragons.GGJ.Gameplay
 {
-    class Bed : IHouseChar
+    public class Bed : IHouseChar
     {
         private readonly Sprite _sprite = new Sprite { Image = "Appliances/bed", Transform = new Transform2(UI.OfScreen(0.76f, 0.375f), new Size2(300, 238)) };
         

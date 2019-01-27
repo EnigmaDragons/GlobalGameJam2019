@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MonoDragons.Core.IO
 {
@@ -15,7 +16,7 @@ namespace MonoDragons.Core.IO
 
         public T Load<T>(string saveName)
         {
-            return JsonConvert.DeserializeObject<T>(File.ReadAllText(GetSavePath(saveName)));
+            return JObject.Parse(File.ReadAllText(GetSavePath(saveName))).First.First.ToObject<T>();
         }
 
         public void Save(string saveName, object data)

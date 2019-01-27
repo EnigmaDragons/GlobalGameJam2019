@@ -58,6 +58,9 @@ namespace MonoDragons.GGJ.Gameplay
             _gameData.CurrentTurn = 0;
             _currentLevel = e.CurrentLevel;
             Event.Publish(new TurnStarted { TurnNumber = _gameData.CurrentTurn });
+            _gameData.CurrentPhase = Phase.StartingTurn;
+            if (_animationsPending == 0)
+                OnTurnStarted();
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)

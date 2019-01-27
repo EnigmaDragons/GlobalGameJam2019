@@ -20,6 +20,7 @@ namespace MonoDragons.GGJ.Scenes
         private readonly string _ip;
         private readonly int _port;
         private readonly bool _isHost;
+        private readonly Optional<GameConfigured> _config;
 
         public WaitingForConnectionScene(string message, NetworkArgs netArgs)
         {
@@ -27,7 +28,18 @@ namespace MonoDragons.GGJ.Scenes
             _netArgs = netArgs;
             _ip = netArgs.Ip.ToString();
             _port = netArgs.Port;
-            _isHost = netArgs.ShouldHost;
+            _isHost = false;
+            _config = new Optional<GameConfigured>();
+        }
+
+        public WaitingForConnectionScene(string message, NetworkArgs netArgs, GameConfigured config)
+        {
+            _message = message;
+            _netArgs = netArgs;
+            _ip = netArgs.Ip.ToString();
+            _port = netArgs.Port;
+            _isHost = true;
+            _config = new Optional<GameConfigured>(config);
         }
 
         public override void Init()
@@ -41,7 +53,7 @@ namespace MonoDragons.GGJ.Scenes
 
             Input.On(Control.Menu, LaunchConnectingClient);
             if (_isHost)
-                Event.Subscribe<GameConnected>(HostAsRandom, this);
+                Event.Subscribe<GameConnected>(Host, this);
             if (_isHost && _netArgs.ShouldAutoLaunch)
                 LaunchConnectingClient();
             if (!_isHost)
@@ -58,12 +70,10 @@ namespace MonoDragons.GGJ.Scenes
             Process.Start(startInfo);
         }
 
-        private void HostAsRandom(GameConnected _)
+        private void Host(GameConnected _)
         {
-            var isHouse = Rng.Bool() ? Player.Cowboy : Player.House;
-            var options = new GameConfigured(Mode.MultiPlayer, isHouse, new GameData());
-            Event.Publish(options);
-            Scene.NavigateTo(new GameScene(options, true));
+            Event.Publish(_config.Value);
+            Scene.NavigateTo(new GameScene(_config.Value, true));
         }
     }
 }

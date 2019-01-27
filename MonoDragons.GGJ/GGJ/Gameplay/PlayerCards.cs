@@ -20,6 +20,7 @@ namespace MonoDragons.GGJ.Gameplay
             _player = player;
             _data = data;
             _rng = rng;
+            _currentTurn = _data.CurrentTurn;
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<CardSelected>(OnCardSelected, this);
             Event.Subscribe<TurnStarted>(OnTurnStarted, this);
@@ -114,12 +115,12 @@ namespace MonoDragons.GGJ.Gameplay
             }
             _state.HandZone.AddRange(cards);
             Event.Publish(new HandDrawn
-            {
-                TurnNumber = _currentTurn, 
-                Player = _player, 
-                Cards = _state.HandZone.ToList(),
-                PlayableCards = _state.HandZone.Where(x => !_state.UnplayableTypes.Contains(_data.Card(x).State.Type)).ToList()
-            });
+            (
+                _currentTurn, 
+                _player, 
+                _state.HandZone,
+                _state.HandZone.Where(x => !_state.UnplayableTypes.Contains(_data.Card(x).State.Type)).ToList()
+            ));
         } 
 
         private void Play(int cardId)

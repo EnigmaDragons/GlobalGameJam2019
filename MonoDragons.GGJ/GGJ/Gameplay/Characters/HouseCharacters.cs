@@ -4,6 +4,7 @@ using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Graphics;
+using MonoDragons.GGJ.Data;
 using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Gameplay
@@ -16,9 +17,12 @@ namespace MonoDragons.GGJ.Gameplay
         private readonly Vector2 _dmgViewOffset = new Vector2(120, 0);
         private readonly BobbingEffect _bobbing = new BobbingEffect();
         private bool _shouldShow;
+        //private readonly GameData _data;
 
-        public HouseCharacters()
+        public HouseCharacters(GameData data)
         {
+            _char.Init(Enemies.Create(data.CurrentEnemy));
+            _shouldShow = data.CurrentPhase != Phase.Setup;
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<LevelSetup>(e => _shouldShow = true, this);
         }

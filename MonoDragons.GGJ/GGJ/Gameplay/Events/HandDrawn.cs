@@ -8,5 +8,13 @@ namespace MonoDragons.GGJ.Gameplay
         public Player Player { get; set; }
         public List<int> Cards { get; set; }
         public List<int> PlayableCards { get; set; }
+
+        public HandDrawn(int turnNumber, Player player, List<int> cards, List<int> playableCards)
+        {
+            TurnNumber = turnNumber;
+            Player = player;
+            Cards = cards;
+            PlayableCards = playableCards;
+        }
     }
 }

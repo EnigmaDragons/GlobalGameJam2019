@@ -1,4 +1,6 @@
-﻿using MonoDragons.Core.EventSystem;
+﻿using System;
+using System.Linq;
+using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Gameplay;
 
 namespace MonoDragons.GGJ.AI
@@ -14,13 +16,16 @@ namespace MonoDragons.GGJ.AI
             _player = player;
             _data = data;
             _cards = cards;
-            Event.Subscribe<HandDrawn>(OnHandDrawn, this);
+            Event.Subscribe<CardSelected>(OnCardSelected, this);
         }
-
-        private void OnHandDrawn(HandDrawn e)
+        private void OnCardSelected(CardSelected e)
         {
-            if (e.Player == _player)
-                Event.Publish(new CardSelected(e.PlayableCards.Random(), _player));
+            if (e.Player != _player)
+            {
+                var card = _data[_player].Cards.HandZone.Where(
+                    x => !_data[_player].Cards.UnplayableTypes.Contains(_data.Card(x).State.Type)).ToList().Random();
+                Event.Publish(new CardSelected(card, _player));
+            }
         }
     }
 }

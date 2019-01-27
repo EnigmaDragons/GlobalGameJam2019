@@ -22,11 +22,11 @@ namespace MonoDragons.GGJ.Scenes
         private readonly GameData _data;
         private HandView _handView;
 
-        public GameScene(GameConfigured gameOptionSelected, bool isHost)
+        public GameScene(GameConfigured config, bool isHost)
         {
-            _player = isHost ? gameOptionSelected.HostRole : (gameOptionSelected.HostRole == Player.Cowboy ? Player.House : Player.Cowboy);
-            _mode = gameOptionSelected.Mode;
-            _data = gameOptionSelected.StartingData;
+            _player = isHost ? config.HostRole : (config.HostRole == Player.Cowboy ? Player.House : Player.Cowboy);
+            _mode = config.Mode;
+            _data = config.StartingData;
         }
 
         public override void Init()
@@ -34,7 +34,7 @@ namespace MonoDragons.GGJ.Scenes
             var rng = new GameRng(_data);
             Sound.Music("fight-it").Play();
             State<GameData>.Init(_data);
-            var houseChars = new HouseCharacters();
+            var houseChars = new HouseCharacters(_data);
             Add(new DataSaver());
             Add(new LevelProgression(_data, houseChars));
             Add(new CardEffectProcessor(_data));
@@ -48,15 +48,10 @@ namespace MonoDragons.GGJ.Scenes
             Add(cowboyCards);
             var houseCards = new PlayerCards(Player.House, _data, rng);
             Add(houseCards);
-            if (_mode == Mode.SinglePlayer)
-                Add(new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy,
-                    _data,
-                    _player == Player.Cowboy ? houseCards : cowboyCards));
-
             Add(new PhaseTransitions(_data));
             Add(new LevelBackground("House/level1"));
             Add(new BattleBackHud(_player));
-            Add(new Cowboy());
+            Add(new Cowboy(_data.CurrentPhase));
             Add(houseChars);
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
                 IsVisible = () => _player == Player.House
@@ -69,6 +64,13 @@ namespace MonoDragons.GGJ.Scenes
             _handView = new HandView(_player, _data);
             Add(_handView);
             Add(new BattleTopHud(_player, _data));
+            if (_mode == Mode.SinglePlayer)
+            {
+                var ai = new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy,
+                    _data,
+                    _player == Player.Cowboy ? houseCards : cowboyCards);
+                Add(ai);
+            }
 
             // Temp
             Add(new ActionAutomaton(() =>
@@ -84,7 +86,7 @@ namespace MonoDragons.GGJ.Scenes
                     Event.Publish(new NextLevelRequested { Level = 1 });
             }));
             
-            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
+            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);  
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)

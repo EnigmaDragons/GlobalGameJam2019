@@ -69,7 +69,7 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Shuffle<T>(IList<T> list)
         {
-            for (var n = list.Count - 1; n > 1; n--)
+            for (var n = list.Count; n > 1; n--)
             {
                 _gameData.TimesSeedHasBeenUsed++;
                 var k = _instance.Next(n + 1);

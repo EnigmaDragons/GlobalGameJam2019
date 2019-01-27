@@ -16,6 +16,7 @@ namespace MonoDragons.GGJ.Gameplay
         public int HandSizeModifier { get; set; }
         public int PassId { get; }
 
+        private PlayerCardsState() { }
         public PlayerCardsState(List<CardState> s) : this(s.First(x => x.CardName == CardName.CowboyPass || x.CardName == CardName.HousePass).Id, s.Select(x => x.Id)) { }
         public PlayerCardsState(params CardState[] s) : this(s.First(x => x.CardName == CardName.CowboyPass || x.CardName == CardName.HousePass).Id, s.Select(x => x.Id)) { }
         public PlayerCardsState(int passId, IEnumerable<int> ids)

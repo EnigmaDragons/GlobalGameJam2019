@@ -7,6 +7,7 @@ namespace MonoDragons.GGJ.Data
 {
     public enum Enemy
     {
+        None,
         Bed,
         Computer,
     }
@@ -15,6 +16,7 @@ namespace MonoDragons.GGJ.Data
     {      
         private static readonly Dictionary<Enemy, Func<GameData, List<CardState>>> _enemySpecificCards = new Dictionary<Enemy, Func<GameData, List<CardState>>>
         {
+            { Enemy.None, data => new List<CardState> {} },
             { Enemy.Bed, data => new List<CardState>
                 {
                     CreateCard(data, CardName.BedderLuckNextTime),
@@ -37,6 +39,8 @@ namespace MonoDragons.GGJ.Data
 
         public static IHouseChar Create(Enemy enemy)
         {
+            if (enemy == Enemy.None)
+                return new NoChar();
             if (enemy == Enemy.Bed)
                 return new Bed();
             if (enemy == Enemy.Computer)

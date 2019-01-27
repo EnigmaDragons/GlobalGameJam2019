@@ -21,6 +21,8 @@ namespace MonoDragons.GGJ.Gameplay
         public List<Status> Statuses { get; set; }
         public int Energy { get; set; }
 
+        private CharacterState() { }
+
         public CharacterState(Player player, int hp, PlayerCardsState cards)
         {
             Player = player;
