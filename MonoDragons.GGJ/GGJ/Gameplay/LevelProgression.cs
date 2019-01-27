@@ -26,7 +26,11 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.FanTheHammer),
                         CreateCard(CardName.GunsBlazing),
                         CreateCard(CardName.ShowDown),
-                        CreateCard(CardName.RushTheEnemy))),
+                        CreateCard(CardName.RushTheEnemy),
+                        CreateCard(CardName.LightTheFuse),
+                        CreateCard(CardName.Barricade),
+                        CreateCard(CardName.QuickDraw),
+                        CreateCard(CardName.Lasso))),
                 new CharacterState(Player.House, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),
@@ -56,6 +60,7 @@ namespace MonoDragons.GGJ.Gameplay
             if (!e.IsGameOver && _data.CurrentLevel < e.LevelNumber)
             {
                 Event.Publish(new NextLevelRequested { Level = _data.CurrentLevel + 1 });
+                Logger.WriteLine("-----------------------------------------------------");
             }
         }
     }

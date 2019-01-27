@@ -45,11 +45,13 @@
     <Compile Include="Core\Network\Events\GameDisconnected.cs" />
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
+    <Compile Include="GGJ\AI\RandomCardAiPlayer.cs" />
     <Compile Include="GGJ\Data\Enemies.cs" />
     <Compile Include="GGJ\GameData.cs" />
     <Compile Include="GGJ\Gameplay\CardEffectProcessor.cs" />
     <Compile Include="GGJ\Gameplay\CardState.cs" />
     <Compile Include="GGJ\Gameplay\CardType.cs" />
+    <Compile Include="GGJ\Gameplay\CounterEffectProcessor.cs" />
     <Compile Include="GGJ\Gameplay\Characters\Bed.cs" />
     <Compile Include="GGJ\Gameplay\Characters\Character.cs" />
     <Compile Include="GGJ\Gameplay\Characters\CharacterState.cs" />
@@ -60,12 +62,16 @@
     <Compile Include="GGJ\Gameplay\Events\AllCardsRevealed.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardTypeLocked.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardResolutionBegun.cs" />
+    <Compile Include="GGJ\Gameplay\Events\CounterEffectQueued.cs" />
+    <Compile Include="GGJ\Gameplay\Events\CountersProcessed.cs" />
     <Compile Include="GGJ\Gameplay\Events\DamageTakenMultiplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\FinishedLevel.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandDrawn.cs" />
     <Compile Include="GGJ\Gameplay\Events\LevelSetup.cs" />
     <Compile Include="GGJ\Gameplay\Events\NextAttackEmpowered.cs" />
     <Compile Include="GGJ\Gameplay\Events\NextLevelRequested.cs" />
+    <Compile Include="GGJ\Gameplay\Events\NextTurnEffectQueued.cs" />
+    <Compile Include="GGJ\Gameplay\Events\OnDamageEffectQueued.cs" />
     <Compile Include="GGJ\Gameplay\Events\OnNotDamagedEffectQueued.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerDamageProposed.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerBlockProposed.cs" />
@@ -80,6 +86,8 @@
     <Compile Include="GGJ\Gameplay\Events\CardSelected.cs" />
     <Compile Include="GGJ\Gameplay\PlayerCards.cs" />
     <Compile Include="GGJ\Gameplay\Events\TurnStarted.cs" />
+    <Compile Include="GGJ\Gameplay\NextTurnEffectProcessor.cs" />
+    <Compile Include="GGJ\Mode.cs" />
     <Compile Include="GGJ\Scenes\UiTestScene.cs" />
     <Compile Include="GGJ\UiElements\Explosion.cs" />
     <Compile Include="GGJ\UiElements\HandView.cs" />
@@ -317,6 +325,9 @@
     <Content Include="Content\Cards\CowboyCard1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Cards\CowboyCard10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Cards\CowboyCard2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -330,6 +341,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\CowboyCard6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\CowboyCard7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\CowboyCard8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\CowboyCard9.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\SmartHouseCard0.png">

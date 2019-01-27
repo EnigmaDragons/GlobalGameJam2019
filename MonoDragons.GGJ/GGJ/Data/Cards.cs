@@ -19,6 +19,10 @@ namespace MonoDragons.GGJ.Data
             { CardName.DuckAndCover, s => new Card(s, "CowboyCard4") },
             { CardName.ShowDown, s => new Card(s, "CowboyCard5") },
             { CardName.RushTheEnemy, s => new Card(s, "CowboyCard6") },
+            { CardName.LightTheFuse, s => new Card(s, "CowboyCard7") },
+            { CardName.Barricade, s => new Card(s, "CowboyCard8") },
+            { CardName.QuickDraw, s => new Card(s, "CowboyCard9")  },
+            { CardName.Lasso, s => new Card(s, "CowboyCard10")  },
 
             { CardName.HousePass, s => new Card(s, "SmartHouseCard0") },
             { CardName.ElectricShockSuperAttack, s => new Card(s, "SmartHouseCard1") },
@@ -37,6 +41,10 @@ namespace MonoDragons.GGJ.Data
             { CardName.DuckAndCover, CardType.Defend },
             { CardName.ShowDown, CardType.Charge },
             { CardName.RushTheEnemy, CardType.Attack },
+            { CardName.LightTheFuse, CardType.Charge },
+            { CardName.Barricade, CardType.Defend },
+            { CardName.QuickDraw, CardType.Counter },
+            { CardName.Lasso, CardType.Counter },
 
             { CardName.HousePass, CardType.Pass },
             { CardName.ElectricShockSuperAttack, CardType.Attack },
@@ -63,10 +71,54 @@ namespace MonoDragons.GGJ.Data
             { CardName.DuckAndCover, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.Cowboy }) },
             { CardName.ShowDown, data => Event.Publish(new OnNotDamagedEffectQueued { Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 6 } }) },
             { CardName.RushTheEnemy, data =>
-            {
-                Event.Publish(new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 2 });
-                Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 5 });
-            } },
+                {
+                    Event.Publish(new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 2 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 5 });
+                } },
+            { CardName.LightTheFuse, data =>
+                {
+                    Event.Publish(new NextTurnEffectQueued
+                    {
+                        Event = new OnDamageEffectQueued
+                        {
+                            Target = Player.House,
+                            Event = new PlayerDamaged {Target = Player.House, Amount = 6}
+                        }
+                    });
+                    Event.Publish(new NextTurnEffectQueued
+                    {
+                        Event = new OnNotDamagedEffectQueued
+                        {
+                            Target = Player.House,
+                            Event = new PlayerDamaged {Target = Player.Cowboy, Amount = 6}
+                        }
+                    });
+                } },
+            { CardName.Barricade, data =>
+                {
+                    Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 });
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 } });
+                } },
+            { CardName.QuickDraw, data =>
+                {
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 0 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 3 } });
+                }},
+            { CardName.Lasso, data =>
+                {
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
+                        Event = new NextTurnEffectQueued { Event = new DamageTakenMultiplied { Target = Player.House, Multiplier = 2 }} });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Attack } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Defend } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Charge } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
+                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Counter } });
+                } },
 
             { CardName.HousePass, data => {} },
             { CardName.ElectricShockSuperAttack, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
@@ -97,6 +149,10 @@ namespace MonoDragons.GGJ.Data
         DuckAndCover = 9,
         ShowDown = 10,
         RushTheEnemy = 11,
+        LightTheFuse = 12,
+        Barricade = 13,
+        QuickDraw = 14,
+        Lasso = 15,
 
         HousePass = 5,
         ElectricShockSuperAttack = 6,

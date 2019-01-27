@@ -24,6 +24,7 @@ namespace MonoDragons.GGJ.Gameplay
             _processedTurn = e.TurnNumber;
             Cards.Execute(_data, _data.AllCards[e.CowboyCard].CardName);
             Cards.Execute(_data, _data.AllCards[e.HouseCard].CardName);
+            Event.Publish(new CountersProcessed());
             Event.Publish(new CardResolutionBegun());
             Logger.WriteLine($"After Combat: Cowboy {_data.CowboyState.HP} House {_data.HouseState.HP}");
         }

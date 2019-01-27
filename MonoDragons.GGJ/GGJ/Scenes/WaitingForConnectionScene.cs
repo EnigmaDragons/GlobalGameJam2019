@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
@@ -45,7 +44,7 @@ namespace MonoDragons.GGJ.Scenes
             if (_isHost && _netArgs.ShouldAutoLaunch)
                 LaunchConnectingClient();
             if (!_isHost)
-                Event.Subscribe<RoleSelected>(r => Scene.NavigateTo(new GameScene(r.Role == Player.Cowboy ? Player.House : Player.Cowboy)), this);
+                Event.Subscribe<RoleSelected>(r => Scene.NavigateTo(new GameScene(r.Role == Player.Cowboy ? Player.House : Player.Cowboy, Mode.MultiPlayer)), this);
         }
 
         private void LaunchConnectingClient()
@@ -62,7 +61,7 @@ namespace MonoDragons.GGJ.Scenes
         {
             var isHouse = Rng.Bool() ? Player.Cowboy : Player.House;
             Event.Publish(new RoleSelected(isHouse));
-            Scene.NavigateTo(new GameScene(isHouse));
+            Scene.NavigateTo(new GameScene(isHouse, Mode.MultiPlayer));
         }
     }
 }

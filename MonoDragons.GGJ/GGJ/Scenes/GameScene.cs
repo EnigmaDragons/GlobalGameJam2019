@@ -6,6 +6,7 @@ using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.AI;
 using MonoDragons.GGJ.Data;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements;
@@ -14,15 +15,17 @@ namespace MonoDragons.GGJ.Scenes
 {
     public class GameScene : ClickUiScene
     {
-        private readonly Player _player;       
+        private readonly Player _player;
+        private readonly Mode _mode;
         private CardRevealer _cowboyRevealer;
         private CardRevealer _houseRevealer;
         private GameData _data;
         private HandView _handView;
 
-        public GameScene(Player player)
+        public GameScene(Player player, Mode mode)
         {
             _player = player;
+            _mode = mode;
         }
 
         public override void Init()
@@ -34,8 +37,12 @@ namespace MonoDragons.GGJ.Scenes
             Add(new LevelProgression(_data, houseChars));
             Add(new PlayerCards(_player, _data));
             Add(new CardEffectProcessor(_data));
+            Add(new NextTurnEffectProcessor());
+            Add(new CounterEffectProcessor(_data));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
+            if (_mode == Mode.SinglePlayer)
+                Add(new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy, _data));
 
             Add(new PhaseTransitions(_data));
             Add(new LevelBackground("House/level1"));
