@@ -61,7 +61,7 @@ namespace MonoDragons.GGJ.Gameplay
 
             _currentTurn = e.TurnNumber;
             DrawPass();
-            DrawCards(3);
+            DrawCards(5);
         }
 
         private void OnCardSelected(CardSelected e)
