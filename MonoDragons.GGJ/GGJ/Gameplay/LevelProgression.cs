@@ -38,7 +38,7 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.BothBarrels),
                         CreateCard(CardName.CrackShot),
                         CreateCard(CardName.Reload))),
-                new CharacterState(Player.House, 10,
+                new CharacterState(Player.House, 1,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),
                         CreateCard(CardName.Lamp),

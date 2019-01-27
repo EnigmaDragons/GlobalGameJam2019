@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace MonoDragons.Core.UserInterface
 {
@@ -10,7 +11,7 @@ namespace MonoDragons.Core.UserInterface
         public Color OnHover { get; set; } = Color.FromNonPremultiplied(255, 255, 255, 40);
         public Color OnPress { get; set; } = Color.FromNonPremultiplied(255, 200, 200, 20);
         
-        public TintClickableUIElement(Rectangle area, bool isEnabled = true, float scale = 1) 
+        public TintClickableUIElement(Rectangle area, Func<bool> isEnabled, float scale = 1) 
             : base(area, isEnabled, scale)
         {
             _rect = new ColoredRectangle { Transform = new Transform2(area) };

@@ -66,10 +66,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(_houseRevealer);
             _handView = new HandView(_player, _data);
             Add(_handView);
-            var topHud = new BattleTopHud(_player, _data);
-            Add(topHud);
-            ClickUi.Add(_handView.Branch);
-            ClickUi.Add(topHud.Branch);
+            Add(new BattleTopHud(_player, _data));
 
             // Temp
             Add(new ActionAutomaton(() =>

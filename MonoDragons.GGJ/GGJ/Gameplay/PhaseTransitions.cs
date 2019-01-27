@@ -89,14 +89,17 @@ namespace MonoDragons.GGJ.Gameplay
             }
             if (_currentLevel != _gameData.CurrentLevel) 
                 return;
-            
-            if (_gameData.CowboyState.HP <= 0 || _gameData.HouseState.HP <= 0)
-                _currentLevel++;
-            
-            if (_gameData.CowboyState.HP <= 0)
-                Event.Publish(new PlayerDefeated {LevelNumber = _currentLevel, Winner = Player.House, IsGameOver = true});
-            else if (_gameData.HouseState.HP <= 0)
-                Event.Publish(new PlayerDefeated {LevelNumber = _currentLevel, Winner = Player.Cowboy, IsGameOver = false});
+
+            if (_animationsPending == 0)
+            {
+                if (_gameData.CowboyState.HP <= 0 || _gameData.HouseState.HP <= 0)
+                    _currentLevel++;
+
+                if (_gameData.CowboyState.HP <= 0)
+                    Event.Publish(new PlayerDefeated { LevelNumber = _currentLevel, Winner = Player.House, IsGameOver = true });
+                else if (_gameData.HouseState.HP <= 0)
+                    Event.Publish(new PlayerDefeated { LevelNumber = _currentLevel, Winner = Player.Cowboy, IsGameOver = false });
+            }
         }
 
         private void CardSelected(CardSelected selection)

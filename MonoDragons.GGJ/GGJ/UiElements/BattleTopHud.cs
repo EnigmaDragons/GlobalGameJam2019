@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace MonoDragons.GGJ.UiElements
 {
-    class BattleTopHud : IVisualAutomaton
+    class BattleTopHud : IVisualAutomatonControl
     {
         private readonly Label _cowboyHp = new Label { Transform = new Transform2(UI.OfScreen(0.038f, 0.02f), new Size2(92, 92)) };
         private readonly Label _houseHp = new Label { Transform = new Transform2(UI.OfScreen(0.9f, 0.02f), new Size2(92, 92)) };
