@@ -4,6 +4,8 @@ using MonoDragons.Core;
 using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
+using MonoDragons.Core.Inputs;
+using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.AI;
@@ -71,12 +73,11 @@ namespace MonoDragons.GGJ.Scenes
                     Event.Publish(new PlayerDefeated { LevelNumber = _data.CurrentLevel, Winner = Player.Cowboy, IsGameOver = false });
                 if (keys.IsKeyDown(Keys.H))
                     Event.Publish(new PlayerDefeated { LevelNumber = _data.CurrentLevel, Winner = Player.House, IsGameOver = true });
-                if (keys.IsKeyDown(Keys.Q))
-                    Scene.NavigateTo("Lobby");
                 if (keys.IsKeyDown(Keys.F2))
                     Event.Publish(new NextLevelRequested { Level = 2 });
             }));
             
+            Input.On(Control.Menu, () => Scene.NavigateTo(new MainMenuScene(new NetworkArgs())));
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);  
         }
 

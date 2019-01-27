@@ -13,24 +13,52 @@ namespace MonoDragons.GGJ.Gameplay
     {
         private readonly Player _player;
         private List<IVisual> _statuses = new List<IVisual>();
-        private int vOffset = 60;
+        private List<IVisual> _nextStatuses = new List<IVisual>();
+        private int vOffset = -62;
         
         public CharStatuses(Player player)
         {
             _player = player;
-            Event.Subscribe<TurnFinished>(x => _statuses = new List<IVisual>(), this);
+            Event.Subscribe<PlayerDefeated>(x => Clear(), this);
+            Event.Subscribe<TurnFinished>(x => Clear(), this);
             Event.Subscribe<NextAttackEmpowered>(OnNextAttackEmpowered, this);
+            Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
+            Event.Subscribe<CardTypeLocked>(OnCardTypeLocked, this);
+        }
+
+        private void OnDamageTakenMultiplied(DamageTakenMultiplied e)
+        {
+            if (e.Target == _player)
+                _statuses.Add(new Label { Text = $"x{e.Type.ToString()}", HorizontalAlignment = HorizontalAlignment.Left, Transform = new Transform2(new Size2(150, 50))});
+        }
+
+        private void Clear()
+        {
+            var next = _nextStatuses;
+            _nextStatuses = new List<IVisual>();
+            _statuses = next;
+        }
+
+        private void OnCardTypeLocked(CardTypeLocked e)
+        {
+            if (e.Target != _player) 
+                return;
+            
+            if (e.Type == CardType.Attack)
+                Queue("no-attack");
+            else
+                _nextStatuses.Add(new Label {Text = $"No {e.Type}"});
         }
 
         private void OnNextAttackEmpowered(NextAttackEmpowered e)
         {
             if (e.Target == _player)
-                Add($"plus{e.Amount}");
+                Queue($"plus{e.Amount}");
         }
 
-        public void Add(string status)
+        public void Queue(string status)
         {
-            _statuses.Add(new UiImage { Image = $"UI/{status}", Transform = new Transform2(new Size2(62, 62))});
+            _nextStatuses.Add(new UiImage { Image = $"UI/{status}", Transform = new Transform2(new Size2(50, 50))});
         }
             
         public void Update(TimeSpan delta)

@@ -124,7 +124,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.ShowDown, data => Event.Publish(new NotDamagedEffectQueued { Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 6 } }) },
             { CardName.RushTheEnemy, data =>
                 {
-                    Event.Publish(new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 2 });
+                    Event.Publish(new DamageTakenMultiplied { Target = Player.Cowboy, Type = MultiplierType.Double });
                     Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 5 });
                 } },
             { CardName.LightTheFuse, data =>
@@ -154,14 +154,14 @@ namespace MonoDragons.GGJ.Data
             { CardName.QuickDraw, data =>
                 {
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
-                        Event = new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 0 } });
+                        Event = new DamageTakenMultiplied { Target = Player.Cowboy, Type = MultiplierType.Zero } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
                         Event = new PlayerDamageProposed { Target = Player.House, Amount = 3 } });
                 }},
             { CardName.Lasso, data =>
                 {
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
-                        Event = new NextTurnEffectQueued { Event = new DamageTakenMultiplied { Target = Player.House, Multiplier = 2 }} });
+                        Event = new NextTurnEffectQueued { Event = new DamageTakenMultiplied { Target = Player.House, Type = MultiplierType.Double }} });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
                         Event = new CardTypeLocked { Target = Player.House, Type = CardType.Attack } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
@@ -200,7 +200,7 @@ namespace MonoDragons.GGJ.Data
                 {
                     Event.Publish(new NextAttackEmpowered { Target = Player.Cowboy, Amount = 2 });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
-                        Event = new DamageTakenMultiplied { Target = Player.Cowboy, Multiplier = 0.5m }});
+                        Event = new DamageTakenMultiplied { Target = Player.Cowboy, Type = MultiplierType.Half }});
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
                         Event = new BlockRecievedMultiplied { Target = Player.House, Multiplier = 0.5m }});
                 } },
@@ -246,7 +246,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.CoolDown, data =>
                 {
                     Event.Publish(new NextAttackEmpowered { Target = Player.House, Amount = 3 });
-                    Event.Publish(new NextTurnEffectQueued { Event = new DamageTakenMultiplied { Target = Player.House, Multiplier = 0.5m }});
+                    Event.Publish(new NextTurnEffectQueued { Event = new DamageTakenMultiplied { Target = Player.House, Type = MultiplierType.Half }});
                 } },
             { CardName.ShippingBoxesWall, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House }) },
             { CardName.SpinningFanBlades, data =>
@@ -314,7 +314,7 @@ namespace MonoDragons.GGJ.Data
 
             { CardName.HologramProjection, data =>
                 {
-                    Event.Publish(new DamageTakenMultiplied { Target = Player.House, Multiplier = 0 });
+                    Event.Publish(new DamageTakenMultiplied { Target = Player.House, Type = MultiplierType.Zero });
                     Event.Publish(new CardTypeLocked { Target = Player.House, Type = CardType.Defend });
                     Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 });
                 } },
