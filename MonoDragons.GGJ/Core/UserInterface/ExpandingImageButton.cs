@@ -27,7 +27,7 @@ namespace MonoDragons.Core.UserInterface
 
         public ExpandingImageButton(string basic, string hover, string press, Transform2 transform, Size2 sizeIncrease, Action onClick,
             Func<bool> isVisible)
-            : base(transform.ToRectangle())
+            : base(transform.ToRectangle(), isVisible)
         {
             _basic = basic;
             _hover = hover;

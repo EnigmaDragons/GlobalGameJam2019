@@ -13,7 +13,7 @@ namespace MonoDragons.Core.UserInterface
 
         private bool _isDescriptionVisible = false;
 
-        public ImageWithDescription(string image, string description, Transform2 transform) : base(transform.ToRectangle(), true, 1)
+        public ImageWithDescription(string image, string description, Transform2 transform) : base(transform.ToRectangle(), 1)
         {
             _image = image;
             _label = new Label

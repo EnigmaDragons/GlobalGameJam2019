@@ -23,14 +23,14 @@ namespace MonoDragons.Core.UserInterface
         public TextureButtonWithText(Rectangle area, Action onClick, string text, UiStateTextures textures)
             : this(area, onClick, text, textures, () => true) { }
 
-        public TextureButtonWithText(Rectangle area, Action onClick, string text, UiStateTextures textures, Func<bool> isvisible) 
-            : base(area)
+        public TextureButtonWithText(Rectangle area, Action onClick, string text, UiStateTextures textures, Func<bool> isVisible) 
+            : base(area, isVisible)
         {
             _onClick = onClick;
             _text = text;
             _textures = textures;
             _current = _textures.Default;
-            _isVisible = isvisible;
+            _isVisible = isVisible;
         }
 
         public override void OnEntered()
