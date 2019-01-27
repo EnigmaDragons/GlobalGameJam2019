@@ -1,15 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.Data;
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements.Events;
 
-namespace MonoDragons.GGJ.Gameplay
+namespace MonoDragons.GGJ.UiElements
 {
     public class HandView : IVisualAutomatonControl
     {
