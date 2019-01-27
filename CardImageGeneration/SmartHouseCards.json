@@ -19,7 +19,7 @@
             "Effect": ""
         },
         {
-            "Name": "Lamp",
+            "Name": "Lamp Assult",
             "Type": "Attack",
             "Effect": "Deal 3 Damage"
         },
