@@ -60,7 +60,8 @@ namespace MonoDragons.Core
                 { "Logo", () => new SimpleLogoScene("Lobby", EnigmaDragonsResources.LogoImage) },
                 { "Lobby", () => new LobbyScene(args) },
                 { "Game", () => new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true) },
-                { "UI", () => new UiTestScene()}
+                { "UI", () => new UiTestScene()},
+                { "Victory", () => new CowboyVictoryScene()}
             });
         }
 

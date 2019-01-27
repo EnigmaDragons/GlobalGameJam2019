@@ -1,8 +1,8 @@
 ﻿namespace MonoDragons.GGJ.Gameplay.Events
 {
-    public class OnNotDamagedEffectQueued
+    public class StatusRemoved
     {
         public Player Target { get; set; }
-        public object Event { get; set; }
+        public string Name { get; set; }
     }
 }

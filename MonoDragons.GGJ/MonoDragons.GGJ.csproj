@@ -46,6 +46,7 @@
     <Compile Include="Core\Network\Events\GameDisconnected.cs" />
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
+    <Compile Include="Core\UserInterface\TintClickableUIElement.cs" />
     <Compile Include="GGJ\AI\RandomCardAiPlayer.cs" />
     <Compile Include="GGJ\Data\Enemies.cs" />
     <Compile Include="GGJ\GameData.cs" />
@@ -64,8 +65,10 @@
     <Compile Include="GGJ\Gameplay\Events\BlockRecievedMultiplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardTypeLocked.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardResolutionBegun.cs" />
+    <Compile Include="GGJ\Gameplay\Events\StatusApplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\CounterEffectQueued.cs" />
     <Compile Include="GGJ\Gameplay\Events\CountersProcessed.cs" />
+    <Compile Include="GGJ\Gameplay\Events\DamageBlocked.cs" />
     <Compile Include="GGJ\Gameplay\Events\DamageTakenMultiplied.cs" />
     <Compile Include="GGJ\Gameplay\Events\FinishedLevel.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandDrawn.cs" />
@@ -73,10 +76,17 @@
     <Compile Include="GGJ\Gameplay\Events\NextAttackEmpowered.cs" />
     <Compile Include="GGJ\Gameplay\Events\NextLevelRequested.cs" />
     <Compile Include="GGJ\Gameplay\Events\NextTurnEffectQueued.cs" />
-    <Compile Include="GGJ\Gameplay\Events\OnDamageEffectQueued.cs" />
-    <Compile Include="GGJ\Gameplay\Events\OnNotDamagedEffectQueued.cs" />
+    <Compile Include="GGJ\Gameplay\Events\DamageBlockedEffectQueued.cs" />
+    <Compile Include="GGJ\Gameplay\Events\DamageEffectQueued.cs" />
+    <Compile Include="GGJ\Gameplay\Events\DamageNotBlockedEffectQueued.cs" />
+    <Compile Include="GGJ\Gameplay\Events\NotDamagedEffectQueued.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerDamageProposed.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerBlockProposed.cs" />
+    <Compile Include="GGJ\Scenes\CowboyVictoryScene.cs" />
+    <Compile Include="GGJ\Gameplay\Events\StatusRemoved.cs" />
+    <Compile Include="GGJ\Gameplay\Status.cs" />
+    <Compile Include="GGJ\Gameplay\StatusProcessor.cs" />
+    <Compile Include="GGJ\UiElements\DamageNumbersView.cs" />
     <Compile Include="GGJ\UiElements\Events\AnimationEnded.cs" />
     <Compile Include="GGJ\UiElements\Events\AnimationStarted.cs" />
     <Compile Include="GGJ\Gameplay\LevelProgression.cs" />
@@ -84,7 +94,6 @@
     <Compile Include="GGJ\Gameplay\Events\AllCardsSelected.cs" />
     <Compile Include="GGJ\Gameplay\CardRevealer.cs" />
     <Compile Include="GGJ\Data\Cards.cs" />
-    <Compile Include="GGJ\Gameplay\Card.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardSelected.cs" />
     <Compile Include="GGJ\Gameplay\PlayerCards.cs" />
     <Compile Include="GGJ\Gameplay\Events\TurnStarted.cs" />
@@ -92,6 +101,7 @@
     <Compile Include="GGJ\Mode.cs" />
     <Compile Include="GGJ\Scenes\UiTestScene.cs" />
     <Compile Include="GGJ\UiElements\Explosion.cs" />
+    <Compile Include="GGJ\UiElements\CardView.cs" />
     <Compile Include="GGJ\UiElements\HandView.cs" />
     <Compile Include="GGJ\Gameplay\Phase.cs" />
     <Compile Include="GGJ\Gameplay\PhaseTransitions.cs" />
@@ -286,6 +296,7 @@
     <Compile Include="GGJ\UiElements\Buttons.cs" />
     <Compile Include="GGJ\UiElements\LevelBackground.cs" />
     <Compile Include="GGJ\UiElements\UiConsts.cs" />
+    <Compile Include="GGJ\UiElements\VictoryHud.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
@@ -336,6 +347,12 @@
     <Content Include="Content\Cards\CowboyCard12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Cards\CowboyCard13.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\CowboyCard14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Cards\CowboyCard2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -366,10 +383,31 @@
     <Content Include="Content\Cards\SmartHouseCard1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Cards\SmartHouseCard10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Cards\SmartHouseCard2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\SmartHouseCard3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard9.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cowboy\__Hoodie_celebrate_000.png">
@@ -816,7 +854,16 @@
     <Content Include="Content\Music\fight-it.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Music\The_Cowboy_Theme.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Music\twists.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Outside\desert_bg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Outside\desert_front.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sounds\talkblip-low.mp3">
@@ -826,6 +873,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\button.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\card-chains.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\heart.png">

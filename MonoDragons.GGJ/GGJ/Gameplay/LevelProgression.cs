@@ -1,10 +1,13 @@
 ﻿using MonoDragons.Core.EventSystem;
+using MonoDragons.Core.Scenes;
 using MonoDragons.GGJ.Data;
+using MonoDragons.GGJ.Scenes;
 
 namespace MonoDragons.GGJ.Gameplay
 {
     public sealed class LevelProgression
     {
+        private const int NumLevels = 2;
         private readonly GameData _data;
         private readonly HouseCharacters _house;
 
@@ -22,7 +25,7 @@ namespace MonoDragons.GGJ.Gameplay
                 new CharacterState(Player.Cowboy, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.CowboyPass),
-                        CreateCard(CardName.CrackShot),
+                        CreateCard(CardName.SixShooter),
                         CreateCard(CardName.FanTheHammer),
                         CreateCard(CardName.GunsBlazing),
                         CreateCard(CardName.ShowDown),
@@ -32,13 +35,22 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.QuickDraw),
                         CreateCard(CardName.Lasso),
                         CreateCard(CardName.Ricochet),
-                        CreateCard(CardName.BothBarrels))),
+                        CreateCard(CardName.BothBarrels),
+                        CreateCard(CardName.CrackShot),
+                        CreateCard(CardName.Reload))),
                 new CharacterState(Player.House, 10,
                     new PlayerCardsState(
                         CreateCard(CardName.HousePass),
-                        CreateCard(CardName.Lazer),
-                        CreateCard(CardName.WaterLeak),
-                        CreateCard(CardName.ElectricShockSuperAttack))));
+                        CreateCard(CardName.Lamp),
+                        CreateCard(CardName.LightsOut),
+                        CreateCard(CardName.BlindingLights),
+                        CreateCard(CardName.DustTheRoom),
+                        CreateCard(CardName.HeatUp),
+                        CreateCard(CardName.CoolDown),
+                        CreateCard(CardName.ShippingBoxesWall),
+                        CreateCard(CardName.SpinningFanBlades),
+                        CreateCard(CardName.RoombaAttack),
+                        CreateCard(CardName.PowerCordTrip))));
 
             _house.Initialized(Enemies.Create(Enemy.Bed));
         }
@@ -59,7 +71,11 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnLevelFinished(FinishedLevel e)
         {
-            if (!e.IsGameOver && _data.CurrentLevel < e.LevelNumber)
+            if (e.LevelNumber > NumLevels)
+            {
+                Scene.NavigateTo(new CowboyVictoryScene());
+            }
+            else if (!e.IsGameOver && _data.CurrentLevel < e.LevelNumber)
             {
                 Event.Publish(new NextLevelRequested { Level = _data.CurrentLevel + 1 });
                 Logger.WriteLine("-----------------------------------------------------");

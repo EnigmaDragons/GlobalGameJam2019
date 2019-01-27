@@ -36,6 +36,6 @@ namespace MonoDragons.GGJ
             }
         }
 
-        public Card Card(int cardId) => Cards.Create(AllCards[cardId]);
+        public CardView Card(int cardId) => Cards.Create(AllCards[cardId]);
     }
 }

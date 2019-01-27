@@ -1,5 +1,4 @@
 ﻿using MonoDragons.Core.Engine;
-using MonoDragons.Core.Physics;
 using MonoDragons.Core.UserInterface;
 
 namespace MonoDragons.Core.Scenes
@@ -18,6 +17,19 @@ namespace MonoDragons.Core.Scenes
 
         public void Draw() => Draw(Transform2.Zero);
 
+        public void Add(IVisualAutomatonControl obj)
+        {
+            Add((IVisual)obj);
+            Add((IAutomaton)obj);
+            ClickUi.Add(obj.Branch);
+        }
+
+        public void Add(IVisualControl obj)
+        {
+            Add((IVisual)obj);
+            ClickUi.Add(obj.Branch);
+        }
+        
         public void Add(ClickableUIElement obj)
         {
             ClickUi.Add(obj);

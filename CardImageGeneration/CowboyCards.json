@@ -19,7 +19,7 @@
             "Effect": ""
         },
         {
-            "Name": "Crack Shot",
+            "Name": "Six Shooter",
             "Type": "Attack",
             "Effect": "Deal 3 Damage"
         },
@@ -71,12 +71,22 @@
         {
             "Name": "Ricochet",
             "Type": "Counter",
-            "Effect": "If the opponent chose Defend, you deal 8 damage ignoring block"
+            "Effect": "If the opponent chose Defend, Deal 8 damage ignoring block"
         },
         {
             "Name": "Both Barrels",
             "Type": "Attack",
             "Effect": "Deal 2 Damage, if the opponent chose Attack, Deal 2 more"
+        },
+        {
+            "Name": "Crack Shot",
+            "Type": "Attack",
+            "Effect": "Deal 2 Damage, if the opponent chose Charge, Deal 3 more"
+        },
+        {
+            "Name": "Reload",
+            "Type": "Defend",
+            "Effect": "Block 2 Damage, if you blocked no damage this turn, your next attack deals 4 more damage"
         }
     ],
     "Blueprint": 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Gameplay.Events;
 
@@ -17,38 +19,32 @@ namespace MonoDragons.GGJ.Gameplay
             _data = data;
             Event.Subscribe<PlayerDamageProposed>(OnAttacked, this);
             Event.Subscribe<PlayerBlockProposed>(OnDefended, this);
-            Event.Subscribe<OnNotDamagedEffectQueued>(OnNotDamagedEffectQueued, this);
-            Event.Subscribe<OnDamageEffectQueued>(OnDamagedEffectQueued, this);
+            Event.Subscribe<DamageEffectQueued>(OnDamagedEffectQueued, this);
+            Event.Subscribe<NotDamagedEffectQueued>(OnNotDamagedEffectQueued, this);
+            Event.Subscribe<DamageBlockedEffectQueued>(OnDamageBlockedEffectQueued, this);
+            Event.Subscribe<DamageNotBlockedEffectQueued>(OnDamageNotBlockedEffectQueued, this);
             Event.Subscribe<CardSelected>(OnCardTypeSelected, this);
             Event.Subscribe<NextAttackEmpowered>(OnNextAttackEmpowered, this);
             Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
+            Event.Subscribe<BlockRecievedMultiplied>(OnBlockRecievedMultiplied, this);
+            Event.Subscribe<StatusApplied>(OnStatusApplied, this);
+            Event.Subscribe<StatusRemoved>(OnStatusRemoved, this);
             Event.Subscribe<CardResolutionBegun>(e => Resolve(), this);
             Event.Subscribe<PlayerDamaged>(OnPlayereDamaged, this);
         }
 
-        private void OnAttacked(PlayerDamageProposed e)
-        {
-            if (e.Target == _player)
-                State.IncomingDamage += e.Amount;
-        }
+        private void OnAttacked(PlayerDamageProposed e) => ExecuteIfTarget(e.Target, () => State.IncomingDamage += e.Amount);
 
-        private void OnDefended(PlayerBlockProposed e)
-        {
-            if (e.Target == _player)
-                State.AvailableBlock += e.Amount;
-        }
+        private void OnDefended(PlayerBlockProposed e) => ExecuteIfTarget(e.Target, () => State.AvailableBlock += e.Amount);
 
-        private void OnNotDamagedEffectQueued(OnNotDamagedEffectQueued e)
-        {
-            if (e.Target == _player)
-                State.OnNotDamaged.Add(e.Event);
-        }
+        private void OnDamagedEffectQueued(DamageEffectQueued e) => ExecuteIfTarget(e.Target, () => State.OnDamaged.Add(e.Event));
 
-        private void OnDamagedEffectQueued(OnDamageEffectQueued e)
-        {
-            if (e.Target == _player)
-                State.OnDamaged.Add(e.Event);
-        }
+        private void OnNotDamagedEffectQueued(NotDamagedEffectQueued e) => ExecuteIfTarget(e.Target, () => State.OnNotDamaged.Add(e.Event));
+
+        private void OnDamageBlockedEffectQueued(DamageBlockedEffectQueued e) => ExecuteIfTarget(e.Target, () => State.OnDamageBlocked.Add(e.Event));
+
+        private void OnDamageNotBlockedEffectQueued(DamageNotBlockedEffectQueued e) => 
+            ExecuteIfTarget(e.Target, () => State.OnDamageNotBlocked.Add(e.Event));
 
         private void OnCardTypeSelected(CardSelected e)
         {
@@ -59,22 +55,27 @@ namespace MonoDragons.GGJ.Gameplay
             }
         }
 
-        private void OnNextAttackEmpowered(NextAttackEmpowered e)
-        {
-            if (e.Target == _player)
-                State.NextAttackBonus += e.Amount;
-        }
+        private void OnNextAttackEmpowered(NextAttackEmpowered e) => ExecuteIfTarget(e.Target, () => State.NextAttackBonus += e.Amount);
 
-        private void OnDamageTakenMultiplied(DamageTakenMultiplied e)
-        {
-            if (e.Target == _player)
-                State.DamageTakenMultipliers.Add(e.Multiplier);
-        }
+        private void OnDamageTakenMultiplied(DamageTakenMultiplied e) => 
+            ExecuteIfTarget(e.Target, () => State.DamageTakenMultipliers.Add(e.Multiplier));
 
-        private void OnBlockRecievedMultiplied(BlockRecievedMultiplied e)
+        private void OnBlockRecievedMultiplied(BlockRecievedMultiplied e) => 
+            ExecuteIfTarget(e.Target, () => State.BlockRecievedMultiplier.Add(e.Multiplier));
+
+        private void OnStatusApplied(StatusApplied e) => ExecuteIfTarget(e.Target, () => State.Statuses.Add(e.Status));
+
+        private void OnStatusRemoved(StatusRemoved e) =>
+            ExecuteIfTarget(e.Target, () =>
+            {
+                if (State.Statuses.Any(x => x.Name == e.Name))
+                    State.Statuses.Remove(State.Statuses.First(x => x.Name == e.Name));
+            });
+
+        private void ExecuteIfTarget(Player target, Action action)
         {
-            if (e.Target == _player)
-                State.BlockRecievedMultiplier.Add(e.Multiplier);
+            if (target == _player)
+                action();
         }
 
         private void Resolve()
@@ -83,32 +84,39 @@ namespace MonoDragons.GGJ.Gameplay
             State.DamageTakenMultipliers.ForEach(x => incomingDamage = x * incomingDamage);
             var availableBlock = State.AvailableBlock;
             State.BlockRecievedMultiplier.ForEach(x => availableBlock = availableBlock * x);
+            if (availableBlock > 0 && incomingDamage > 0)
+            {
+                Event.Publish(new DamageBlocked { Target = State.Player, Amount = Math.Min(availableBlock, incomingDamage)});
+                State.OnDamageBlocked.ForEach(Event.Publish);
+            }
+            else 
+                State.OnDamageNotBlocked.ForEach(Event.Publish);
             if (incomingDamage > availableBlock)
             {
                 Event.Publish(new PlayerDamaged { Amount = incomingDamage - availableBlock, Target = State.Player });
                 State.OnDamaged.ForEach(Event.Publish);
             }
             else
-            {
                 State.OnNotDamaged.ForEach(Event.Publish);
-            }
             Reset();
-        }
-
-        private void OnPlayereDamaged(PlayerDamaged e)
-        {
-            if (e.Target == _player)
-                State.HP -= e.Amount;
         }
 
         private void Reset()
         {
             State.IncomingDamage = 0;
             State.AvailableBlock = 0;
-            State.OnNotDamaged = new List<object>();
             State.OnDamaged = new List<object>();
+            State.OnNotDamaged = new List<object>();
+            State.OnDamageBlocked = new List<object>();
+            State.OnDamageNotBlocked = new List<object>();
             State.DamageTakenMultipliers = new List<int>();
             State.BlockRecievedMultiplier = new List<int>();
+        }
+
+        private void OnPlayereDamaged(PlayerDamaged e)
+        {
+            if (e.Target == _player)
+                State.HP -= e.Amount;
         }
     }
 }
