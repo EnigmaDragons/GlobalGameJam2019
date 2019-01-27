@@ -8,5 +8,6 @@ namespace MonoDragons.GGJ.Gameplay
         ResolvingCards,
         BattleFinished,
         LeavingLevel,
+        Setup
     }
 }

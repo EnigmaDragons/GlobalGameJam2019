@@ -15,7 +15,7 @@ namespace MonoDragons.GGJ.Scenes
     public sealed class LobbyScene : ClickUiScene
     {
         private const string AppId = "Bed Dead Redemption";
-        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(RoleSelected) };
+        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfigured) };
         private readonly Label _hostEndpoint = new Label { Transform = new Transform2(new Vector2(260, 0), new Size2(200, 60)) };
         private readonly NetworkArgs _args;
 
@@ -48,7 +48,7 @@ namespace MonoDragons.GGJ.Scenes
 
         private void CreateSinglePlayerGame()
         {
-            Scene.NavigateTo(new GameScene(Player.Cowboy, Mode.SinglePlayer));
+            Scene.NavigateTo(new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true));
         }
 
         private void BeginHostingGame()

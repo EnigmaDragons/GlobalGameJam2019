@@ -29,6 +29,7 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<BlockRecievedMultiplied>(OnBlockRecievedMultiplied, this);
             Event.Subscribe<StatusApplied>(OnStatusApplied, this);
             Event.Subscribe<StatusRemoved>(OnStatusRemoved, this);
+            Event.Subscribe<EnergyGained>(OnEnergyGained, this);
             Event.Subscribe<CardResolutionBegun>(e => Resolve(), this);
             Event.Subscribe<PlayerDamaged>(OnPlayereDamaged, this);
         }
@@ -71,6 +72,8 @@ namespace MonoDragons.GGJ.Gameplay
                 if (State.Statuses.Any(x => x.Name == e.Name))
                     State.Statuses.Remove(State.Statuses.First(x => x.Name == e.Name));
             });
+
+        private void OnEnergyGained(EnergyGained e) => ExecuteIfTarget(e.Target, () => State.Energy += e.Amount);
 
         private void ExecuteIfTarget(Player target, Action action)
         {

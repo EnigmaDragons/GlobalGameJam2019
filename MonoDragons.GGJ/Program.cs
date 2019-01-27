@@ -12,6 +12,7 @@ using MonoDragons.Core.Network;
 using MonoDragons.Core.Render;
 using MonoDragons.Core.Scenes;
 using MonoDragons.GGJ;
+using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.Scenes;
 
 namespace MonoDragons.Core
@@ -58,9 +59,9 @@ namespace MonoDragons.Core
             {
                 { "Logo", () => new SimpleLogoScene("Lobby", EnigmaDragonsResources.LogoImage) },
                 { "Lobby", () => new LobbyScene(args) },
-                { "Game", () => new GameScene(Player.Cowboy, Mode.SinglePlayer) },
+                { "Game", () => new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true) },
                 { "UI", () => new UiTestScene()},
-                { "Victory", () => new CowboyVictoryScene()},
+                { "Victory", () => new CowboyVictoryScene()}
             });
         }
 

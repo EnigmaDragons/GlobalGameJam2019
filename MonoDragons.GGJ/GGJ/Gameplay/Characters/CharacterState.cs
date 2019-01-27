@@ -19,6 +19,7 @@ namespace MonoDragons.GGJ.Gameplay
         public List<int> DamageTakenMultipliers { get; set; }
         public List<int> BlockRecievedMultiplier { get; set; }
         public List<Status> Statuses { get; set; }
+        public int Energy { get; set; }
 
         public CharacterState(Player player, int hp, PlayerCardsState cards)
         {

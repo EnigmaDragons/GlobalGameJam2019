@@ -37,7 +37,14 @@ namespace MonoDragons.GGJ.Data
             { CardName.ShippingBoxesWall, s => new CardView(s, "SmartHouseCard7") },
             { CardName.SpinningFanBlades, s => new CardView(s, "SmartHouseCard8") },
             { CardName.RoombaAttack, s => new CardView(s, "SmartHouseCard9") },
-            { CardName.PowerCordTrip, s => new CardView(s, "SmartHouseCard10") }
+            { CardName.PowerCordTrip, s => new CardView(s, "SmartHouseCard10") },
+
+            { CardName.BedderLuckNextTime, s => new CardView(s, "SmartHouseCard11") },
+            { CardName.PillowFight, s => new CardView(s, "SmartHouseCard12") },
+            { CardName.Resting, s => new CardView(s, "SmartHouseCard13") },
+            { CardName.PillowFort, s => new CardView(s, "SmartHouseCard14") },
+            { CardName.ThatsCurtainsForYou, s => new CardView(s, "SmartHouseCard15") },
+            { CardName.MonsterUnderTheBed, s => new CardView(s, "SmartHouseCard16") },
         };
 
         private static Dictionary<CardName, CardType> _cardTypes = new Dictionary<CardName, CardType>
@@ -70,7 +77,14 @@ namespace MonoDragons.GGJ.Data
             { CardName.ShippingBoxesWall, CardType.Defend },
             { CardName.SpinningFanBlades, CardType.Counter },
             { CardName.RoombaAttack, CardType.Counter },
-            { CardName.PowerCordTrip, CardType.Counter }
+            { CardName.PowerCordTrip, CardType.Counter },
+
+            { CardName.BedderLuckNextTime, CardType.Attack },
+            { CardName.PillowFight, CardType.Attack },
+            { CardName.Resting, CardType.Charge },
+            { CardName.PillowFort, CardType.Defend },
+            { CardName.ThatsCurtainsForYou, CardType.Attack },
+            { CardName.MonsterUnderTheBed, CardType.Attack },
         };
 
         private static Dictionary<CardName, Action<GameData>> _cardActions = new Dictionary<CardName, Action<GameData>>
@@ -241,6 +255,41 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
                         Event = new CardTypeLocked { Target = Player.House, Type = CardType.Counter }});
                 } },
+
+            { CardName.BedderLuckNextTime, data =>
+                {
+                    Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = data.HouseState.Energy * 2 });
+                    Event.Publish(new EnergyLossed { Target = Player.House, Amount = data.HouseState.Energy });
+                } },
+            { CardName.PillowFight, data =>
+                {
+                    Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
+                } },
+            { CardName.Resting, data =>
+                {
+                    Event.Publish(new EnergyGained { Amount = 3, Target = Player.House });
+                } },
+            { CardName.PillowFort, data =>
+                {
+                    Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
+                    Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 3 });
+                } },
+            { CardName.ThatsCurtainsForYou, data =>
+                {
+                    Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 1 });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }});
+                } },
+            { CardName.MonsterUnderTheBed, data =>
+                {
+                    Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 1 });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Charge,
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 4 }});
+                } },
         };
 
         public static CardView Create(CardState s)
@@ -285,6 +334,13 @@ namespace MonoDragons.GGJ.Data
         ShippingBoxesWall = 23,
         SpinningFanBlades = 24,
         RoombaAttack = 25,
-        PowerCordTrip = 26
+        PowerCordTrip = 26,
+
+        BedderLuckNextTime = 27,
+        PillowFight = 28,
+        Resting = 29,
+        PillowFort = 30,
+        ThatsCurtainsForYou = 31,
+        MonsterUnderTheBed = 32
     }
 }
