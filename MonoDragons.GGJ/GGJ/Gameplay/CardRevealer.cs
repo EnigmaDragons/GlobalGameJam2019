@@ -3,6 +3,7 @@ using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Data;
+using MonoDragons.GGJ.UiElements.Events;
 using System;
 
 namespace MonoDragons.GGJ.Gameplay
@@ -71,9 +72,9 @@ namespace MonoDragons.GGJ.Gameplay
             {
                 CleanupRevelations();
                 if (!_levelIsFinished)
-                    Event.Publish(new TurnFinished {TurnNumber = e.TurnNumber});
-                
+                    Event.Publish(new AnimationEnded());
             }, 2000, false);
+            Event.Publish(new AnimationStarted());
             Event.Publish(new AllCardsRevealed { TurnNumber = e.TurnNumber, CowboyCard = e.CowboyCard, HouseCard = e.HouseCard });
         }
 

@@ -76,6 +76,8 @@
     <Compile Include="GGJ\Gameplay\Events\OnNotDamagedEffectQueued.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerDamageProposed.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerBlockProposed.cs" />
+    <Compile Include="GGJ\UiElements\Events\AnimationEnded.cs" />
+    <Compile Include="GGJ\UiElements\Events\AnimationStarted.cs" />
     <Compile Include="GGJ\Gameplay\LevelProgression.cs" />
     <Compile Include="GGJ\Gameplay\PlayerCardsState.cs" />
     <Compile Include="GGJ\Gameplay\Events\AllCardsSelected.cs" />
