@@ -35,6 +35,7 @@ namespace MonoDragons.GGJ.Scenes
             Sound.Music("fight-it").Play();
             State<GameData>.Init(_data);
             var houseChars = new HouseCharacters();
+            Add(new DataSaver());
             Add(new LevelProgression(_data, houseChars));
             Add(new CardEffectProcessor(_data));
             Add(new NextTurnEffectProcessor());
