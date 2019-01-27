@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="GGJ\DataSaver.cs" />
     <Compile Include="GGJ\Gameplay\Characters\CharStatuses.cs" />
+    <Compile Include="GGJ\Gameplay\Events\CardsProcessed.cs" />
     <Compile Include="GGJ\Gameplay\Events\DataStabilized.cs" />
     <Compile Include="GGJ\Gameplay\Characters\Computer.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandSizeAdjusted.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="GGJ\Gameplay\Events\StatusRemoved.cs" />
     <Compile Include="GGJ\Gameplay\Status.cs" />
     <Compile Include="GGJ\Gameplay\StatusProcessor.cs" />
+    <Compile Include="GGJ\UiElements\CardFightView.cs" />
     <Compile Include="GGJ\UiElements\CardRevealer.cs" />
     <Compile Include="GGJ\UiElements\DamageNumbersView.cs" />
     <Compile Include="GGJ\UiElements\Events\AnimationEnded.cs" />
@@ -942,7 +944,9 @@
     <Content Include="Content\UI\attack.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\UI\block.png" />
+    <Content Include="Content\UI\block.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\UI\button.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

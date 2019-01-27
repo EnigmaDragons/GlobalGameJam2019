@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using MonoDragons.GGJ.Gameplay.Events;
 
 namespace MonoDragons.GGJ.Gameplay
 {
@@ -16,8 +17,8 @@ namespace MonoDragons.GGJ.Gameplay
         public List<object> OnNotDamaged { get; set; }
         public List<object> OnDamageBlocked { get; set; }
         public List<object> OnDamageNotBlocked { get; set; }
-        public List<decimal> DamageTakenMultipliers { get; set; }
-        public List<decimal> BlockRecievedMultiplier { get; set; }
+        public List<MultiplierType> DamageTakenMultipliers { get; set; }
+        public List<MultiplierType> BlockRecievedMultiplier { get; set; }
         public List<Status> Statuses { get; set; }
         public int Energy { get; set; }
 
@@ -32,8 +33,8 @@ namespace MonoDragons.GGJ.Gameplay
             OnNotDamaged = new List<object>();
             OnDamageBlocked = new List<object>();
             OnDamageNotBlocked = new List<object>();
-            DamageTakenMultipliers = new List<decimal>();
-            BlockRecievedMultiplier = new List<decimal>();
+            DamageTakenMultipliers = new List<MultiplierType>();
+            BlockRecievedMultiplier = new List<MultiplierType>();
             Statuses = new List<Status>();
         }
     }

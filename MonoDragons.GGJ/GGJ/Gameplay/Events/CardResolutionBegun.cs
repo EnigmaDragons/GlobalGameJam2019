@@ -2,5 +2,6 @@
 {
     public class CardResolutionBegun
     {
+        public int TurnNumber { get; set; }
     }
 }
