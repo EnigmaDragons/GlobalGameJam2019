@@ -45,6 +45,13 @@ namespace MonoDragons.GGJ.Data
             { CardName.PillowFort, s => new CardView(s, "SmartHouseCard14") },
             { CardName.ThatsCurtainsForYou, s => new CardView(s, "SmartHouseCard15") },
             { CardName.MonsterUnderTheBed, s => new CardView(s, "SmartHouseCard16") },
+
+            { CardName.HologramProjection, s => new CardView(s, "SmartHouseCard17") },
+            { CardName.InformationOverload, s => new CardView(s, "SmartHouseCard18") },
+            { CardName.DeathTrap, s => new CardView(s, "SmartHouseCard19") },
+            { CardName.HammerDownload, s => new CardView(s, "SmartHouseCard20") },
+            { CardName.AdaptiveTactics, s => new CardView(s, "SmartHouseCard21") },
+            { CardName.BoringWikiArticle, s => new CardView(s, "SmartHouseCard22") },
         };
 
         private static Dictionary<CardName, CardType> _cardTypes = new Dictionary<CardName, CardType>
@@ -85,6 +92,13 @@ namespace MonoDragons.GGJ.Data
             { CardName.PillowFort, CardType.Defend },
             { CardName.ThatsCurtainsForYou, CardType.Attack },
             { CardName.MonsterUnderTheBed, CardType.Attack },
+
+            { CardName.HologramProjection, CardType.Defend },
+            { CardName.InformationOverload, CardType.Attack },
+            { CardName.DeathTrap, CardType.Counter },
+            { CardName.HammerDownload, CardType.Attack },
+            { CardName.AdaptiveTactics, CardType.Charge },
+            { CardName.BoringWikiArticle, CardType.Attack }
         };
 
         private static Dictionary<CardName, Action<GameData>> _cardActions = new Dictionary<CardName, Action<GameData>>
@@ -290,6 +304,43 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Charge,
                         Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 4 }});
                 } },
+
+            { CardName.HologramProjection, data =>
+                {
+                    Event.Publish(new DamageTakenMultiplied { Target = Player.House, Multiplier = 0 });
+                    Event.Publish(new CardTypeLocked { Target = Player.House, Type = CardType.Defend });
+                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 });
+                } },
+            { CardName.InformationOverload, data =>
+                {
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 4 });
+                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 });
+                } },
+            { CardName.DeathTrap, data =>
+                {
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
+                        Event = new PlayerDamageProposed {Amount = 10, Target = Player.Cowboy}});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
+                        Event = new HandSizeAdjusted { Adjustment = -2, Target = Player.Cowboy }});
+                } },
+            { CardName.HammerDownload, data =>
+                {
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new HandSizeAdjusted { Adjustment = 2, Target = Player.House });
+                } },
+            { CardName.AdaptiveTactics, data =>
+                {
+                    Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 3 });
+                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 });
+                    Event.Publish(new LastPlayedTypeLocked { Target = Player.Cowboy });
+                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Analyze Tactics", Events = new List<object> { new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 }, new LastPlayedTypeLocked { Target = Player.Cowboy }}}});
+                } },
+            { CardName.BoringWikiArticle, data =>
+                {
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 });
+                    Event.Publish(new HandSizeAdjusted { Adjustment = 1, Target = Player.House });
+                    Event.Publish(new HandSizeAdjusted { Adjustment = 1, Target = Player.Cowboy });
+                } },
         };
 
         public static CardView Create(CardState s)
@@ -341,6 +392,13 @@ namespace MonoDragons.GGJ.Data
         Resting = 29,
         PillowFort = 30,
         ThatsCurtainsForYou = 31,
-        MonsterUnderTheBed = 32
+        MonsterUnderTheBed = 32,
+
+        HologramProjection = 33,
+        InformationOverload = 34,
+        DeathTrap = 35,
+        HammerDownload = 36,
+        AdaptiveTactics = 37,
+        BoringWikiArticle = 38
     }
 }

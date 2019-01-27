@@ -42,6 +42,8 @@
     <StartupObject>MonoDragons.Core.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GGJ\Gameplay\Events\HandSizeAdjusted.cs" />
+    <Compile Include="GGJ\Gameplay\Events\LastPlayedTypeLocked.cs" />
     <Compile Include="GGJ\Gameplay\GameRng.cs" />
     <Compile Include="Core\Network\Events\GameDisconnected.cs" />
     <Compile Include="Core\Network\NetworkArgs.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="GGJ\Gameplay\Events\NotDamagedEffectQueued.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerDamageProposed.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerBlockProposed.cs" />
+    <Compile Include="GGJ\Gameplay\LastPlayedTypeLockProcessor.cs" />
     <Compile Include="GGJ\Scenes\CowboyVictoryScene.cs" />
     <Compile Include="GGJ\Gameplay\Events\StatusRemoved.cs" />
     <Compile Include="GGJ\Gameplay\Status.cs" />
@@ -406,7 +409,25 @@
     <Content Include="Content\Cards\SmartHouseCard16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Cards\SmartHouseCard17.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard19.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Cards\SmartHouseCard2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard20.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard21.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Cards\SmartHouseCard22.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\SmartHouseCard3.png">

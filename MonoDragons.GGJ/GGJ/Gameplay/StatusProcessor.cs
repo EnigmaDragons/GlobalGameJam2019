@@ -11,6 +11,7 @@ namespace MonoDragons.GGJ.Gameplay
         {
             _data = data;
             Event.Subscribe<TurnStarted>(_ => OnTurnStart(), this);
+
         }
 
         private void OnTurnStart()

@@ -40,6 +40,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new NextTurnEffectProcessor());
             Add(new CounterEffectProcessor(_data));
             Add(new StatusProcessor(_data));
+            Add(new LastPlayedTypeLockProcessor(_data));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
             var cowboyCards = new PlayerCards(Player.Cowboy, _data, rng);

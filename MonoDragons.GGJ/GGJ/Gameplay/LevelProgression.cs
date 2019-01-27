@@ -52,12 +52,21 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.RoombaAttack),
                         CreateCard(CardName.PowerCordTrip),
                         
-                        CreateCard(CardName.BedderLuckNextTime),
-                        CreateCard(CardName.PillowFight),
-                        CreateCard(CardName.Resting),
-                        CreateCard(CardName.PillowFort),
-                        CreateCard(CardName.ThatsCurtainsForYou),
-                        CreateCard(CardName.MonsterUnderTheBed))));
+                        //CreateCard(CardName.BedderLuckNextTime),
+                        //CreateCard(CardName.PillowFight),
+                        //CreateCard(CardName.Resting),
+                        //CreateCard(CardName.PillowFort),
+                        //CreateCard(CardName.ThatsCurtainsForYou),
+                        //CreateCard(CardName.MonsterUnderTheBed),
+                        
+                        CreateCard(CardName.HologramProjection),
+                        CreateCard(CardName.InformationOverload),
+                        CreateCard(CardName.DeathTrap),
+                        CreateCard(CardName.HammerDownload),
+                        CreateCard(CardName.AdaptiveTactics),
+                        CreateCard(CardName.BoringWikiArticle)
+                        
+                        )));
 
             _house.Initialized(Enemies.Create(Enemy.Bed));
         }

@@ -98,6 +98,36 @@
             "Type": "Attack",
             "Effect": "Deal 1 Damage, Gain 1 Energy, and if the opponent chose Charge, Deal 4 more"
         },
+        {
+            "Name": "Hologram Projection",
+            "Type": "Defend",
+            "Effect": "You take no damage this turn, You cannot Defend next turn, and your opponent Draws 1 more Card"
+        },
+        {
+            "Name": "Information Overload",
+            "Type": "Attack",
+            "Effect": "Deal 4 Damage, Your opponent Draws 1 more Card"
+        },
+        {
+            "Name": "Death Trap",
+            "Type": "Counter",
+            "Effect": "If your opponent chose Counter, Deal 10 Damage, and your opponent Draws 2 less Cards"
+        },
+        {
+            "Name": "Hammer Download",
+            "Type": "Attack",
+            "Effect": "Deal 2 Damage and Draw 2 more Cards"
+        },
+        {
+            "Name": "Adaptive Tactics",
+            "Type": "Charge",
+            "Effect": "Block 3 Damage and for the rest of the fight your opponent Draws 1 more Card but can't play the same type twice"
+        },
+        {
+            "Name": "Boring Wiki Article",
+            "Type": "Attack",
+            "Effect": "Deal 3 Damage and both players Draw 1 more Card"
+        }
     ],
     "Blueprint": 
     {
