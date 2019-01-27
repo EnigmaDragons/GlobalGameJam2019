@@ -70,6 +70,15 @@ namespace MonoDragons.GGJ.Gameplay
             _currentTurn = e.TurnNumber;
             DrawPass();
             DrawCards(3 + _state.HandSizeModifier);
+            _state.HandZone.RemoveAt(0);
+            _state.HandZone.Add(_state.PassId);
+            Event.Publish(new HandDrawn
+            (
+                _currentTurn,
+                _player,
+                _state.HandZone,
+                _state.HandZone.Where(x => !_state.UnplayableTypes.Contains(_data.Card(x).State.Type)).ToList()
+            ));
             _state.HandSizeModifier = 0;
         }
 
@@ -114,13 +123,6 @@ namespace MonoDragons.GGJ.Gameplay
                 cards.Add(card);
             }
             _state.HandZone.AddRange(cards);
-            Event.Publish(new HandDrawn
-            (
-                _currentTurn, 
-                _player, 
-                _state.HandZone,
-                _state.HandZone.Where(x => !_state.UnplayableTypes.Contains(_data.Card(x).State.Type)).ToList()
-            ));
         } 
 
         private void Play(int cardId)
