@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Gameplay.Events;
 
@@ -27,6 +28,7 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
             Event.Subscribe<BlockRecievedMultiplied>(OnBlockRecievedMultiplied, this);
             Event.Subscribe<StatusApplied>(OnStatusApplied, this);
+            Event.Subscribe<StatusRemoved>(OnStatusRemoved, this);
             Event.Subscribe<CardResolutionBegun>(e => Resolve(), this);
             Event.Subscribe<PlayerDamaged>(OnPlayereDamaged, this);
         }
@@ -62,6 +64,13 @@ namespace MonoDragons.GGJ.Gameplay
             ExecuteIfTarget(e.Target, () => State.BlockRecievedMultiplier.Add(e.Multiplier));
 
         private void OnStatusApplied(StatusApplied e) => ExecuteIfTarget(e.Target, () => State.Statuses.Add(e.Status));
+
+        private void OnStatusRemoved(StatusRemoved e) =>
+            ExecuteIfTarget(e.Target, () =>
+            {
+                if (State.Statuses.Any(x => x.Name == e.Name))
+                    State.Statuses.Remove(State.Statuses.First(x => x.Name == e.Name));
+            });
 
         private void ExecuteIfTarget(Player target, Action action)
         {
@@ -102,7 +111,6 @@ namespace MonoDragons.GGJ.Gameplay
             State.OnDamageNotBlocked = new List<object>();
             State.DamageTakenMultipliers = new List<int>();
             State.BlockRecievedMultiplier = new List<int>();
-            State.Statuses = new List<string>();
         }
 
         private void OnPlayereDamaged(PlayerDamaged e)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MonoDragons.Core.EventSystem;
 using System;
 using MonoDragons.GGJ.Gameplay.Events;
+using System.Linq;
 
 namespace MonoDragons.GGJ.Data
 {
@@ -30,7 +31,9 @@ namespace MonoDragons.GGJ.Data
             { CardName.FanBlades, s => new CardView(s, "SmartHouseCard1") },
             { CardName.LightsOut, s => new CardView(s, "SmartHouseCard2") },
             { CardName.BlindingLights, s => new CardView(s, "SmartHouseCard3") },
-            { CardName.DustTheRoom, s => new CardView(s, "SmartHouseCard4") }
+            { CardName.DustTheRoom, s => new CardView(s, "SmartHouseCard4") },
+            { CardName.HeatUp, s => new CardView(s, "SmartHouseCard5") },
+            { CardName.CoolDown, s => new CardView(s, "SmartHouseCard6") }
         };
 
         private static Dictionary<CardName, CardType> _cardTypes = new Dictionary<CardName, CardType>
@@ -57,7 +60,9 @@ namespace MonoDragons.GGJ.Data
             { CardName.FanBlades, CardType.Attack },
             { CardName.LightsOut, CardType.Defend },
             { CardName.BlindingLights, CardType.Attack },
-            { CardName.DustTheRoom, CardType.Attack }
+            { CardName.DustTheRoom, CardType.Attack },
+            { CardName.HeatUp, CardType.Charge },
+            { CardName.CoolDown, CardType.Charge }
         };
 
         private static Dictionary<CardName, Action<GameData>> _cardActions = new Dictionary<CardName, Action<GameData>>
@@ -158,8 +163,8 @@ namespace MonoDragons.GGJ.Data
             { CardName.LightsOut, data =>
                 {
                     Event.Publish(new PlayerBlockProposed { Amount = 3, Target = Player.House } );
-                    Event.Publish(new NextTurnEffectQueued { Event = new StatusApplied { Target = Player.Cowboy, Status = "Darkness" } });
-                    if (data.CowboyState.Statuses.Contains("Lightness"))
+                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Darkness", Events = new List<object> { new NextTurnEffectQueued { Event = new StatusRemoved { Name = "Darkness", Target = Player.Cowboy } } } }});
+                    if (data.CowboyState.Statuses.Any(x => x.Name == "Lightness"))
                         Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House });
                 }
             },
@@ -167,8 +172,8 @@ namespace MonoDragons.GGJ.Data
                 {
                     Event.Publish(new PlayerDamageProposed { Amount = 1, Target = Player.Cowboy });
                     Event.Publish(new PlayerBlockProposed { Amount = 1, Target = Player.House } );
-                    Event.Publish(new NextTurnEffectQueued { Event = new StatusApplied { Target = Player.Cowboy, Status = "Lightness" } });
-                    if (data.CowboyState.Statuses.Contains("Darkness"))
+                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Lightness", Events = new List<object> { new NextTurnEffectQueued { Event = new StatusRemoved { Name = "Lightness", Target = Player.Cowboy } } } }});
+                    if (data.CowboyState.Statuses.Any(x => x.Name == "Darkness"))
                     {
                         Event.Publish(new PlayerDamageProposed { Amount = 2, Target = Player.Cowboy });
                         Event.Publish(new PlayerBlockProposed { Amount = 2, Target = Player.House } );
@@ -180,6 +185,26 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
                     Event.Publish(new NextTurnEffectQueued { Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }});
                 } },
+            { CardName.HeatUp, data =>
+                {
+                    if (data.CowboyState.Statuses.All(x => x.Name != "Hot"))
+                    {
+                        Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Cold" });
+                        Event.Publish(new StatusRemoved { Target = Player.House, Name = "Cold" });
+                        Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Hot", Events = new List<object> { new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack, Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }}}}});
+                        Event.Publish(new StatusApplied { Target = Player.House, Status = new Status { Name = "Hot", Events = new List<object> { new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack, Event = new PlayerDamageProposed { Target = Player.House, Amount = 1 }}}}});
+                    }
+                } },
+            { CardName.CoolDown, data =>
+            {
+                if (data.CowboyState.Statuses.All(x => x.Name != "Cold"))
+                {
+                    Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Hot" });
+                    Event.Publish(new StatusRemoved { Target = Player.House, Name = "Hot" });
+                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Cold" }});
+                    Event.Publish(new StatusApplied { Target = Player.House, Status = new Status { Name = "Cold", Events = new List<object> { new PlayerBlockProposed { Target = Player.House, Amount = 1 }}}});
+                }
+            } }
         };
 
         public static CardView Create(CardState s)
@@ -219,5 +244,7 @@ namespace MonoDragons.GGJ.Data
         LightsOut = 7,
         BlindingLights = 8,
         DustTheRoom = 20,
+        HeatUp = 21,
+        CoolDown = 22,
     }
 }

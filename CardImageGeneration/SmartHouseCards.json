@@ -25,7 +25,7 @@
         },
         {
             "Name": "Lights Out",
-            "Type": "Attack",
+            "Type": "Defend",
             "Effect": "Block 3 Damage, Apply Darkness next turn, if they have Lightness Block 5 more"
         },
         {
@@ -37,6 +37,16 @@
             "Name": "Dust The Room",
             "Type": "Attack",
             "Effect": "Deal 2 Damage this and next turn"
+        },
+        {
+            "Name": "Heat Up",
+            "Type": "Charge",
+            "Effect": "Applies Hot, when you're attacked you take 1 more and when you attack you deal 2 more\nRemoves Cold"
+        },
+        {
+            "Name": "Cool Down",
+            "Type": "Charge",
+            "Effect": "Applies Cold, you Block 1 Damage every future turn\nRemoves Hot"
         }
     ],
     "Blueprint": 
