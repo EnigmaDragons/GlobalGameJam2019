@@ -10,13 +10,8 @@ namespace MonoDragons.GGJ.Data
     }
     
     public static class Enemies
-    {
-//        private static Dictionary<Enemy, Sprite> _sprites = new Dictionary<Enemy, Sprite>
-//        {
-//            {Enemy.Bed, }
-//        };
-        
-        public static IVisualAutomaton Create(Enemy enemy)
+    {        
+        public static IHouseChar Create(Enemy enemy)
         {
             if (enemy == Enemy.Bed)
                 return new Bed();
