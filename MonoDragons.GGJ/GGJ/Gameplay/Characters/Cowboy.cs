@@ -21,6 +21,8 @@ namespace MonoDragons.GGJ.Gameplay
 
         private readonly DamageNumbersView _dmgView = new DamageNumbersView(Player.Cowboy);
         private readonly Vector2 _dmgOffset = new Vector2(68, 0);
+        private readonly Vector2 _statusOffset = new Vector2(-45, 210);
+        private readonly CharStatuses _statusView = new CharStatuses(Player.Cowboy);
         private readonly DictionaryWithDefault<CharState, SpriteAnimation> _anims;
         
         private float _totalMovementMs = 1.0f;
@@ -63,8 +65,9 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Update(TimeSpan delta)
         {
+            _anims[_state].Update(delta);            
             _dmgView.Update(delta);
-            _anims[_state].Update(delta);
+            _statusView.Update(delta);
             UpdateMovement(delta);
         }
 
@@ -87,8 +90,9 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Draw(Transform2 parentTransform)
         {
-            _dmgView.Draw(parentTransform + _loc + _dmgOffset);
             _anims[_state].Draw(parentTransform + _loc);
+            _dmgView.Draw(parentTransform + _loc + _dmgOffset);
+            _statusView.Draw(parentTransform + _loc + _statusOffset);
         }
 
         public Cowboy Enter()

@@ -15,9 +15,10 @@ namespace MonoDragons.GGJ.Gameplay
         private readonly Explosion _exp = new Explosion();
         private readonly DamageNumbersView _dmgView = new DamageNumbersView(Player.House);
         private readonly Vector2 _dmgViewOffset = new Vector2(120, 0);
+        private readonly CharStatuses _statusView = new CharStatuses(Player.House);
+        private readonly Vector2 _statusOffset = new Vector2(-45, 230);
         private readonly BobbingEffect _bobbing = new BobbingEffect();
         private bool _shouldShow;
-        //private readonly GameData _data;
 
         public HouseCharacters(GameData data)
         {
@@ -46,6 +47,7 @@ namespace MonoDragons.GGJ.Gameplay
             _dmgView.Update(delta);
             _char.Get().Update(delta);
             _exp.Update(delta);
+            _statusView.Update(delta);
         }
 
         public void Draw(Transform2 parentTransform)
@@ -54,6 +56,7 @@ namespace MonoDragons.GGJ.Gameplay
                 return;
             
             _bobbing.Draw(_char.Get(), parentTransform);
+            _statusView.Draw(parentTransform + _char.Get().Transform.Location + _statusOffset);
             _dmgView.Draw(parentTransform + _char.Get().Transform.Location + _dmgViewOffset);
             _exp.Draw(parentTransform + _char.Get().Transform.Location);
         }

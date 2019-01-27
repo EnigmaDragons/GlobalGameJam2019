@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.Gameplay;
 
-namespace MonoDragons.GGJ.Gameplay
+namespace MonoDragons.GGJ.UiElements
 {
     public class CardView : IVisual
     {

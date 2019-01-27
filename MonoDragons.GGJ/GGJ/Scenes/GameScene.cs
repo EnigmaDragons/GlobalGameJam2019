@@ -1,10 +1,10 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoDragons.Core;
 using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
+using MonoDragons.Core.Inputs;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.Text;
@@ -23,7 +23,7 @@ namespace MonoDragons.GGJ.Scenes
         private readonly Mode _mode;
         private readonly GameData _data;
         private HandView _handView;
-        private bool _isHost;
+        private readonly bool _isHost;
         private bool _hasCowboyRequestedRematch = false;
         private bool _hasHouseRequestedRematch = false;
         private bool _gameEnded = false;
@@ -71,7 +71,18 @@ namespace MonoDragons.GGJ.Scenes
                 Add(new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy,
                     _data,
                     _player == Player.Cowboy ? houseCards : cowboyCards));
-
+            if (_mode == Mode.MultiPlayer)
+                Add(new ImageTextButton(
+                    new Transform2(UI.OfScreenSize(0.41f, 0.25f).ToPoint().ToVector2(), UI.OfScreenSize(0.18f, 0.09f)),
+                    () => Event.Publish(new RematchRequested(_player)),
+                    "Rematch",
+                    "UI/sign", "UI/sign-hover", "UI/sign-press",
+                    () => _gameEnded && (_player == Player.House ? !_hasHouseRequestedRematch : !_hasCowboyRequestedRematch))
+                {
+                    Font = DefaultFont.Large,
+                    TextColor = UiConsts.DarkBrown
+                });
+            
             // Temp
             Add(new ActionAutomaton(() =>
             {
@@ -80,24 +91,12 @@ namespace MonoDragons.GGJ.Scenes
                     Event.Publish(new PlayerDefeated { LevelNumber = _data.CurrentLevel, Winner = Player.Cowboy, IsGameOver = false });
                 if (keys.IsKeyDown(Keys.H))
                     Event.Publish(new PlayerDefeated { LevelNumber = _data.CurrentLevel, Winner = Player.House, IsGameOver = true });
-                if (keys.IsKeyDown(Keys.Q))
-                    Scene.NavigateTo("Lobby");
                 if (keys.IsKeyDown(Keys.F2))
                     Event.Publish(new NextLevelRequested { Level = 2 });
             }));
 
-            if (_mode == Mode.MultiPlayer)
-                Add(new ImageTextButton(
-                    new Transform2(UI.OfScreenSize(0.41f, 0.25f).ToPoint().ToVector2(), UI.OfScreenSize(0.18f, 0.09f)),
-                    () => Event.Publish(new RematchRequested(_player)),
-                    "Rematch",
-                    "UI/sign", "UI/sign-hover", "UI/sign-press",
-                    () => _gameEnded && (_player == Player.House ? !_hasHouseRequestedRematch : !_hasCowboyRequestedRematch))
-                    {
-                        Font = DefaultFont.Large,
-                        TextColor = UiConsts.DarkBrown
-                    });
-
+            Input.On(Control.Menu, () => Scene.NavigateTo(new MainMenuScene(new NetworkArgs())));
+            Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);  
             Event.Subscribe<RematchRequested>(OnRematchRequested, this);
             Event.Subscribe<GameConfigured>(OnGameConfigured, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);

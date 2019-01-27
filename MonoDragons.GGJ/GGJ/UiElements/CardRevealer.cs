@@ -1,13 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Data;
 using MonoDragons.GGJ.Gameplay.Events;
+using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.UiElements.Events;
-using System;
 
-namespace MonoDragons.GGJ.Gameplay
+namespace MonoDragons.GGJ.UiElements
 {
     public class CardRevealer : IVisualAutomaton
     {
