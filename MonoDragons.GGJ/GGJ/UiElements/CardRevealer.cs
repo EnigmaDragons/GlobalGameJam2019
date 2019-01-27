@@ -67,7 +67,7 @@ namespace MonoDragons.GGJ.UiElements
             var t = parentTransform + _location;
             if (IsRevealed && Card.HasValue)
                 Card.Value.Draw(t);
-            if (_waitingForOpponent && !_opponentHasChosen)
+            if (_player != _local && _waitingForOpponent && !_opponentHasChosen)
                 _thinking.Draw(t);
         }
 
