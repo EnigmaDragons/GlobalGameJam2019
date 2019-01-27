@@ -19,7 +19,7 @@ namespace MonoDragons.GGJ.Gameplay
         public CharStatuses(Player player)
         {
             _player = player;
-            Event.Subscribe<PlayerDefeated>(x => Clear(), this);
+            Event.Subscribe<PlayerDefeated>(x => { Clear(); Clear(); }, this);
             Event.Subscribe<TurnFinished>(x => Clear(), this);
             Event.Subscribe<NextAttackEmpowered>(OnNextAttackEmpowered, this);
             Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
