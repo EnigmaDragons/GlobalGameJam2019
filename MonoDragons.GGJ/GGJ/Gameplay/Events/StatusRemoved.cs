@@ -1,8 +1,8 @@
 ﻿namespace MonoDragons.GGJ.Gameplay.Events
 {
-    public class StatusApplied
+    public class StatusRemoved
     {
         public Player Target { get; set; }
-        public Status Status { get; set; }
+        public string Name { get; set; }
     }
 }

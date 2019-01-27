@@ -18,7 +18,7 @@ namespace MonoDragons.GGJ.Gameplay
         public List<object> OnDamageNotBlocked { get; set; }
         public List<int> DamageTakenMultipliers { get; set; }
         public List<int> BlockRecievedMultiplier { get; set; }
-        public List<string> Statuses { get; set; }
+        public List<Status> Statuses { get; set; }
 
         public CharacterState(Player player, int hp, PlayerCardsState cards)
         {
@@ -31,7 +31,7 @@ namespace MonoDragons.GGJ.Gameplay
             OnDamageNotBlocked = new List<object>();
             DamageTakenMultipliers = new List<int>();
             BlockRecievedMultiplier = new List<int>();
-            Statuses = new List<string>();
+            Statuses = new List<Status>();
         }
     }
 }

@@ -19,13 +19,13 @@
             "Effect": ""
         },
         {
-            "Name": "Fan Blades",
+            "Name": "Lamp Assult",
             "Type": "Attack",
             "Effect": "Deal 3 Damage"
         },
         {
             "Name": "Lights Out",
-            "Type": "Attack",
+            "Type": "Defend",
             "Effect": "Block 3 Damage, Apply Darkness next turn, if they have Lightness Block 5 more"
         },
         {
@@ -37,6 +37,36 @@
             "Name": "Dust The Room",
             "Type": "Attack",
             "Effect": "Deal 2 Damage this and next turn"
+        },
+        {
+            "Name": "Heat Up",
+            "Type": "Charge",
+            "Effect": "Applies Hot, when you're deal damage you take 1 more and when you deal damage deal 2 more\nRemoves Cold"
+        },
+        {
+            "Name": "Cool Down",
+            "Type": "Charge",
+            "Effect": "Applies Cold, you Block 1 Damage every future turn\nRemoves Hot"
+        },
+        {
+            "Name": "Shipping Boxes Wall",
+            "Type": "Defend",
+            "Effect": "Block 5 Damage"
+        },
+        {
+            "Name": "Spinning Fan Blades",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Charge, Deal 12 Damage"
+        },
+        {
+            "Name": "Roomba Attack",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Defend, Deal 6 damage ignoring Block, and the opponent cannot choose Defend next turn"
+        },
+        {
+            "Name": "Power Cord Trip",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Attack, Deal 6 damage and the opponent must pass on their next turn"
         }
     ],
     "Blueprint": 
