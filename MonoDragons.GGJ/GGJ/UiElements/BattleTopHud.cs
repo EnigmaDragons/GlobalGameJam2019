@@ -18,7 +18,8 @@ namespace MonoDragons.GGJ.UiElements
     {
         private readonly Label _cowboyHp = new Label { Transform = new Transform2(UI.OfScreen(0.038f, 0.02f), new Size2(92, 92)) };
         private readonly Label _houseHp = new Label { Transform = new Transform2(UI.OfScreen(0.9f, 0.02f), new Size2(92, 92)) };
-        private readonly Label _gameOverLabel = new Label { Transform = new Transform2(UI.OfScreen(0.2f, 0.35f), UI.OfScreenSize(0.6f, 0.2f)), Font = DefaultFont.Header, TextColor = UiConsts.DarkBrown };
+        private readonly Label _gameOverLabel = new Label { Transform = new Transform2(UI.OfScreen(0.2f, 0.35f), UI.OfScreenSize(0.6f, 0.2f)), 
+            Font = DefaultFont.Header, TextColor = UiConsts.DarkBrown };
 
         private readonly ScreenFade _fadeToBlack = new ScreenFade { FromAlpha = 0, ToAlpha = 255, Duration = TimeSpan.FromSeconds(3) };
         private readonly ScreenFade _fadeToGrey = new ScreenFade { FromAlpha = 0, ToAlpha = 160, Duration = TimeSpan.FromMilliseconds(1500) };
@@ -33,6 +34,7 @@ namespace MonoDragons.GGJ.UiElements
 
         public BattleTopHud(Player p, GameData g)
         {
+            _gameOverLabel.IsVisible = () => _shouldDisplaySign;
             _player = p;
             _gameData.Init(g);
             var quitButton = new ImageTextButton(new Transform2(UI.OfScreen(0.4f, 0.8f), UI.OfScreenSize(0.20f, 0.10f)), 
