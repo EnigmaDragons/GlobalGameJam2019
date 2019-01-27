@@ -26,12 +26,12 @@
         {
             "Name": "Lights Out",
             "Type": "Defend",
-            "Effect": "Block 3 Damage, Apply Darkness next turn, if they have Lightness Block 5 more"
+            "Effect": "Block 3 Damage, Apply Darkness next turn, if they have Lightness, Block 6 more and your next Attack Deals 3 more"
         },
         {
             "Name": "Blinding Lights",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage and Block 1 Damage, Apply Lightness next turn, if they have Darkness Deal 2 more and Block 2 more"
+            "Effect": "Deal 2 Damage, Apply Lightness next turn, if they have Darkness, Deal 1 more and Block 3 Damage and your next attack Deals 3 more"
         },
         {
             "Name": "Dust The Room",
@@ -41,12 +41,12 @@
         {
             "Name": "Heat Up",
             "Type": "Charge",
-            "Effect": "Applies Hot, when you're deal damage you take 1 more and when you deal damage deal 2 more\nRemoves Cold"
+            "Effect": "Both players take 2 Damage and your next attack deals 2 more. If the opponent chose Attack your next Attack deals an additional 4 more"
         },
         {
             "Name": "Cool Down",
             "Type": "Charge",
-            "Effect": "Applies Cold, you Block 1 Damage every future turn\nRemoves Hot"
+            "Effect": "Your next Attack Deals 3 more and you take half damage next turn"
         },
         {
             "Name": "Shipping Boxes Wall",

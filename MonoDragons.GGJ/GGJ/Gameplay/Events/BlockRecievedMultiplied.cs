@@ -3,6 +3,6 @@
     public class BlockRecievedMultiplied
     {
         public Player Target { get; set; }
-        public int Multiplier { get; set; }
+        public decimal Multiplier { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void SetupCharacters(int level)
         {
             _data.InitLevel(level, 
-                new CharacterState(Player.Cowboy, level == 1 ? 50 : _data.CowboyState.HP + 10,
+                new CharacterState(Player.Cowboy, level == 1 ? 40 : _data.CowboyState.HP + 10,
                     new PlayerCardsState(
                         CreateCard(CardName.CowboyPass),
                         CreateCard(CardName.SixShooter),
