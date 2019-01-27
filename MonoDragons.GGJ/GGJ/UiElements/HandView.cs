@@ -16,8 +16,10 @@ namespace MonoDragons.GGJ.Gameplay
 
         private readonly GameData _data;
         private CharacterState State => _data[_player];
-        private readonly List<Card> _cards = new List<Card>();
+        private readonly List<CardView> _cards = new List<CardView>();
+        private readonly List<bool> _cardIsPlayable = new List<bool>();
         private readonly Player _player;
+        private readonly UiImage _chains = new UiImage { Image = "UI/card-chains", Transform = new Transform2(new Vector2(0, 0), new Size2(CardView.WIDTH, CardView.HEIGHT))};
         
         public HandView(Player player, GameData data)
         {
@@ -46,12 +48,16 @@ namespace MonoDragons.GGJ.Gameplay
                 AddCard(Cards.Create(_data.AllCards[id]));
         }
 
-        private void AddCard(Card card)
+        private void AddCard(CardView cardView)
         {
             var index = _cards.Count();
-            if (!State.Cards.UnplayableTypes.Contains(card.State.Type))
-                Branch.Add(new SimpleClickable(new Rectangle(100 + index * (Card.WIDTH + 50), 850 - Card.HEIGHT, Card.WIDTH, Card.HEIGHT), () => CardSelected(index)));
-            _cards.Add(card);
+
+            var isPlayable = !State.Cards.UnplayableTypes.Contains(cardView.State.Type);
+
+            if (isPlayable)
+                Branch.Add(new SimpleClickable(new Rectangle(100 + index * (CardView.WIDTH + 50), 850 - CardView.HEIGHT, CardView.WIDTH, CardView.HEIGHT), () => CardSelected(index)));
+            _cards.Add(cardView);
+            _cardIsPlayable.Add(isPlayable);
         }
 
         private void CardSelected(int cardIndex)
@@ -61,14 +67,25 @@ namespace MonoDragons.GGJ.Gameplay
 
         public void Draw(Transform2 parentTransform)
         {
+            const int xMargin = 50;
+            const int width = CardView.WIDTH + xMargin;
+            const int height = CardView.HEIGHT;
+            const int xOff = 100;
+            const int yOff = 900;
             for (var i = 0; i < _cards.Count; i++)
-                _cards[i].Draw(new Transform2(new Vector2(100 + i * (Card.WIDTH + 50), 850 - Card.HEIGHT)));
+            {
+                var pos = new Transform2(new Vector2(xOff + i * width, yOff - height));
+                _cards[i].Draw(pos);
+                if (!_cardIsPlayable[i])
+                    _chains.Draw(pos);
+            }
         }
 
         public void DiscardAll()
         {
             _cards.ForEach(x => Event.Unsubscribe(x));
             _cards.Clear();
+            _cardIsPlayable.Clear();
             Branch.ClearElements();
         }
     }
