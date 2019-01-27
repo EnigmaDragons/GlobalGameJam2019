@@ -45,6 +45,7 @@
     <Compile Include="Core\Network\Events\GameDisconnected.cs" />
     <Compile Include="Core\Network\NetworkArgs.cs" />
     <Compile Include="Core\Engine\State.cs" />
+    <Compile Include="GGJ\AI\RandomCardAiPlayer.cs" />
     <Compile Include="GGJ\Data\Enemies.cs" />
     <Compile Include="GGJ\GameData.cs" />
     <Compile Include="GGJ\Gameplay\CardEffectProcessor.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="GGJ\Gameplay\Events\CardSelected.cs" />
     <Compile Include="GGJ\Gameplay\PlayerCards.cs" />
     <Compile Include="GGJ\Gameplay\Events\TurnStarted.cs" />
+    <Compile Include="GGJ\Mode.cs" />
     <Compile Include="GGJ\Scenes\UiTestScene.cs" />
     <Compile Include="GGJ\UiElements\Explosion.cs" />
     <Compile Include="GGJ\UiElements\HandView.cs" />

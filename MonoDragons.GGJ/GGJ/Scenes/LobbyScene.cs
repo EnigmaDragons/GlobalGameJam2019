@@ -42,7 +42,7 @@ namespace MonoDragons.GGJ.Scenes
 
         private void CreateSinglePlayerGame()
         {
-            Scene.NavigateTo(new GameScene(Player.Cowboy));
+            Scene.NavigateTo(new GameScene(Player.Cowboy, Mode.SinglePlayer));
         }
 
         private void BeginHostingGame()

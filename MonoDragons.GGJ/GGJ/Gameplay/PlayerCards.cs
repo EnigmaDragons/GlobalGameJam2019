@@ -103,7 +103,13 @@ namespace MonoDragons.GGJ.Gameplay
                 cards.Add(card);
             }
             _state.HandZone.AddRange(cards);
-            Event.Publish(new HandDrawn { TurnNumber = _currentTurn, Player = _player, Cards = _state.HandZone.ToList() });
+            Event.Publish(new HandDrawn
+            {
+                TurnNumber = _currentTurn, 
+                Player = _player, 
+                Cards = _state.HandZone.ToList(),
+                PlayableCards = _state.HandZone.Where(x => !_state.UnplayableTypes.Contains(_data.Card(x).State.Type)).ToList()
+            });
         } 
 
         private void Play(int cardId)

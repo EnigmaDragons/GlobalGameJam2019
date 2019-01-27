@@ -56,6 +56,7 @@ namespace MonoDragons.GGJ.Gameplay
             if (!e.IsGameOver && _data.CurrentLevel < e.LevelNumber)
             {
                 Event.Publish(new NextLevelRequested { Level = _data.CurrentLevel + 1 });
+                Logger.WriteLine("-----------------------------------------------------");
             }
         }
     }
