@@ -6,19 +6,19 @@ namespace MonoDragons.GGJ.Gameplay
 {
     public class NextTurnEffectProcessor
     {
-        private List<object> _effects;
+        private readonly GameData _data;
 
-        public NextTurnEffectProcessor()
+        public NextTurnEffectProcessor(GameData data)
         {
-            _effects = new List<object>();
-            Event.Subscribe<NextTurnEffectQueued>(e => _effects.Add(e.Event), this);
+            _data = data;
+            Event.Subscribe<NextTurnEffectQueued>(e => _data.NextTurnEffects.Add(e.Event), this);
             Event.Subscribe<TurnStarted>(OnStartOfTurn, this);
         }
 
         private void OnStartOfTurn(TurnStarted e)
         {
-            _effects.ForEach(Event.Publish);
-            _effects = new List<object>();
+            _data.NextTurnEffects.ForEach(Event.Publish);
+            _data.NextTurnEffects = new List<object>();
         }
     }
 }

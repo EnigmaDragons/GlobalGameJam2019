@@ -37,7 +37,7 @@ namespace MonoDragons.GGJ.Scenes
             var houseChars = new HouseCharacters();
             Add(new LevelProgression(_data, houseChars));
             Add(new CardEffectProcessor(_data));
-            Add(new NextTurnEffectProcessor());
+            Add(new NextTurnEffectProcessor(_data));
             Add(new CounterEffectProcessor(_data));
             Add(new StatusProcessor(_data));
             Add(new LastPlayedTypeLockProcessor(_data));

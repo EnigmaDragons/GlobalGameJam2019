@@ -1,4 +1,5 @@
-﻿using MonoDragons.Core.EventSystem;
+﻿using System.Collections.Generic;
+using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Scenes;
 using MonoDragons.GGJ.Data;
 using MonoDragons.GGJ.Scenes;
@@ -10,6 +11,7 @@ namespace MonoDragons.GGJ.Gameplay
         private const int NumLevels = 2;
         private readonly GameData _data;
         private readonly HouseCharacters _house;
+        private readonly List<Enemy> _enemyOrder;
 
         public LevelProgression(GameData data, HouseCharacters house)
         {
@@ -17,12 +19,14 @@ namespace MonoDragons.GGJ.Gameplay
             _house = house;
             Event.Subscribe<FinishedLevel>(OnLevelFinished, this);
             Event.Subscribe<NextLevelRequested>(x => SetupCharacters(x.Level), this);
+            _enemyOrder = new List<Enemy> { Enemy.Bed, Enemy.Computer };
+            _enemyOrder.Shuffle();
         }
         
         private void SetupCharacters(int level)
         {
             _data.InitLevel(level, 
-                new CharacterState(Player.Cowboy, 10,
+                new CharacterState(Player.Cowboy, level == 1 ? 50 : _data.CowboyState.HP + 10,
                     new PlayerCardsState(
                         CreateCard(CardName.CowboyPass),
                         CreateCard(CardName.SixShooter),
@@ -38,37 +42,8 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.BothBarrels),
                         CreateCard(CardName.CrackShot),
                         CreateCard(CardName.Reload))),
-                new CharacterState(Player.House, 10,
-                    new PlayerCardsState(
-                        CreateCard(CardName.HousePass),
-                        CreateCard(CardName.Lamp),
-                        CreateCard(CardName.LightsOut),
-                        CreateCard(CardName.BlindingLights),
-                        CreateCard(CardName.DustTheRoom),
-                        CreateCard(CardName.HeatUp),
-                        CreateCard(CardName.CoolDown),
-                        CreateCard(CardName.ShippingBoxesWall),
-                        CreateCard(CardName.SpinningFanBlades),
-                        CreateCard(CardName.RoombaAttack),
-                        CreateCard(CardName.PowerCordTrip),
-                        
-                        //CreateCard(CardName.BedderLuckNextTime),
-                        //CreateCard(CardName.PillowFight),
-                        //CreateCard(CardName.Resting),
-                        //CreateCard(CardName.PillowFort),
-                        //CreateCard(CardName.ThatsCurtainsForYou),
-                        //CreateCard(CardName.MonsterUnderTheBed),
-                        
-                        CreateCard(CardName.HologramProjection),
-                        CreateCard(CardName.InformationOverload),
-                        CreateCard(CardName.DeathTrap),
-                        CreateCard(CardName.HammerDownload),
-                        CreateCard(CardName.AdaptiveTactics),
-                        CreateCard(CardName.BoringWikiArticle)
-                        
-                        )));
-
-            _house.Initialized(Enemies.Create(Enemy.Bed));
+                new CharacterState(Player.House, 10 + level * 10, new PlayerCardsState(Enemies.CreateEnemyDeck(_data, _enemyOrder[level - 1]))));
+            _house.Initialized(Enemies.Create(_enemyOrder[level - 1]));
         }
 
         private CardState CreateCard(CardName cardName)
