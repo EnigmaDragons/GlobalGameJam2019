@@ -230,30 +230,30 @@ namespace MonoDragons.GGJ.Data
             { CardName.ShippingBoxesWall, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House }) },
             { CardName.SpinningFanBlades, data =>
                 {
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
-                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 12 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Charge,
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 12 } });
                 } },
             { CardName.RoombaAttack, data =>
                 {
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
-                        Event = new BlockRecievedMultiplied { Target = Player.House, Multiplier = 0 } });
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
-                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Defend }});
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
-                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 6 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Defend,
+                        Event = new BlockRecievedMultiplied { Target = Player.Cowboy, Multiplier = 0 } });
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Defend,
+                        Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Defend }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Defend,
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 6 } });
                 } },
             { CardName.PowerCordTrip, data =>
                 {
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
                         Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 }});
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
-                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Attack }});
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
-                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Defend }});
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
-                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Charge }});
-                    Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
-                        Event = new CardTypeLocked { Target = Player.House, Type = CardType.Counter }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
+                        Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Attack }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
+                        Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Defend }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
+                        Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Charge }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
+                        Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Counter }});
                 } },
 
             { CardName.BedderLuckNextTime, data =>
