@@ -42,7 +42,6 @@ namespace MonoDragons.GGJ.Scenes
             Add(new BattleBackHud());
             Add(new Cowboy());
             Add(houseChars);
-            Add(new Bed());
             Add(new Label { Text = "waiting for enemy", Transform = new Transform2(new Vector2(0, 0), new Size2(1600, 500)),
                 IsVisible = () => !(_houseRevealer.Card.HasValue && _cowboyRevealer.Card.HasValue) });
             _cowboyRevealer = new CardRevealer(_player, Player.Cowboy, new Vector2(400, 350));

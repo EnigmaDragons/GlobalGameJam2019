@@ -56,12 +56,10 @@ namespace MonoDragons.Core
         {
             return new SceneFactory(new Map<string, Func<IScene>>
             {
-                { "Logo", () => new SimpleLogoScene("MainMenu", EnigmaDragonsResources.LogoImage) },
-                { "MainMenu", () => new MainMenuScene("Logo") },
-                { "CharacterCreation", () => new CharacterCreationScene()},
-                { "NetworkTest", () => new NetworkTestScene()},
+                { "Logo", () => new SimpleLogoScene("Lobby", EnigmaDragonsResources.LogoImage) },
                 { "Lobby", () => new LobbyScene(args) },
-                { "Game", () => new GameScene(Player.Cowboy) }
+                { "Game", () => new GameScene(Player.Cowboy) },
+                { "UI", () => new UiTestScene()}
             });
         }
 
