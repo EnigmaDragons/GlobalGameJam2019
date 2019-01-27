@@ -43,8 +43,6 @@ namespace MonoDragons.GGJ.Scenes
             Add(new LastPlayedTypeLockProcessor(_data));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
-            Add(new PlayerCards(Player.Cowboy, _data, rng));
-            Add(new PlayerCards(Player.House, _data, rng));
             Add(new PhaseTransitions(_data));
             Add(new LevelBackground(1));
             Add(new BattleBackHud(_player));
@@ -55,13 +53,15 @@ namespace MonoDragons.GGJ.Scenes
             Add(new CardRevealer(_player, Player.House, new Vector2(1600 - CardView.WIDTH - 160, 880 - CardView.HEIGHT)));
             _handView = new HandView(_player, _data, new Vector2(110, 880 - CardView.HEIGHT));
             Add(_handView);
+            
+            var cowboyCards = new PlayerCards(Player.Cowboy, _data, rng);
+            Add(cowboyCards);
+            var houseCards = new PlayerCards(Player.House, _data, rng);
+            Add(houseCards);
             if (_mode == Mode.SinglePlayer)
-            {
-                var ai = new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy,
+                Add(new RandomCardAiPlayer(_player == Player.Cowboy ? Player.House : Player.Cowboy,
                     _data,
-                    _player == Player.Cowboy ? new PlayerCards(Player.House, _data, rng) : new PlayerCards(Player.Cowboy, _data, rng));
-                Add(ai);
-            }
+                    _player == Player.Cowboy ? cowboyCards : houseCards));
 
             // Temp
             Add(new ActionAutomaton(() =>
