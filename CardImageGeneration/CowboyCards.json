@@ -62,6 +62,11 @@
             "Name": "Quick Draw",
             "Type": "Counter",
             "Effect": "If the opponent chose Attack, they deal no Damage and you deal 3 Damage"
+        },
+        {
+            "Name": "Lasso",
+            "Type": "Counter",
+            "Effect": "If the opponent chose Charge, next turn you deal double damage and the opponent must pass"
         }
     ],
     "Blueprint": 
