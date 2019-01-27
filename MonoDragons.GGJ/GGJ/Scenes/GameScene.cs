@@ -57,6 +57,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new BattleBackHud(_player));
             Add(new Cowboy(_data.CurrentPhase));
             Add(houseChars);
+            Add(new CounteredEffect());
             Add(new BattleTopHud(_player, _data));
             Add(new CardRevealer(_player, Player.Cowboy, new Vector2(160, 880 - CardView.HEIGHT)));
             Add(new CardRevealer(_player, Player.House, new Vector2(1600 - CardView.WIDTH - 160, 880 - CardView.HEIGHT)));
