@@ -15,7 +15,7 @@ namespace MonoDragons.Core.AudioSystem
         public SoundType Type { get; }
         public static Sound Music(string musicName, float volume = 0.5f) 
             => new Sound(Path.Combine("Content", "Music", $"{musicName}.mp3"), true, false, volume, SoundType.Music);
-        public static Sound MusicRawPath(string fileName, float volume = 1)
+        public static Sound MusicRawPath(string fileName, float volume = 0.5f)
             => new Sound(fileName, true, false, volume, SoundType.Music);
         public static Sound Ambient(string fileName, float volume = 1) 
             => new Sound(fileName, true, false, volume, SoundType.Ambient);
