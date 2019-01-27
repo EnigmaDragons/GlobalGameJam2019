@@ -41,7 +41,7 @@ namespace MonoDragons.GGJ.UiElements
             _player = p;
             _gameData.Init(g);
             var quitButton = new ImageTextButton(new Transform2(UI.OfScreen(0.4f, 0.8f), UI.OfScreenSize(0.20f, 0.10f)), 
-                () => Scene.NavigateTo(new LobbyScene(new NetworkArgs())), "Quit", "UI/sign", "UI/sign-hover", "UI/sign-press", 
+                () => Scene.NavigateTo(new MainMenuScene(new NetworkArgs())), "Quit", "UI/sign", "UI/sign-hover", "UI/sign-press", 
                 () => _isGameOver || _isDisconnected)
                     { Font = DefaultFont.Large, TextColor = UiConsts.DarkBrown };
             Branch.Add(quitButton);

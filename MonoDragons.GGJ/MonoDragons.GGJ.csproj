@@ -113,7 +113,7 @@
     <Compile Include="GGJ\Player.cs" />
     <Compile Include="GGJ\Gameplay\Events\GameOptionsSelected.cs" />
     <Compile Include="GGJ\Scenes\GameScene.cs" />
-    <Compile Include="GGJ\Scenes\LobbyScene.cs" />
+    <Compile Include="GGJ\Scenes\MainMenuScene.cs" />
     <Compile Include="Core\Animations\AnimationExtensions.cs" />
     <Compile Include="Core\Animations\HorizontalFlyInAnimation.cs" />
     <Compile Include="Core\Animations\IAnimation.cs" />

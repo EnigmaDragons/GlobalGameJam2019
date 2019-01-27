@@ -36,7 +36,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Label { Text = _message, Transform = new Transform2(new Vector2(0, 60), new Size2(400, 60)) });
             Add(Buttons.Text("Cancel", new Point(40, 200), () => {
                 Multiplayer.Disconnect();
-                Scene.NavigateTo(new LobbyScene(new NetworkArgs(new string[] {})));
+                Scene.NavigateTo(new MainMenuScene(new NetworkArgs(new string[] {})));
             }));
 
             Input.On(Control.Menu, LaunchConnectingClient);

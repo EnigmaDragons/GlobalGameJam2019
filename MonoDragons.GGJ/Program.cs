@@ -14,13 +14,14 @@ using MonoDragons.Core.Scenes;
 using MonoDragons.GGJ;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.Scenes;
+using MainMenuScene = MonoDragons.GGJ.Scenes.MainMenuScene;
 
 namespace MonoDragons.Core
 {
     public static class Program
     {
         public static readonly IErrorHandler ErrorHandler = new MessageBoxErrorHandler();
-        public static readonly AppDetails AppDetails = new AppDetails("MonoDragons GGJ", "0.0", Environment.OSVersion.VersionString);
+        public static readonly AppDetails AppDetails = new AppDetails("Bed Dead Redemption", "1.0", Environment.OSVersion.VersionString);
 
         [STAThread]
         static void Main(params string[] args)
@@ -39,7 +40,7 @@ namespace MonoDragons.Core
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
                 netArgs = args.Length == 0 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
 #endif
-                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
+                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "MainMenu", new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
                     game.Run();
             }, ErrorHandler.Handle);
         }
@@ -57,8 +58,8 @@ namespace MonoDragons.Core
         {
             return new SceneFactory(new Map<string, Func<IScene>>
             {
-                { "Logo", () => new SimpleLogoScene("Lobby", EnigmaDragonsResources.LogoImage) },
-                { "Lobby", () => new LobbyScene(args) },
+                { "Logo", () => new SimpleLogoScene("MainMenu", EnigmaDragonsResources.LogoImage) },
+                { "MainMenu", () => new MainMenuScene(args) },
                 { "Game", () => new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true) },
                 { "UI", () => new UiTestScene()},
                 { "Victory", () => new CowboyVictoryScene()}

@@ -15,14 +15,14 @@ using MonoDragons.GGJ.UiElements;
 
 namespace MonoDragons.GGJ.Scenes
 {
-    public sealed class LobbyScene : ClickUiScene
+    public sealed class MainMenuScene : ClickUiScene
     {
         private const string AppId = "Bed Dead Redemption";
         private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfigured) };
         private Label _hostEndpoint;
         private readonly NetworkArgs _args;
 
-        public LobbyScene(NetworkArgs args)
+        public MainMenuScene(NetworkArgs args)
         {
             _args = args;
         }
