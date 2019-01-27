@@ -15,7 +15,7 @@ namespace MonoDragons.GGJ.Scenes
     public sealed class LobbyScene : ClickUiScene
     {
         private const string AppId = "Bed Dead Redemption";
-        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(RoleSelected) };
+        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfigured) };
         private readonly Label _hostEndpoint = new Label { Transform = new Transform2(new Vector2(260, 0), new Size2(200, 60)) };
         private readonly NetworkArgs _args;
 
@@ -27,6 +27,10 @@ namespace MonoDragons.GGJ.Scenes
         public override void Init()
         {
             Sound.Music("The_Cowboy_Theme").Play();
+            
+            Add(new Sprite { Image = "Outside/desert_bg", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))});
+            Add(new Sprite { Image = "Outside/desert_front", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))});
+            
             Multiplayer.Disconnect();
             Add(Buttons.Text("Host", new Point(100, 160), BeginHostingGame));
             Add(Buttons.Text("Connect", new Point(100, 60), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
@@ -44,7 +48,7 @@ namespace MonoDragons.GGJ.Scenes
 
         private void CreateSinglePlayerGame()
         {
-            Scene.NavigateTo(new GameScene(Player.Cowboy, Mode.SinglePlayer));
+            Scene.NavigateTo(new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true));
         }
 
         private void BeginHostingGame()

@@ -6,7 +6,7 @@ namespace MonoDragons
 {
     public static class Rng
     {
-        private static readonly Random Instance = new Random(Guid.NewGuid().GetHashCode());
+        private static Random Instance = new Random(Guid.NewGuid().GetHashCode());
 
         public static bool Bool()
         {

@@ -21,14 +21,8 @@ namespace MonoDragons.GGJ.Gameplay
 
         private readonly DamageNumbersView _dmgView = new DamageNumbersView(Player.Cowboy);
         private readonly Vector2 _dmgOffset = new Vector2(68, 0);
-        private readonly DictionaryWithDefault<CharState, SpriteAnimation> _anims = 
-            new DictionaryWithDefault<CharState, SpriteAnimation>(Anim("__Hoodie_idle with gun"))
-            {
-                { CharState.Walking, Anim("__Hoodie_walk with gun") },
-                { CharState.Running, Anim("__Hoodie_run with gun") }
-            };
+        private readonly DictionaryWithDefault<CharState, SpriteAnimation> _anims;
         
-        private const float _scale = 0.5f;
         private float _totalMovementMs = 1.0f;
         private float _elapsedMs = 1.0f;
         private Vector2 _previous;
@@ -40,8 +34,13 @@ namespace MonoDragons.GGJ.Gameplay
         private Vector2 _loc = GetLoc(new Vector2(-400, UI.OfScreenHeight(0.375f)),
             new Vector2(-400, UI.OfScreenHeight(0.375f)), 1.0f);
 
-        public Cowboy()
+        public Cowboy(float scale = 0.5f)
         {
+            _anims = new DictionaryWithDefault<CharState, SpriteAnimation>(Anim("__Hoodie_idle with gun", scale))
+            {
+                { CharState.Walking, Anim("__Hoodie_walk with gun", scale) },
+                { CharState.Running, Anim("__Hoodie_run with gun", scale) }
+            };
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<LevelSetup>(OnLevelSetup, this);
         }
@@ -89,9 +88,10 @@ namespace MonoDragons.GGJ.Gameplay
             _anims[_state].Draw(parentTransform + _loc);
         }
 
-        private void Enter()
+        public Cowboy Enter()
         {
             MoveTo(CharState.Walking, 60, TimeSpan.FromMilliseconds(2000), () => {});
+            return this;
         }
         
         private Cowboy MoveTo(CharState state, int endX, TimeSpan duration, Action onArrival)
@@ -106,12 +106,12 @@ namespace MonoDragons.GGJ.Gameplay
             return this;
         }
         
-        private static SpriteAnimation Anim(string baseName)
+        private static SpriteAnimation Anim(string baseName, float scale)
         {
             const float duration = 0.16f;
             return new SpriteAnimation(
                 Enumerable.Range(0, 10)
-                    .Select(i => new SpriteAnimationFrame($"Cowboy/{baseName}_00{i}", _scale, duration)).ToArray());
+                    .Select(i => new SpriteAnimationFrame($"Cowboy/{baseName}_00{i}", scale, duration)).ToArray());
         }
 
         private static Vector2 GetLoc(Vector2 start, Vector2 destination, float elapsed)

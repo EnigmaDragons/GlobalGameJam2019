@@ -61,7 +61,7 @@ namespace MonoDragons.GGJ.Gameplay
             _gameData.CurrentPhase = Phase.ResolvingCards;
             if (_animationsPending == 0)
             {
-                Event.Publish(new TurnFinished());
+                Event.Publish(new TurnFinished { TurnNumber = _gameData.CurrentTurn });
                 OnTurnFinished();
             }
                 
@@ -82,6 +82,11 @@ namespace MonoDragons.GGJ.Gameplay
         
         public void Update(TimeSpan delta)
         {
+            if (_gameData.CurrentPhase == Phase.Setup)
+            {
+                _gameData.CurrentPhase = Phase.SelectingCards;
+                Event.Publish(new NextLevelRequested() { Level = 1 });
+            }
             if (_currentLevel != _gameData.CurrentLevel) 
                 return;
             
