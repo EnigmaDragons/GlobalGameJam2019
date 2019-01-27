@@ -68,11 +68,10 @@ namespace MonoDragons.GGJ.Gameplay
                 for(var i = 0; i < _cards.Count; i++)
                 {
                     var idx = i;
-                    var pos = Position(i);
                     var cardView = Cards.Create(_data.AllCards[cards[i]]);
                     var isPlayable = !State.Cards.UnplayableTypes.Contains(cardView.State.Type);
                     if (isPlayable)
-                        Branch.Add(new SimpleClickable(new Rectangle(pos.ToPoint(), new Point(CardView.WIDTH, CardView.HEIGHT)), () => CardSelected(idx)));
+                        Branch.Add(new SimpleClickable(new Rectangle(_positions[i].ToPoint(), new Point(CardView.WIDTH, CardView.HEIGHT)), () => CardSelected(idx)));
                 }
             });
         }
@@ -131,15 +130,17 @@ namespace MonoDragons.GGJ.Gameplay
         {
             if (_isMoving)
             {
-                for (var i = 0; i < _cards.Count; i++)
-                    _positions[i] = Position(i);
                 _elapsedMs += (float)delta.TotalMilliseconds;
                 _currentX = MathHelper.Lerp(_from, _destination, _elapsedMs / _totalMovementMs);
+                for (var i = 0; i < _cards.Count; i++)
+                    _positions[i] = Position(i);
             }
             if (_isMoving && (Math.Abs(_currentX - _destination) < 5f))
             {
                 _isMoving = false;
                 _currentX = _destination;
+                for (var i = 0; i < _cards.Count; i++)
+                    _positions[i] = Position(i);
                 _onArrived();
                 Event.Publish(new AnimationEnded());
             }

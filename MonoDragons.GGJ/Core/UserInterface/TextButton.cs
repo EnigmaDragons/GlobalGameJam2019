@@ -26,7 +26,8 @@ namespace MonoDragons.Core.UserInterface
         public TextButton(Rectangle area, Action onClick, string text, Color defaultColor, Color hover, Color press)
             : this(area, onClick, text, defaultColor, hover, press, () => true) { }
 
-        public TextButton(Rectangle area, Action onClick, string text, Color defaultColor, Color hover, Color press, Func<bool> isVisible) : base(area)
+        public TextButton(Rectangle area, Action onClick, string text, Color defaultColor, Color hover, Color press, Func<bool> isVisible)
+            : base(area, isVisible)
         {
             _onClick = onClick;
             _text = text;

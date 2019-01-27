@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace MonoDragons.GGJ.UiElements
 {
-    class BattleTopHud : IVisualAutomaton
+    class BattleTopHud : IVisualAutomatonControl
     {
         private static readonly Size2 HpSize = new Size2(68, 68);
         private readonly Label _cowboyHp = new Label { Transform = new Transform2(UI.OfScreen(0.008f, 0.78f), HpSize) };

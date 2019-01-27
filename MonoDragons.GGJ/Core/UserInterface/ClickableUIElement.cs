@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 
 namespace MonoDragons.Core.UserInterface
 {
@@ -11,7 +12,7 @@ namespace MonoDragons.Core.UserInterface
         public abstract void OnReleased();
         
         public float Scale { get; }
-        public bool IsEnabled { get; set; }
+        public Func<bool> IsEnabled { private get; set; }
         public bool IsHovered { get; set; }
         private Vector2 parentLocation;
         public Vector2 ParentLocation
@@ -38,7 +39,19 @@ namespace MonoDragons.Core.UserInterface
 
         public string TooltipText { get; set; }
 
-        protected ClickableUIElement(Rectangle area, bool isEnabled = true, float scale = 1)
+        protected ClickableUIElement(Rectangle area, float scale = 1)
+        {
+            TooltipText = "";
+            Area = new Rectangle((int)Math.Round(area.X * scale), (int)Math.Round(area.Y * scale),
+                (int)Math.Round(area.Width * scale), (int)Math.Round(area.Height * scale));
+            Scale = scale;
+            ParentLocation = Vector2.Zero;
+            Offset = Vector2.Zero;
+            IsEnabled = () => true;
+            IsHovered = false;
+        }
+
+        protected ClickableUIElement(Rectangle area, Func<bool> isEnabled, float scale = 1)
         {
             TooltipText = "";
             Area = new Rectangle((int)Math.Round(area.X * scale), (int)Math.Round(area.Y * scale),
@@ -48,6 +61,11 @@ namespace MonoDragons.Core.UserInterface
             Offset = Vector2.Zero;
             IsEnabled = isEnabled;
             IsHovered = false;
+        }
+
+        public bool GetIsEnabled()
+        {
+            return IsEnabled();
         }
     }
 }

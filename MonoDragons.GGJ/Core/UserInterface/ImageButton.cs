@@ -23,7 +23,7 @@ namespace MonoDragons.Core.UserInterface
             : this(basic, hover, press, transform, onClick, () => true) { }
 
         public ImageButton(string basic, string hover, string press, Transform2 transform, Action onClick, Func<bool> isVisible)
-            : base(transform.ToRectangle())
+            : base(transform.ToRectangle(), isVisible)
         {
             _basic = basic;
             _hover = hover;

@@ -26,6 +26,7 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<TurnFinished>(OnTurnFinished, this);
             Event.Subscribe<LevelSetup>(OnLevelSetup, this);
             Event.Subscribe<CardTypeLocked>(OnCardTypeLocked, this);
+            Event.Subscribe<HandSizeAdjusted>(OnHandSizeAdjustment, this);
         }
 
         private void OnLevelSetup(LevelSetup e)
@@ -46,6 +47,12 @@ namespace MonoDragons.GGJ.Gameplay
                 _state.NextTurnUnplayableTypes.Add(e.Type);
         }
 
+        private void OnHandSizeAdjustment(HandSizeAdjusted e)
+        {
+            if (e.Target == _player)
+                _state.HandSizeModifier += e.Adjustment;
+        }
+
         private void OnTurnFinished(TurnFinished e)
         {
             _state.DiscardZone.AddRange(_state.InPlayZone);
@@ -61,7 +68,8 @@ namespace MonoDragons.GGJ.Gameplay
 
             _currentTurn = e.TurnNumber;
             DrawPass();
-            DrawCards(5);
+            DrawCards(3 + _state.HandSizeModifier);
+            _state.HandSizeModifier = 0;
         }
 
         private void OnCardSelected(CardSelected e)

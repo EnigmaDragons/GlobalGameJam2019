@@ -8,7 +8,7 @@ namespace MonoDragons.Core.UserInterface
         private readonly Action _onClick;
 
         public ScreenClickable(Action onClick, float scale = 1)
-            : base(new Rectangle(0, 0, 5000, 5000), true, scale)
+            : base(new Rectangle(0, 0, 5000, 5000), scale)
         {
             _onClick = onClick;
         }
