@@ -5,9 +5,9 @@ using System;
 
 namespace MonoDragons.GGJ.Gameplay
 {
-    class Bed : IVisualAutomaton
+    class Bed : IHouseChar
     {
-        private Sprite _sprite = new Sprite { Image = "Appliances/bed", Transform = new Transform2(UI.OfScreen(0.76f, 0.375f), new Size2(300, 238)) };
+        private readonly Sprite _sprite = new Sprite { Image = "Appliances/bed", Transform = new Transform2(UI.OfScreen(0.76f, 0.375f), new Size2(300, 238)) };
         
         public void Draw(Transform2 parentTransform)
         {
@@ -18,5 +18,7 @@ namespace MonoDragons.GGJ.Gameplay
         {
             
         }
+
+        public Transform2 Transform => _sprite.Transform;
     }
 }

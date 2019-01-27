@@ -9,7 +9,7 @@ namespace MonoDragons.GGJ.UiElements
     {
         private List<IVisual> _visuals = new List<IVisual>
         {
-            new UiImage{ Image= "House/floor", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))} 
+            new Sprite{ Image= "House/floor", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))} 
         };
 
         public void Draw(Transform2 parentTransform)

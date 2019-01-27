@@ -38,7 +38,7 @@ namespace MonoDragons.Core
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
                 netArgs = args.Length == 0 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
 #endif
-                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Lobby", new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
+                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "Game", new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
                     game.Run();
             }, ErrorHandler.Handle);
         }
@@ -56,12 +56,10 @@ namespace MonoDragons.Core
         {
             return new SceneFactory(new Map<string, Func<IScene>>
             {
-                { "Logo", () => new SimpleLogoScene("MainMenu", EnigmaDragonsResources.LogoImage) },
-                { "MainMenu", () => new MainMenuScene("Logo") },
-                { "CharacterCreation", () => new CharacterCreationScene()},
-                { "NetworkTest", () => new NetworkTestScene()},
+                { "Logo", () => new SimpleLogoScene("Lobby", EnigmaDragonsResources.LogoImage) },
                 { "Lobby", () => new LobbyScene(args) },
-                { "Game", () => new GameScene(Player.Cowboy) }
+                { "Game", () => new GameScene(Player.Cowboy, Mode.SinglePlayer) },
+                { "UI", () => new UiTestScene()}
             });
         }
 
