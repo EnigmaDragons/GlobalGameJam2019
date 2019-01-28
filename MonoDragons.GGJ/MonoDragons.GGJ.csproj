@@ -41,6 +41,7 @@
     <StartupObject>MonoDragons.Core.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Engine\OnlyOnceAutomaton.cs" />
     <Compile Include="GGJ\DataSaver.cs" />
     <Compile Include="GGJ\Gameplay\Characters\CharStatuses.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardCountered.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="GGJ\Gameplay\Status.cs" />
     <Compile Include="GGJ\Gameplay\StatusProcessor.cs" />
     <Compile Include="GGJ\UiElements\CardRevealer.cs" />
+    <Compile Include="GGJ\UiElements\ConnectingView.cs" />
     <Compile Include="GGJ\UiElements\CounteredEffect.cs" />
     <Compile Include="GGJ\UiElements\DamageNumbersView.cs" />
     <Compile Include="GGJ\UiElements\Events\AnimationEnded.cs" />
@@ -121,7 +123,7 @@
     <Compile Include="GGJ\Gameplay\Events\PlayerDefeated.cs" />
     <Compile Include="GGJ\Gameplay\Events\TurnFinished.cs" />
     <Compile Include="GGJ\Player.cs" />
-    <Compile Include="GGJ\Gameplay\Events\GameConfigured.cs" />
+    <Compile Include="GGJ\Gameplay\Events\GameConfig.cs" />
     <Compile Include="GGJ\Scenes\GameScene.cs" />
     <Compile Include="GGJ\Scenes\MainMenuScene.cs" />
     <Compile Include="Core\Animations\AnimationExtensions.cs" />
@@ -302,7 +304,6 @@
     <Compile Include="Core\UserInterface\VisualClickableUIElement.cs" />
     <Compile Include="Core\UserInterface\WithOffset.cs" />
     <Compile Include="Core\UserInterface\WrapGrid.cs" />
-    <Compile Include="GGJ\Scenes\WaitingForConnectionScene.cs" />
     <Compile Include="GGJ\UiElements\BattleBackHud.cs" />
     <Compile Include="GGJ\UiElements\BattleTopHud.cs" />
     <Compile Include="GGJ\UiElements\Buttons.cs" />

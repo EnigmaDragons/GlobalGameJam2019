@@ -28,7 +28,7 @@ namespace MonoDragons.GGJ.Scenes
         private bool _hasHouseRequestedRematch = false;
         private bool _gameEnded = false;
 
-        public GameScene(GameConfigured config, bool isHost)
+        public GameScene(GameConfig config, bool isHost)
         {
             _isHost = isHost;
             _player = isHost ? config.HostRole : (config.HostRole == Player.Cowboy ? Player.House : Player.Cowboy);
@@ -99,7 +99,7 @@ namespace MonoDragons.GGJ.Scenes
             Input.On(Control.Menu, () => Scene.NavigateTo(new MainMenuScene(new NetworkArgs())));
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);  
             Event.Subscribe<RematchRequested>(OnRematchRequested, this);
-            Event.Subscribe<GameConfigured>(OnGameConfigured, this);
+            Event.Subscribe<GameConfig>(OnGameConfigured, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<GameDisconnected>(OnDisconnected, this);
         }
@@ -110,7 +110,7 @@ namespace MonoDragons.GGJ.Scenes
                 Scene.NavigateTo(new MainMenuScene(new NetworkArgs()));
         }
 
-        private void OnGameConfigured(GameConfigured e)
+        private void OnGameConfigured(GameConfig e)
         {
             if(!_isHost)
                 Scene.NavigateTo(new GameScene(e, false));
@@ -124,7 +124,7 @@ namespace MonoDragons.GGJ.Scenes
                 _hasHouseRequestedRematch = true;
             if(_hasCowboyRequestedRematch && _hasHouseRequestedRematch && _isHost)
             {
-                var config = new GameConfigured(Mode.MultiPlayer, Rng.Bool() ? Player.Cowboy : Player.House, new GameData());
+                var config = new GameConfig(Mode.MultiPlayer, Rng.Bool() ? Player.Cowboy : Player.House, new GameData());
                 Event.Publish(config);
                 Scene.NavigateTo(new GameScene(config, true));
             }
