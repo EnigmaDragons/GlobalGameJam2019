@@ -15,7 +15,7 @@ The home-owner's smart appliances attempt to fend off the cowboy.
 
 Enjoy a humor-ridden adventure build for Card Players!
 
-Play against your friend and switch off playing as the cowboy or the house, or play against a challenging AI enemy .
+Play against your friend and switch off playing as the cowboy or the house, or play against a challenging AI enemy.
 
 
 ----
@@ -39,7 +39,7 @@ Play against your friend and switch off playing as the cowboy or the house, or p
 Requires .NET Framework 4.5 or higher installed on your machine.
 
 1. Download the latest release zip
-2. Unzip to your preferred location.
+2. Unzip to your preferred location
 3. Run BedDeadRedemption.exe
 
 ----
