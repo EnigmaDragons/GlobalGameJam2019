@@ -85,7 +85,12 @@ namespace MonoDragons.GGJ.UiElements
             _gameOverLabel.Text = e.Winner == _player ? "You are Victorious!" : "You have been Defeated!";
             _shouldDisplaySign = true;
             if (e.IsGameOver)
-                _fadeToBlack.Start(() => _isGameOver = e.IsGameOver);
+                _fadeToBlack.Start(() =>
+                {
+                    _isGameOver = e.IsGameOver;
+                    if (e.IsGameOver)
+                        Scene.NavigateTo(new CreditsScene(e.Winner));
+                });
         }
     }
 }
