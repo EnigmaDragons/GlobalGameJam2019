@@ -33,16 +33,16 @@ namespace MonoDragons.Core
                 var netArgs = new NetworkArgs(args);
                 if (args.Length > 0)
                 {
-                    MasterVolume.Instance.MusicVolume = 0;
+                    MasterVolume.Instance.MusicVolume = 1;
                     MasterVolume.Instance.SoundEffectVolume = 1;
                 }
 #if DEBUG
-                MasterVolume.Instance.MusicVolume = 0;
+                MasterVolume.Instance.MusicVolume = 1;
                 DebugLogWindow.Launch();
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
                 DebugLogWindow.Exclude(x => x.StartsWith("GameStab"));
-                netArgs = args.Length == 0 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
-                startingScene = "Game";
+                netArgs = args.Length == 1 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
+                startingScene = "MainMenu";
 #endif
                 using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, startingScene, new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
                     game.Run();

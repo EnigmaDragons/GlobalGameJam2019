@@ -2,7 +2,6 @@
 using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.Gameplay.Events;
-using MonoDragons.GGJ.UiElements.Events;
 
 namespace MonoDragons.GGJ
 {

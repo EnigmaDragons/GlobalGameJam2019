@@ -245,7 +245,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.Barricade, data =>
                 {
                     Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 4 });
-                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 } });
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.Cowboy, Amount = 4 } });
                     Event.Publish(new NextTurnBlockGained { Target = Player.Cowboy, Amount = 4 });
                 } },
             { CardName.QuickDraw, data =>
