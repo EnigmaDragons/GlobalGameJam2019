@@ -41,6 +41,7 @@ namespace MonoDragons.GGJ.Scenes
         {
             Sound.Music("The_Cowboy_Theme").Play();
             
+            Add(new SoundEffectProcessor(Player.Cowboy));
             Add(new Sprite { Image = "Outside/desert_bg", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))});
             Add(new Sprite { Image = "Outside/desert_front", Transform = new Transform2(UI.OfScreenSize(1.0f, 1.0f))});
             Add(new Sprite { Image = "UI/title", Transform = new Transform2(new Vector2((1600 - 720) / 2, UI.OfScreenHeight(0.062f)), new Size2(720, 355))});

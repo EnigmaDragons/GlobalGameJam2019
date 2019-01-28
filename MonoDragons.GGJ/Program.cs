@@ -34,7 +34,7 @@ namespace MonoDragons.Core
                 if (args.Length > 0)
                 {
                     MasterVolume.Instance.MusicVolume = 0;
-                    MasterVolume.Instance.SoundEffectVolume = 0;
+                    MasterVolume.Instance.SoundEffectVolume = 1;
                 }
 #if DEBUG
                 MasterVolume.Instance.MusicVolume = 0;
@@ -52,9 +52,7 @@ namespace MonoDragons.Core
         private static IScene SetupScene(NetworkArgs args)
         {
             var currentScene = new CurrentScene();
-            Scene.Init(new CurrentSceneNavigation(currentScene, CreateSceneFactory(args),  
-                AudioPlayer.Instance.StopAll, 
-                Resources.Unload));
+            Scene.Init(new CurrentSceneNavigation(currentScene, CreateSceneFactory(args), Resources.Unload));
             return new HideViewportExternals(currentScene);
         }
 
