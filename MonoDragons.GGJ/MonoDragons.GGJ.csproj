@@ -42,6 +42,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Core\Engine\OnlyOnceAutomaton.cs" />
+    <Compile Include="GGJ\Credits\BasicJamCreditsSection.cs" />
+    <Compile Include="GGJ\Credits\CreditsSegments.cs" />
+    <Compile Include="GGJ\Credits\TitleCreditSegment.cs" />
+    <Compile Include="GGJ\Credits\WinnerSegment.cs" />
     <Compile Include="GGJ\DataSaver.cs" />
     <Compile Include="GGJ\Gameplay\Characters\CharStatuses.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardsProcessed.cs" />
