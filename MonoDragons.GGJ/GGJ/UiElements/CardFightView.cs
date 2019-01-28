@@ -37,6 +37,7 @@ namespace MonoDragons.GGJ.UiElements
             _attackIconAnimation = new SinglePositionTraverseAnimation(_attackIcon, new Vector2(isFlipped ? -first : first, 0), TimeSpan.FromSeconds(1), TimeSpan.Zero);
             _defendIconAnimation = new SinglePositionTraverseAnimation(_defendIcon, new Vector2(isFlipped ? -second : second, 0), TimeSpan.FromSeconds(1), TimeSpan.Zero);
             _isFlipped = isFlipped;
+            Event.Subscribe<CardResolutionBegun>(e => _onFinished(), this);
         }
 
         public void Start(Action onFinished)
@@ -53,7 +54,6 @@ namespace MonoDragons.GGJ.UiElements
                     _attackTimer = new TimerTask(() =>
                     {
                         _animationsPlaying--;
-                        FinishIfAble();
                         Event.Publish(new AnimationEnded("Attack Shown"));
                     }, 2000, false);
                 });
@@ -69,7 +69,6 @@ namespace MonoDragons.GGJ.UiElements
                     _defendTimer = new TimerTask(() =>
                     {
                         _animationsPlaying--;
-                        FinishIfAble();
                         Event.Publish(new AnimationEnded("Defend Shown"));
                     }, 2000, false);
                 });
@@ -94,12 +93,6 @@ namespace MonoDragons.GGJ.UiElements
                 _attackIcon.Draw(parentTransform);
             if (_defendIconDoneMoving)
                 _defendIcon.Draw(parentTransform);
-        }
-
-        private void FinishIfAble()
-        {
-            if (_animationsPlaying == 0)
-                _onFinished();
         }
     }
 

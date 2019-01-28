@@ -18,12 +18,10 @@ namespace MonoDragons.GGJ.UiElements
         private bool _opponentHasChosen;
         private bool _waitingForOpponent;
         private Transform2 _location;
-        private TimerTask _displayTimer;
         private CardFightView _cardFightView;
         private readonly Player _local;
         private readonly Player _player;
         private readonly GameData _data;
-        private bool _levelIsFinished;
 
         public CardRevealer(GameData data, Player local, Player player, Vector2 location) : this(data, local, player, location, new Optional<CardView>()) { }
         public CardRevealer(GameData data, Player local, Player player, Vector2 location, CardView card) : this(data, local, player, location, new Optional<CardView>(card)) { }
@@ -39,12 +37,10 @@ namespace MonoDragons.GGJ.UiElements
             Event.Subscribe<CardsProcessed>(OnCardsProcessed, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<TurnStarted>(x => _waitingForOpponent = true, this);
-            Event.Subscribe<LevelSetup>(x => _levelIsFinished = false, this);
         }
 
         private void OnPlayerDefeated(PlayerDefeated e)
         {
-            _levelIsFinished = true;
             CleanupRevelations();
         }
 
@@ -89,8 +85,6 @@ namespace MonoDragons.GGJ.UiElements
             _cardFightView.Start(() =>
             {
                 CleanupRevelations();
-                //I know this should be on phase trasition but that class is exetremely confusing
-                Event.Publish(new CardResolutionBegun { TurnNumber = e.TurnNumber });
             });
             Event.Publish(new AllCardsRevealed { TurnNumber = e.TurnNumber, CowboyCard = e.CowboyCard, HouseCard = e.HouseCard });
         }

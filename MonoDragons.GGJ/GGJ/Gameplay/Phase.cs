@@ -5,6 +5,7 @@ namespace MonoDragons.GGJ.Gameplay
     {
         StartingTurn,
         SelectingCards,
+        DisplayingCards,
         ResolvingCards,
         BattleFinished,
         LeavingLevel,
