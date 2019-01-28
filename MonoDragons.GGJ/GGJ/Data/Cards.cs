@@ -246,6 +246,7 @@ namespace MonoDragons.GGJ.Data
                 {
                     Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 });
                     Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 } });
+                    Event.Publish(new NextTurnBlockGained { Target = Player.Cowboy, Amount = 3 });
                 } },
             { CardName.QuickDraw, data =>
                 {
@@ -337,6 +338,7 @@ namespace MonoDragons.GGJ.Data
                 {
                     Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
                     Event.Publish(new NextTurnEffectQueued { Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }});
+                    Event.Publish(new NextTurnDamageDealt { Dealer = Player.House, Amount = 2 });
                 } },
             { CardName.HeatUp, data =>
                 {
@@ -405,7 +407,8 @@ namespace MonoDragons.GGJ.Data
                 {
                     Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
                     Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 2 });
-                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 2 }});
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 1 }});
+                    Event.Publish(new NextTurnBlockGained { Target = Player.House, Amount = 1 });
                 } },
             { CardName.ThatsCurtainsForYou, data =>
                 {

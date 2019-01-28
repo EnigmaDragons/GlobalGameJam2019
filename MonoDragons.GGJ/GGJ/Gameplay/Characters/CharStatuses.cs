@@ -24,6 +24,9 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<TurnStarted>(e => ShowEmpoweredAttacks(), this);
             Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
             Event.Subscribe<CardTypeLocked>(OnCardTypeLocked, this);
+            //TODO: tots hacked
+            Event.Subscribe<NextTurnDamageDealt>(OnNextTurnDamageDealt, this);
+            Event.Subscribe<NextTurnBlockGained>(OnNextTurnBlockGained, this);
         }
 
         private void OnDamageTakenMultiplied(DamageTakenMultiplied e)
@@ -64,7 +67,28 @@ namespace MonoDragons.GGJ.Gameplay
             //TODO: improve
             var state = State<GameData>.Current[_player];
             if (state.NextAttackBonus > 0)
-                _statuses.Add(Image($"plus{state.NextAttackBonus}"));
+                for (var i = 0; i < state.NextAttackBonus; i += 9)
+                    _statuses.Add(Image($"plus{Math.Min(state.NextAttackBonus - i, 9)}"));
+        }
+
+        private void OnNextTurnDamageDealt(NextTurnDamageDealt e)
+        {
+            if (e.Dealer == _player)
+            {
+                var imageLabel = new ImageLabel(new Transform2(new Size2(50, 50)), "UI/attack");
+                imageLabel.Text = e.Amount.ToString();
+                _nextStatuses.Add(imageLabel);
+            }
+        }
+
+        private void OnNextTurnBlockGained(NextTurnBlockGained e)
+        {
+            if (e.Target == _player)
+            {
+                var imageLabel = new ImageLabel(new Transform2(new Size2(50, 50)), "UI/block");
+                imageLabel.Text = e.Amount.ToString();
+                _nextStatuses.Add(imageLabel);
+            }
         }
 
         public void Queue(string name)
