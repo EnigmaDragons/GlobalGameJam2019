@@ -453,7 +453,6 @@ namespace MonoDragons.GGJ.Data
             { CardName.AdaptiveTactics, data =>
                 {
                     Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 6 });
-                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 2 });
                     Event.Publish(new LastPlayedTypeLocked { Target = Player.Cowboy });
                     Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Analyze Tactics", Events = new List<object> { new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 2 }, new LastPlayedTypeLocked { Target = Player.Cowboy }}}});
                 } },
