@@ -32,22 +32,22 @@ namespace MonoDragons.GGJ.UiElements
         {
             _attackIcon = IconView.Attack(isFlipped, card.State.PredictedDamage, opponentState.IncomingDamage - card.State.PredictedDamage, opponentState.DamageTakenMultipliers);
             _defendIcon = IconView.Defend(isFlipped, card.State.PredictedBlock, state.AvailableBlock - card.State.PredictedBlock, state.BlockRecievedMultiplier);
-            var movement = (CardView.WIDTH + 100) / 2 + 20;
-            var blockMovement = movement + 120;
-            _attackIconAnimation = new SinglePositionTraverseAnimation(_attackIcon, new Vector2(isFlipped ? -movement : movement, 0), TimeSpan.FromSeconds(1), TimeSpan.Zero);
-            _defendIconAnimation = new SinglePositionTraverseAnimation(_defendIcon, new Vector2(isFlipped ? -blockMovement : blockMovement, 0), TimeSpan.FromSeconds(1), TimeSpan.Zero);
+            var second = (CardView.WIDTH + 100) / 2 + 20;
+            var first = second + 120;
+            _attackIconAnimation = new SinglePositionTraverseAnimation(_attackIcon, new Vector2(isFlipped ? -first : first, 0), TimeSpan.FromSeconds(1), TimeSpan.Zero);
+            _defendIconAnimation = new SinglePositionTraverseAnimation(_defendIcon, new Vector2(isFlipped ? -second : second, 0), TimeSpan.FromSeconds(1), TimeSpan.Zero);
             _isFlipped = isFlipped;
             Event.Subscribe<CardResolutionBegun>(e => _onFinished(), this);
         }
 
-        public void Init(Action onFinished)
+        public void Start(Action onFinished)
         {
             _onFinished = onFinished;
             Event.Publish(new AnimationStarted("Attack Shown"));
             _animationsPlaying++;
             _attackIconAnimation.Start(() =>
             {
-                _attackIcon.Location = new Transform2(new Vector2(_isFlipped ? -120 : CardView.WIDTH + 20, (CardView.HEIGHT - 100) / 2));
+                _attackIcon.Location = new Transform2(new Vector2(_isFlipped ? -240 : CardView.WIDTH + 140, (CardView.HEIGHT - 100) / 2));
                 _attackDoneMoving = true;
                 _attackIcon.Animate(() =>
                 {
@@ -62,7 +62,7 @@ namespace MonoDragons.GGJ.UiElements
             _animationsPlaying++;
             _defendIconAnimation.Start(() =>
             {
-                _defendIcon.Location = new Transform2(new Vector2(_isFlipped ? -240 : CardView.WIDTH + 140, (CardView.HEIGHT - 100) / 2));
+                _defendIcon.Location = new Transform2(new Vector2(_isFlipped ? -120 : CardView.WIDTH + 20, (CardView.HEIGHT - 100) / 2));
                 _defendIconDoneMoving = true;
                 _defendIcon.Animate(() =>
                 {
@@ -98,8 +98,10 @@ namespace MonoDragons.GGJ.UiElements
 
     public class IconView : IVisualAutomaton
     {
-        public static IconView Attack(bool isFlipped, int number, int bonus, List<MultiplierType> multipliers) => new IconView(new Size2(100, 100), "attack", new Vector2((CardView.WIDTH - 50) / 2, (CardView.HEIGHT - 50) / 2), isFlipped, number, bonus, multipliers);
-        public static IconView Defend(bool isFlipped, int number, int bonus, List<MultiplierType> multipliers) => new IconView(new Size2(100, 100), "block", new Vector2((CardView.WIDTH - 50) / 2, (CardView.HEIGHT - 50) / 2), isFlipped, number, bonus, multipliers);
+        public static IconView Attack(bool isFlipped, int number, int bonus, List<MultiplierType> multipliers) 
+            => new IconView(new Size2(100, 100), "attack", new Vector2((CardView.WIDTH - 100) / 2, (CardView.HEIGHT - 100) / 2), isFlipped, number, bonus, multipliers);
+        public static IconView Defend(bool isFlipped, int number, int bonus, List<MultiplierType> multipliers) 
+            => new IconView(new Size2(100, 100), "block", new Vector2((CardView.WIDTH - 100) / 2, (CardView.HEIGHT - 100) / 2), isFlipped, number, bonus, multipliers);
 
         private readonly Size2 _size;
         private readonly UiImage _icon;
@@ -172,15 +174,14 @@ namespace MonoDragons.GGJ.UiElements
                 _onfinished();
             }
             _displayY = (int)(Location.Location.Y - 10 - _remainingMs / 100);
-            
         }
 
         public void Draw(Transform2 parentTransform)
-        {
+        {           
             var transform = parentTransform + Location + new Transform2(_size);
             _icon.Draw(transform);
-            UI.DrawTextCentered(_number.ToString(), transform.ToRectangle(), Color.Blue);
-            UI.DrawTextCentered(_displayText, new Rectangle((int)transform.Location.X, _displayY + (int)parentTransform.Location.Y, transform.Size.Width, transform.Size.Height), Color.Blue);
+            UI.DrawTextCentered(_number.ToString(), transform.ToRectangle(), Color.White);
+            UI.DrawTextCentered(_displayText, new Rectangle((int)transform.Location.X, _displayY + (int)parentTransform.Location.Y, transform.Size.Width, transform.Size.Height), Color.White);
         }
     }
 }

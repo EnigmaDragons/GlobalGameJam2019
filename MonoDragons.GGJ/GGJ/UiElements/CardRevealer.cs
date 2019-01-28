@@ -82,7 +82,7 @@ namespace MonoDragons.GGJ.UiElements
             IsRevealed = true;
             ShowCard(_player == Player.Cowboy ? e.CowboyCard : e.HouseCard);
             _cardFightView = new CardFightView(Card.Value, _data[_player], _data[_player == Player.Cowboy ? Player.House : Player.Cowboy], _player == Player.House);
-            _cardFightView.Init(() =>
+            _cardFightView.Start(() =>
             {
                 CleanupRevelations();
             });
