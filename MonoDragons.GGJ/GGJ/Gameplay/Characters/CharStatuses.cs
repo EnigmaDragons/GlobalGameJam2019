@@ -21,7 +21,7 @@ namespace MonoDragons.GGJ.Gameplay
             _player = player;
             Event.Subscribe<PlayerDefeated>(x => { Clear(); Clear(); }, this);
             Event.Subscribe<TurnFinished>(x => Clear(), this);
-            Event.Subscribe<NextAttackEmpowered>(OnNextAttackEmpowered, this);
+            Event.Subscribe<TurnStarted>(e => ShowEmpoweredAttacks(), this);
             Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
             Event.Subscribe<CardTypeLocked>(OnCardTypeLocked, this);
         }
@@ -59,10 +59,12 @@ namespace MonoDragons.GGJ.Gameplay
                 _nextStatuses.Add(new Label {Text = $"No {e.Type}"});
         }
 
-        private void OnNextAttackEmpowered(NextAttackEmpowered e)
+        private void ShowEmpoweredAttacks()
         {
-            if (e.Target == _player)
-                Queue($"plus{e.Amount}");
+            //TODO: improve
+            var state = State<GameData>.Current[_player];
+            if (state.NextAttackBonus > 0)
+                _statuses.Add(Image($"plus{state.NextAttackBonus}"));
         }
 
         public void Queue(string name)

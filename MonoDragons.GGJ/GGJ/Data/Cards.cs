@@ -343,7 +343,8 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
                     Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 2 });
                     Event.Publish(new NextAttackEmpowered { Target = Player.House, Amount = 2 });
-                    Event.Publish(new DamageEffectQueued { Target = Player.House, Event = new NextAttackEmpowered { Target = Player.House, Amount = 4 }});
+                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
+                        Event = new NextAttackEmpowered { Target = Player.House, Amount = 4 }});
                 } },
             { CardName.CoolDown, data =>
                 {
