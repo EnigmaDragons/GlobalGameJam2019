@@ -1,20 +1,50 @@
-# Global Game Jam 2019 - Enigma Dragons Game
+# Bed Dead Redemption
+
+Created in 48 hours by Enigma Dragons Jam Squad using MonoGame.
 
 ----
 
-### Concept
+### Description
 
 ----
 
-Name: Bed Dead Redemption
-Multiplayer: 1v1 Roguelike
+Multiplayer: 1v1 Card Game
 
-A villainous cowboy breaks into a smarthome and tries to take a nap in the owner's bed.
+A villainous cowboy breaks into a smarthome and tries to take a nap in the owner's bed. 
 The home-owner's smart appliances attempt to fend off the cowboy.
 
+Enjoy a humor-ridden adventure build for Card Players!
+
+Play against your friend and switch off playing as the cowboy or the house, or play against a challenging AI enemy .
+
+
 ----
 
-### Environment Setup
+### Images
+
+----
+
+![screenshot](https://github.com/EnigmaDragons/GlobalGameJam2019/blob/master/screenshots/title.jpg)
+
+![screenshot](https://github.com/EnigmaDragons/GlobalGameJam2019/blob/master/screenshots/screen1.jpg)
+
+![screenshot](https://github.com/EnigmaDragons/GlobalGameJam2019/blob/master/screenshots/screen2.jpg)
+
+----
+
+### Installation instructions
+
+----
+
+Requires .NET Framework 4.5 or higher installed on your machine.
+
+1. Download the latest release zip
+2. Unzip to your preferred location.
+3. Run BedDeadRedemption.exe
+
+----
+
+### Development Environment Setup
 
 ----
 
@@ -57,7 +87,9 @@ Requirements:
 
 ----
 
-SilasReinagel: Audio/Visuals/Project Manager
-TimeRacers: Engine Programmer
-ZavixDragon: Lead Designer
-RedPearl: Designer
+- SilasReinagel: Visuals/Project Manager/NetCode
+- TimeRacers: Engine Programmer
+- ZavixDragon: Lead Gameplay Designer
+- RedPearl: Gameplay Designer
+- Gordy Keene: Lead Tester
+- hac.creative: Original Music
