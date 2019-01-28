@@ -35,5 +35,10 @@ namespace MonoDragons
         {
             return HasValue && !condition(_value);
         }
+
+        public static implicit operator Optional<T>(T value)
+        {
+            return new Optional<T>(value);
+        }
     }
 }

@@ -35,15 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>MonoDragons.Core.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Engine\OnlyOnceAutomaton.cs" />
     <Compile Include="GGJ\DataSaver.cs" />
     <Compile Include="GGJ\Gameplay\Characters\CharStatuses.cs" />
+    <Compile Include="GGJ\Gameplay\Events\CardsProcessed.cs" />
+    <Compile Include="GGJ\Gameplay\Events\CardCountered.cs" />
     <Compile Include="GGJ\Gameplay\Events\DataStabilized.cs" />
     <Compile Include="GGJ\Gameplay\Characters\Computer.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandSizeAdjusted.cs" />
@@ -92,17 +94,20 @@
     <Compile Include="GGJ\Gameplay\Events\PlayerDamageProposed.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerBlockProposed.cs" />
     <Compile Include="GGJ\Gameplay\LastPlayedTypeLockProcessor.cs" />
-    <Compile Include="GGJ\Scenes\CowboyVictoryScene.cs" />
+    <Compile Include="GGJ\Scenes\CreditsScene.cs" />
     <Compile Include="GGJ\Gameplay\Events\StatusRemoved.cs" />
     <Compile Include="GGJ\Gameplay\Status.cs" />
     <Compile Include="GGJ\Gameplay\StatusProcessor.cs" />
+    <Compile Include="GGJ\UiElements\CardFightView.cs" />
+    <Compile Include="GGJ\UiElements\CardRevealer.cs" />
+    <Compile Include="GGJ\UiElements\ConnectingView.cs" />
+    <Compile Include="GGJ\UiElements\CounteredEffect.cs" />
     <Compile Include="GGJ\UiElements\DamageNumbersView.cs" />
     <Compile Include="GGJ\UiElements\Events\AnimationEnded.cs" />
     <Compile Include="GGJ\UiElements\Events\AnimationStarted.cs" />
     <Compile Include="GGJ\Gameplay\LevelProgression.cs" />
     <Compile Include="GGJ\Gameplay\PlayerCardsState.cs" />
     <Compile Include="GGJ\Gameplay\Events\AllCardsSelected.cs" />
-    <Compile Include="GGJ\Gameplay\CardRevealer.cs" />
     <Compile Include="GGJ\Data\Cards.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardSelected.cs" />
     <Compile Include="GGJ\Gameplay\PlayerCards.cs" />
@@ -110,6 +115,7 @@
     <Compile Include="GGJ\Gameplay\NextTurnEffectProcessor.cs" />
     <Compile Include="GGJ\Mode.cs" />
     <Compile Include="GGJ\Scenes\UiTestScene.cs" />
+    <Compile Include="GGJ\UiElements\Events\FinishedCelebrating.cs" />
     <Compile Include="GGJ\UiElements\Explosion.cs" />
     <Compile Include="GGJ\UiElements\CardView.cs" />
     <Compile Include="GGJ\UiElements\HandView.cs" />
@@ -119,7 +125,7 @@
     <Compile Include="GGJ\Gameplay\Events\PlayerDefeated.cs" />
     <Compile Include="GGJ\Gameplay\Events\TurnFinished.cs" />
     <Compile Include="GGJ\Player.cs" />
-    <Compile Include="GGJ\Gameplay\Events\GameConfigured.cs" />
+    <Compile Include="GGJ\Gameplay\Events\GameConfig.cs" />
     <Compile Include="GGJ\Scenes\GameScene.cs" />
     <Compile Include="GGJ\Scenes\MainMenuScene.cs" />
     <Compile Include="Core\Animations\AnimationExtensions.cs" />
@@ -300,7 +306,6 @@
     <Compile Include="Core\UserInterface\VisualClickableUIElement.cs" />
     <Compile Include="Core\UserInterface\WithOffset.cs" />
     <Compile Include="Core\UserInterface\WrapGrid.cs" />
-    <Compile Include="GGJ\Scenes\WaitingForConnectionScene.cs" />
     <Compile Include="GGJ\UiElements\BattleBackHud.cs" />
     <Compile Include="GGJ\UiElements\BattleTopHud.cs" />
     <Compile Include="GGJ\UiElements\Buttons.cs" />
@@ -915,6 +920,9 @@
     <Content Include="Content\Images\SuperDragonAttack.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Music\credits.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Music\mute.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -939,16 +947,68 @@
     <Content Include="Content\Sounds\talkblip.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\UI\attack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\block.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\UI\button.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\card-chains.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\UI\charge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\countered.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\UI\energy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\heart.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\no-attack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\no-charge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\no-defend.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\not.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\pass-arrow.png" />
+    <Content Include="Content\UI\plus1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\plus2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\plus3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\plus4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\plus5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\plus6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\plus7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\plus8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\plus9.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\sign-hover.png">
@@ -966,12 +1026,19 @@
     <Content Include="Content\UI\title.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\UI\vulnerable.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\UI\wood-box.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\wood-textbox.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\UI\x2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\Logo\enigmadragons.png">

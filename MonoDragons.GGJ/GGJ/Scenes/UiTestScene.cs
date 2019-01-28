@@ -12,7 +12,7 @@ namespace MonoDragons.GGJ.Scenes
         public override void Init()
         {
             Add(new Explosion().Started());
-            Add(new UiImage { Image = "UI/card-chains2", Transform = new Transform2(new Size2(CardView.WIDTH, CardView.HEIGHT))});
+            Add(new CounteredEffect().Started());
         }
     }
 }

@@ -68,10 +68,9 @@ namespace MonoDragons.GGJ.Gameplay
                 return;
 
             _currentTurn = e.TurnNumber;
-            DrawPass();
             DrawCards(3 + _state.HandSizeModifier);
-            _state.HandZone.RemoveAt(0);
-            _state.HandZone.Add(_state.PassId);
+            if (_state.HandZone.Select(x => _data.AllCards[x]).All(x => _state.UnplayableTypes.Any(y => y == x.Type)))
+                DrawPass();
             Event.Publish(new HandDrawn
             (
                 _currentTurn,
@@ -99,16 +98,8 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void DrawPass()
         {
-            if (_state.DrawZone.Contains(_state.PassId))
-            {
-                _state.DrawZone.Remove(_state.PassId);
-                _state.HandZone.Add(_state.PassId);
-            }
-            else if (_state.DiscardZone.Contains(_state.PassId))
-            {
-                _state.DiscardZone.Remove(_state.PassId);
-                _state.HandZone.Add(_state.PassId);
-            }
+            _state.DiscardZone.Remove(_state.PassId);
+            _state.HandZone.Add(_state.PassId);
         }
 
         private void DrawCards(int num)
@@ -138,6 +129,11 @@ namespace MonoDragons.GGJ.Gameplay
         {
             _state.DrawZone.AddRange(_state.DiscardZone);
             _state.DiscardZone.Clear();
+            if (_state.DrawZone.Any(x => x == _state.PassId))
+            {
+                _state.DrawZone.Remove(_state.PassId);
+                _state.DiscardZone.Add(_state.PassId);
+            }
         }
     }
 }

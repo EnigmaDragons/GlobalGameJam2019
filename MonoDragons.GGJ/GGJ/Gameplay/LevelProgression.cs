@@ -25,7 +25,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void SetupCharacters(int level)
         {
             _data.InitLevel(level, 
-                new CharacterState(Player.Cowboy, level == 1 ? 40 : _data.CowboyState.HP + 10,
+                new CharacterState(Player.Cowboy, level == 1 ? 40 : _data.CowboyState.HP + 15,
                     new PlayerCardsState(
                         CreateCard(CardName.CowboyPass),
                         CreateCard(CardName.SixShooter),
@@ -64,7 +64,7 @@ namespace MonoDragons.GGJ.Gameplay
         {
             if (e.LevelNumber > NumLevels)
             {
-                Scene.NavigateTo(new CowboyVictoryScene());
+                Scene.NavigateTo(new CreditsScene(Player.Cowboy));
             }
             else if (!e.IsGameOver && _data.CurrentLevel < e.LevelNumber)
             {

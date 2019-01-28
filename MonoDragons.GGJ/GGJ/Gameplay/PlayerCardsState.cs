@@ -22,10 +22,10 @@ namespace MonoDragons.GGJ.Gameplay
         public PlayerCardsState(int passId, IEnumerable<int> ids)
         {
             MasterList = ids.ToList();
-            DrawZone = ids.ToList();
+            DrawZone = ids.Where(x => x != passId).ToList();
             HandZone = new List<int>();
             InPlayZone = new List<int>();
-            DiscardZone = new List<int>();
+            DiscardZone = new List<int> { passId };
             NextTurnUnplayableTypes = new List<CardType>();
             UnplayableTypes = new List<CardType>();
             PassId = passId;

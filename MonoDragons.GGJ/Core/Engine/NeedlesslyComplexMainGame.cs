@@ -34,7 +34,9 @@ namespace MonoDragons.Core.Engine
         {
             _display = display;
             _errorHandler = errorHandler;
-            _graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);    
+            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            _graphics.PreferMultiSampling = true;
             Content.RootDirectory = "Content";
             _startingViewName = startingViewName;
             _scene = scene;
@@ -121,10 +123,11 @@ namespace MonoDragons.Core.Engine
 
         protected override void Draw(GameTime gameTime)
         {
+            var rasterizer = new RasterizerState {MultiSampleAntiAlias = true};
             try
             {
-                _uiSpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.AnisotropicClamp);
-                _worldSpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                _uiSpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.AnisotropicClamp, null, rasterizer);
+                _worldSpriteBatch.Begin(samplerState: SamplerState.PointClamp, rasterizerState: rasterizer);
                 GraphicsDevice.Clear(Color.Black);
                 _scene.Draw();
 #if DEBUG
