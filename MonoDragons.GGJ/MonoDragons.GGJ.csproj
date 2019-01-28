@@ -100,6 +100,7 @@
     <Compile Include="GGJ\Gameplay\Events\StatusRemoved.cs" />
     <Compile Include="GGJ\Gameplay\Status.cs" />
     <Compile Include="GGJ\Gameplay\StatusProcessor.cs" />
+    <Compile Include="GGJ\SoundEffectProcessor.cs" />
     <Compile Include="GGJ\UiElements\CardFightView.cs" />
     <Compile Include="GGJ\UiElements\CardRevealer.cs" />
     <Compile Include="GGJ\UiElements\ConnectingView.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="GGJ\Gameplay\NextTurnEffectProcessor.cs" />
     <Compile Include="GGJ\Mode.cs" />
     <Compile Include="GGJ\Scenes\UiTestScene.cs" />
+    <Compile Include="GGJ\UiElements\Events\ButtonClicked.cs" />
     <Compile Include="GGJ\UiElements\Events\FinishedCelebrating.cs" />
     <Compile Include="GGJ\UiElements\Explosion.cs" />
     <Compile Include="GGJ\UiElements\CardView.cs" />
@@ -941,6 +943,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Outside\desert_front.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sounds\ButtonClick.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sounds\ChooseCard.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sounds\CowboyHurt.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sounds\Explosion.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sounds\talkblip-low.mp3">

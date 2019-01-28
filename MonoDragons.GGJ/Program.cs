@@ -34,7 +34,7 @@ namespace MonoDragons.Core
                 if (args.Length > 0)
                 {
                     MasterVolume.Instance.MusicVolume = 0;
-                    MasterVolume.Instance.SoundEffectVolume = 0;
+                    MasterVolume.Instance.SoundEffectVolume = 1;
                 }
 #if DEBUG
                 MasterVolume.Instance.MusicVolume = 0;

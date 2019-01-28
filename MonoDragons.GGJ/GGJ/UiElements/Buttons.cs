@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
+using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.UiElements.Events;
 
 namespace MonoDragons.GGJ.UiElements
 {
@@ -25,7 +27,11 @@ namespace MonoDragons.GGJ.UiElements
         public static ImageTextButton Wood(string text, Point position, Action action, Func<bool> isVisible)
         {
             return new ImageTextButton(new Transform2(position.ToVector2(), UI.OfScreenSize(0.18f, 0.09f)), 
-                    action, text, "UI/sign", "UI/sign-hover", "UI/sign-press", isVisible)
+                    () =>
+                    {
+                        Event.Publish(new ButtonClicked());
+                        action();
+                    }, text, "UI/sign", "UI/sign-hover", "UI/sign-press", isVisible)
                 { 
                     Font = DefaultFont.Large,
                     TextColor = UiConsts.DarkBrown 

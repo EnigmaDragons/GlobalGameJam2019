@@ -105,8 +105,8 @@ namespace MonoDragons.GGJ.UiElements
 
     public class IconView : IVisualAutomaton
     {
-        public static IconView Attack(bool isFlipped, int number, int bonus, List<MultiplierType> multipliers) => new IconView(new Size2(100, 100), "attack", new Vector2((CardView.WIDTH - 50) / 2, (CardView.HEIGHT - 50) / 2), isFlipped, number, bonus, multipliers);
-        public static IconView Defend(bool isFlipped, int number, int bonus, List<MultiplierType> multipliers) => new IconView(new Size2(100, 100), "block", new Vector2((CardView.WIDTH - 50) / 2, (CardView.HEIGHT - 50) / 2), isFlipped, number, bonus, multipliers);
+        public static IconView Attack(bool isFlipped, int number, int bonus, List<MultiplierType> multipliers) => new IconView(new Size2(100, 100), "attack", new Vector2((CardView.WIDTH - 100) / 2, (CardView.HEIGHT - 100) / 2), isFlipped, number, bonus, multipliers);
+        public static IconView Defend(bool isFlipped, int number, int bonus, List<MultiplierType> multipliers) => new IconView(new Size2(100, 100), "block", new Vector2((CardView.WIDTH - 100) / 2, (CardView.HEIGHT - 100) / 2), isFlipped, number, bonus, multipliers);
 
         private readonly Size2 _size;
         private readonly UiImage _icon;

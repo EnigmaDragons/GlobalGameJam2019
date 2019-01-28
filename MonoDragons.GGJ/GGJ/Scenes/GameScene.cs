@@ -50,6 +50,7 @@ namespace MonoDragons.GGJ.Scenes
             Add(new CounterEffectProcessor(_data));
             Add(new StatusProcessor(_data));
             Add(new LastPlayedTypeLockProcessor(_data));
+            Add(new SoundEffectProcessor(_player));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
             Add(new LevelBackground());
