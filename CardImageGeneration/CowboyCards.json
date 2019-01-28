@@ -21,47 +21,47 @@
         {
             "Name": "Six Shooter",
             "Type": "Attack",
-            "Effect": "Deal 3 Damage"
+            "Effect": "Deal 5 damage"
         },
         {
             "Name": "Fan The Hammer",
             "Type": "Attack",
-            "Effect": "Deal 4 Damage\nYou can't attack next turn"
+            "Effect": "Deal 7 damage\nYou can't attack next turn"
         },
         {
             "Name": "Dead Eye",
             "Type": "Attack",
-            "Effect": "Deal 4 Damage\n You can't defend next turn"
+            "Effect": "Deal 6 damage\n You can't defend next turn"
         },
         {
             "Name": "Duck And Cover",
             "Type": "Defend",
-            "Effect": "Block 5 Damage"
+            "Effect": "Block 7 damage"
         },
         {
             "Name": "Show Down",
             "Type": "Charge",
-            "Effect": "If you took no damage this turn, gain +6 damage to your next attack"
+            "Effect": "If you took no damage this turn, gain +10 damage to your next attack"
         },
         {
             "Name": "Rush The Enemy",
             "Type": "Attack",
-            "Effect": "Deal 5 Damage\nYou take double damage this turn"
+            "Effect": "Deal 5 damage\nYou take double damage this turn"
         },
         {
             "Name": "Light The Fuse",
             "Type": "Charge",
-            "Effect": "Next turn if you dealt damage, deal 6 unpreventable Damage, else take 6 unpreventable Damage"
+            "Effect": "Next turn if you dealt damage, deal 12 unpreventable Damage, else take 12 unpreventable Damage"
         },
         {
             "Name": "Barricade",
             "Type": "Defend",
-            "Effect": "Block 3 Damage this turn and next turn"
+            "Effect": "Block 4 damage this turn and next turn"
         },
         {
             "Name": "Quick Draw",
             "Type": "Counter",
-            "Effect": "If the opponent chose Attack, they deal no Damage and you deal 3 Damage"
+            "Effect": "If the opponent chose Attack, they deal no Damage and you deal 4 Damage"
         },
         {
             "Name": "Lasso",
@@ -71,27 +71,27 @@
         {
             "Name": "Ricochet",
             "Type": "Counter",
-            "Effect": "If the opponent chose Defend, Deal 8 damage ignoring block"
+            "Effect": "If the opponent chose Defend, deal 14 damage ignoring block"
         },
         {
             "Name": "Both Barrels",
             "Type": "Attack",
-            "Effect": "Deal 2 Damage, if the opponent chose Attack, Deal 2 more"
+            "Effect": "Deal 3 damage\nIf the opponent chose Attack, deal 3 more"
         },
         {
             "Name": "Crack Shot",
             "Type": "Attack",
-            "Effect": "Deal 2 Damage, if the opponent chose Charge, Deal 3 more"
+            "Effect": "Deal 3 damage\nIf the opponent chose Charge, Deal 6 more"
         },
         {
             "Name": "Reload",
             "Type": "Defend",
-            "Effect": "Block 2 Damage, if you blocked no damage this turn, your next attack deals 4 more damage"
+            "Effect": "Block 3 damage\nIf you blocked no damage this turn, your next attack deals 7 more damage"
         },
         {
             "Name": "Wanted Dead Or Alive",
             "Type": "Charge",
-            "Effect": "Your next Attack Deals 2 more damage, if the opponent chose Attack, next turn the opponent Deals half Damage and gains only half Block"
+            "Effect": "Your next attack deals 4 more damage\nIf the opponent chose Attack, next turn the opponent deals half damage and gains only half block"
         }
     ],
     "Blueprint": 

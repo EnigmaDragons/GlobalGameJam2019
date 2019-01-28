@@ -21,112 +21,112 @@
         {
             "Name": "Lamp Assult",
             "Type": "Attack",
-            "Effect": "Deal 3 Damage"
+            "Effect": "Deal 5 damage"
         },
         {
             "Name": "Lights Out",
             "Type": "Defend",
-            "Effect": "Block 3 Damage, Apply Darkness next turn, if they have Lightness, Block 6 more and your next Attack Deals 3 more"
+            "Effect": "Block 4 damage\nIf they have Lightness, block 4 more and remove it\nApply Darkness"
         },
         {
             "Name": "Blinding Lights",
             "Type": "Attack",
-            "Effect": "Deal 2 Damage, Apply Lightness next turn, if they have Darkness, Deal 1 more and Block 3 Damage and your next attack Deals 3 more"
+            "Effect": "Deal 3 damage\nIf they have Darkness, deal 4 more and remove it\nApply Lightness"
         },
         {
             "Name": "Dust The Room",
             "Type": "Attack",
-            "Effect": "Deal 2 Damage this and next turn"
+            "Effect": "Deal 2 damage this and next turn"
         },
         {
             "Name": "Heat Up",
             "Type": "Charge",
-            "Effect": "Both players take 2 Damage and your next attack deals 2 more. If the opponent chose Attack your next Attack deals an additional 4 more"
+            "Effect": "Your next attack deals 6 more"
         },
         {
             "Name": "Cool Down",
             "Type": "Charge",
-            "Effect": "Your next Attack Deals 3 more and you take half damage next turn"
+            "Effect": "Gain 2 block for the next 4 turns"
         },
         {
             "Name": "Shipping Boxes Wall",
             "Type": "Defend",
-            "Effect": "Block 5 Damage"
+            "Effect": "Block 7 Damage"
         },
         {
             "Name": "Spinning Fan Blades",
             "Type": "Counter",
-            "Effect": "If the opponent chose Charge, Deal 12 Damage"
+            "Effect": "If the opponent chose charge, deal 20 Damage"
         },
         {
             "Name": "Roomba Attack",
             "Type": "Counter",
-            "Effect": "If the opponent chose Defend, Deal 6 damage ignoring Block, and the opponent cannot choose Defend next turn"
+            "Effect": "If the opponent chose defend, deal 12 damage ignoring Block, and the opponent cannot choose defend next turn"
         },
         {
             "Name": "Power Cord Trip",
             "Type": "Counter",
-            "Effect": "If the opponent chose Attack, Deal 3 damage and the opponent must pass on their next turn"
+            "Effect": "If the opponent chose Attack, deal 4 damage and the opponent must pass on their next turn"
         },
         {
             "Name": "Bed-der Luck Next Time",
             "Type": "Attack",
-            "Effect": "Gain 1 Energy, Then expend your energy to deal 2 Damage per Energy"
+            "Effect": "Gain 2 energy\nThen expend your energy to deal 2 damage per energy"
         },
         {
             "Name": "Pillow Fight",
             "Type": "Attack",
-            "Effect": "Deal 2 Damage and Gain 1 Energy"
+            "Effect": "Deal 1 damage\nGain 3 Energy"
         },
         {
             "Name": "Resting",
             "Type": "Charge",
-            "Effect": "Gain 3 Energy"
+            "Effect": "Gain 4 energy"
         },
         {
             "Name": "Pillow Fort",
             "Type": "Defend",
-            "Effect": "Block 2 Damage, Gain 1 Energy, and Block 1 Damage next turn"
+            "Effect": "Block 2 damage this and next turn\nGain 2 energy"
         },
         {
             "Name": "That's Curtains For You",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage, Gain 1 Energy, and if the opponent chose Attack, Deal 2 more"
+            "Effect": "Deal 2 damage\nGain 1 Energy\nIf the opponent chose attack, deal 3 more"
         },
         {
             "Name": "Monster Under The Bed",
             "Type": "Attack",
-            "Effect": "Deal 1 Damage, Gain 1 Energy, and if the opponent chose Charge, Deal 4 more"
+            "Effect": "Deal 1 damage\nGain 1 energy\nIf the opponent chose Charge, deal 6 more"
         },
         {
             "Name": "Hologram Projection",
             "Type": "Defend",
-            "Effect": "You take no damage this turn, You cannot Defend next turn, and your opponent Draws 1 more Card"
+            "Effect": "Block 99 damage\nYou cannot Defend next turn\nYour opponent draws 1 more card"
         },
         {
             "Name": "Information Overload",
             "Type": "Attack",
-            "Effect": "Deal 4 Damage, Your opponent Draws 1 more Card"
+            "Effect": "Deal 7 damage\nYour opponent draws 2 more cards"
         },
         {
             "Name": "Death Trap",
             "Type": "Counter",
-            "Effect": "If your opponent chose Counter, Deal 10 Damage, and your opponent Draws 2 less Cards"
+            "Effect": "If your opponent chose counter, deal 16 Damage and your opponent draws 2 less cards"
         },
         {
             "Name": "Hammer Download",
             "Type": "Attack",
-            "Effect": "Deal 2 Damage and Draw 2 more Cards"
+            "Effect": "Deal 3 damage\nDraw 2 more cards"
         },
         {
             "Name": "Adaptive Tactics",
             "Type": "Charge",
-            "Effect": "Block 3 Damage and for the rest of the fight your opponent Draws 1 more Card but can't play the same type twice"
+            "Effect": "Block 6 Damage\nFor the rest of the fight your opponent draws 2 more cards, but can't play the same type twice"
         },
         {
             "Name": "Boring Wiki Article",
             "Type": "Attack",
-            "Effect": "Deal 3 Damage and both players Draw 1 more Card"
+            "Effect": "Deal 5 damage\nBoth players draw 1 more card"
         }
     ],
     "Blueprint": 

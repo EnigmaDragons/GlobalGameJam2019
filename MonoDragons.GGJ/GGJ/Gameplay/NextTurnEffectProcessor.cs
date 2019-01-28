@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Gameplay.Events;
 
@@ -17,8 +18,9 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void OnStartOfTurn(TurnStarted e)
         {
-            _data.NextTurnEffects.ForEach(Event.Publish);
+            var effects = _data.NextTurnEffects.ToList();
             _data.NextTurnEffects = new List<object>();
+            effects.ForEach(Event.Publish);
         }
     }
 }
