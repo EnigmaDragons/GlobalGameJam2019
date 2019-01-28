@@ -31,7 +31,12 @@ namespace MonoDragons.GGJ.Gameplay
         {
             if(--_animationsPending == 0)
             {
-                if (_gameData.CurrentPhase == Phase.ResolvingCards)
+                if (_gameData.CurrentPhase == Phase.DisplayingCards)
+                {
+                    Event.Publish(new CardResolutionBegun { TurnNumber = _gameData.CurrentTurn });
+                    OnAllCardsDisplayed();
+                }
+                else if (_gameData.CurrentPhase == Phase.ResolvingCards)
                 {
                     if (_gameData.CowboyState.HP <= 0 || _gameData.HouseState.HP <= 0)
                         _currentLevel++;
@@ -70,6 +75,16 @@ namespace MonoDragons.GGJ.Gameplay
         }
 
         private void OnAllCardsSelected()
+        {
+            _gameData.CurrentPhase = Phase.DisplayingCards;
+            if (_animationsPending == 0)
+            {
+                Event.Publish(new CardResolutionBegun { TurnNumber = _gameData.CurrentTurn });
+                OnAllCardsDisplayed();
+            }
+        }
+
+        private void OnAllCardsDisplayed()
         {
             _gameData.CurrentPhase = Phase.ResolvingCards;
             if (_animationsPending == 0)
