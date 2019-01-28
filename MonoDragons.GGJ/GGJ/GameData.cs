@@ -8,6 +8,7 @@ namespace MonoDragons.GGJ
 {
     public sealed class GameData
     {
+        public bool IsInitialized { get; set; }
         public int CurrentCardId { get; set; } = 0;
         public int CurrentTurn { get; set; } = -1;
         public Phase CurrentPhase { get; set; } = Phase.Setup;
@@ -27,6 +28,7 @@ namespace MonoDragons.GGJ
             CurrentTurn = 0;
             CowboyState = cowboy;
             HouseState = house;
+            IsInitialized = true;
         }
 
         // Accessors

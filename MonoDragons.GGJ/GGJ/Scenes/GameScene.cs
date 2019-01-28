@@ -53,11 +53,10 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
             Add(new LevelBackground());
-            Add(new BattleBackHud(_player));
+            Add(new BattleBackHud(_player, _data));
             Add(new Cowboy(_data.CurrentPhase));
             Add(houseChars);
             Add(new CounteredEffect());
-            Add(new BattleTopHud(_player, _data));
             Add(new CardRevealer(_data, _player, Player.Cowboy, new Vector2(160, 880 - CardView.HEIGHT)));
             Add(new CardRevealer(_data, _player, Player.House, new Vector2(1600 - CardView.WIDTH - 160, 880 - CardView.HEIGHT)));
             _handView = new HandView(_player, _data, new Vector2(110, 880 - CardView.HEIGHT));
@@ -82,19 +81,8 @@ namespace MonoDragons.GGJ.Scenes
                     Font = DefaultFont.Large,
                     TextColor = UiConsts.DarkBrown
                 });
+            Add(new BattleTopHud(_player, _data));
             
-            // Temp
-            Add(new ActionAutomaton(() =>
-            {
-                var keys = Keyboard.GetState();
-                if (keys.IsKeyDown(Keys.C))
-                    Event.Publish(new PlayerDefeated { LevelNumber = _data.CurrentLevel, Winner = Player.Cowboy, IsGameOver = false });
-                if (keys.IsKeyDown(Keys.H))
-                    Event.Publish(new PlayerDefeated { LevelNumber = _data.CurrentLevel, Winner = Player.House, IsGameOver = true });
-                if (keys.IsKeyDown(Keys.F2))
-                    Event.Publish(new NextLevelRequested { Level = 2 });
-            }));
-
             Input.On(Control.Menu, () => Scene.NavigateTo(new MainMenuScene(new NetworkArgs())));
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);  
             Event.Subscribe<RematchRequested>(OnRematchRequested, this);
@@ -102,7 +90,7 @@ namespace MonoDragons.GGJ.Scenes
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<GameDisconnected>(OnDisconnected, this);
 
-            //Gets very last chance to subscribe
+            // Must subscribe last!! Do not move!!
             Add(new PhaseTransitions(_data));
         }
 
