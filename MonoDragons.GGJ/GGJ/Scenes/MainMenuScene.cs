@@ -27,7 +27,9 @@ namespace MonoDragons.GGJ.Scenes
         private Label _hostEndpoint;
         private ConnectingView _connecting;
         private readonly ClickUIBranch _menuBranch = new ClickUIBranch("MainMenuButtons", 1);
-        private bool _isConnecting;
+        private bool _isConnecting = false;
+        private bool _isSelectingRole = false;
+        private Action<Player> _afterSelectedAction;
         
         public MainMenuScene(NetworkArgs args)
         {
@@ -45,11 +47,13 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Sprite { Image = "UI/title", Transform = new Transform2(new Vector2((1600 - 720) / 2, UI.OfScreenHeight(0.062f)), new Size2(720, 355))});
 
             Multiplayer.Disconnect();
-            AddMainMenuButton(Buttons.Wood("Host Game", UI.OfScreenSize(0.41f, 0.64f).ToPoint(), BeginHostingGame, () => !_isConnecting));
-            AddMainMenuButton(Buttons.Wood("Connect To Game", UI.OfScreenSize(0.41f, 0.75f).ToPoint(), () => ConnectToGame(ParseURL(_hostEndpoint.Text)), () => !_isConnecting));
-            AddMainMenuButton(Buttons.Wood("Play Solo", UI.OfScreenSize(0.41f, 0.86f).ToPoint(), CreateSinglePlayerGame, () => !_isConnecting));
-            Add(new UiImage{ Image = "UI/wood-textbox", Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), IsActive = () => !_isConnecting});
-            _hostEndpoint =  new Label { Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), Font = DefaultFont.Medium, IsVisible = () => !_isConnecting};
+            AddMainMenuButton(Buttons.Wood("Host Game", UI.OfScreenSize(0.41f, 0.64f).ToPoint(), BeginHostingGameAfterSelectingRole, () => !_isConnecting && !_isSelectingRole));
+            AddMainMenuButton(Buttons.Wood("Connect To Game", UI.OfScreenSize(0.41f, 0.75f).ToPoint(), () => ConnectToGame(ParseURL(_hostEndpoint.Text)), () => !_isConnecting && !_isSelectingRole));
+            AddMainMenuButton(Buttons.Wood("Play Solo", UI.OfScreenSize(0.41f, 0.86f).ToPoint(), CreateSinglePlayerAfterSelectingRole, () => !_isConnecting && !_isSelectingRole));
+            AddMainMenuButton(Buttons.Wood("Play as Cowboy", UI.OfScreenSize(0.26f, 0.75f).ToPoint(), () => SelectRole(Player.Cowboy), () => _isSelectingRole));
+            AddMainMenuButton(Buttons.Wood("Play as House", UI.OfScreenSize(0.56f, 0.75f).ToPoint(), () => SelectRole(Player.House), () => _isSelectingRole));
+            Add(new UiImage{ Image = "UI/wood-textbox", Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), IsActive = () => !_isConnecting && !_isSelectingRole });
+            _hostEndpoint =  new Label { Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), Font = DefaultFont.Medium, IsVisible = () => !_isConnecting && !_isSelectingRole };
             Add(_hostEndpoint);
             Add(new KeyboardTyping("127.0.0.1:4567").OutputTo(x => _hostEndpoint.Text = x));
             _connecting = new ConnectingView(OnConnectingCancelled);
@@ -62,7 +66,13 @@ namespace MonoDragons.GGJ.Scenes
             if (_args.ShouldAutoLaunch && !_args.ShouldHost)
                 Add(new OnlyOnceAutomaton(() => ConnectToGame(_args.Ip, _args.Port)));
             if (_args.ShouldAutoLaunch && _args.ShouldHost)
-                Add(new OnlyOnceAutomaton(BeginHostingGame));
+                Add(new OnlyOnceAutomaton(() => BeginHostingGame(Player.Cowboy)));
+        }
+
+        private void SelectRole(Player player)
+        {
+            _isSelectingRole = false;
+            _afterSelectedAction(player);
         }
 
         private void AddMainMenuButton(ImageTextButton b)
@@ -78,22 +88,34 @@ namespace MonoDragons.GGJ.Scenes
             ClickUi.Remove(_connecting.Branch);
         }
 
-        private void CreateSinglePlayerGame(Player player)
+        private void LoadSinglePlayerGame(Player player)
         {
             Scene.NavigateTo(new GameScene(new GameConfig(Mode.SinglePlayer, player, _io.Load<GameData>("Save")), true));
         }
 
-        private void CreateSinglePlayerGame()
+        private void CreateSinglePlayerAfterSelectingRole()
         {
-            Scene.NavigateTo(new GameScene(new GameConfig(Mode.SinglePlayer, Player.Cowboy, new GameData()), true));
+            _isSelectingRole = true;
+            _afterSelectedAction = CreateSinglePlayerGame;
         }
 
-        private void BeginHostingGame()
+        private void CreateSinglePlayerGame(Player player)
+        {
+            Scene.NavigateTo(new GameScene(new GameConfig(Mode.SinglePlayer, player, new GameData()), true));
+        }
+
+        private void BeginHostingGameAfterSelectingRole()
+        {
+            _isSelectingRole = true;
+            _afterSelectedAction = BeginHostingGame;
+        }
+
+        private void BeginHostingGame(Player player)
         {
             var ipEndpoint = ParseURL(_hostEndpoint.Text);
             Multiplayer.HostGame(AppId, ipEndpoint.Port, NetTypes);
             var networkArgs = new NetworkArgs(_args.ShouldAutoLaunch, true, ipEndpoint.Address.ToString(), ipEndpoint.Port);
-            BeginConnecting(networkArgs, new GameConfig(Mode.MultiPlayer, Rng.Bool() ? Player.Cowboy: Player.House, new GameData()));
+            BeginConnecting(networkArgs, new GameConfig(Mode.MultiPlayer, player, new GameData()));
         }
 
         private void ConnectToGame(IPEndPoint endPoint)
