@@ -22,10 +22,10 @@ namespace MonoDragons.GGJ.UiElements
             );
         }
 
-        public static ImageTextButton Wood(string text, Point position, Action action)
+        public static ImageTextButton Wood(string text, Point position, Action action, Func<bool> isVisible)
         {
             return new ImageTextButton(new Transform2(position.ToVector2(), UI.OfScreenSize(0.18f, 0.09f)), 
-                    action, text, "UI/sign", "UI/sign-hover", "UI/sign-press")
+                    action, text, "UI/sign", "UI/sign-hover", "UI/sign-press", isVisible)
                 { 
                     Font = DefaultFont.Large,
                     TextColor = UiConsts.DarkBrown 

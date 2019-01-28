@@ -27,6 +27,7 @@ namespace MonoDragons.Core
         [STAThread]
         static void Main(params string[] args)
         {
+            var startingScene = "Logo";
             Error.Handle(() =>
             {
                 var netArgs = new NetworkArgs(args);
@@ -41,8 +42,9 @@ namespace MonoDragons.Core
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
                 DebugLogWindow.Exclude(x => x.StartsWith("GameStab"));
                 netArgs = args.Length == 0 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
+                startingScene = "MainMenu";
 #endif
-                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, "MainMenu", new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
+                using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, startingScene, new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
                     game.Run();
             }, ErrorHandler.Handle);
         }
@@ -62,7 +64,7 @@ namespace MonoDragons.Core
             {
                 { "Logo", () => new SimpleLogoScene("MainMenu", EnigmaDragonsResources.LogoImage) },
                 { "MainMenu", () => new MainMenuScene(args) },
-                { "Game", () => new GameScene(new GameConfigured(Mode.SinglePlayer, Player.House, new GameData()), true) },
+                { "Game", () => new GameScene(new GameConfig(Mode.SinglePlayer, Player.House, new GameData()), true) },
                 { "UI", () => new UiTestScene()},
                 { "Credits", () => new CreditsScene(Player.Cowboy)}
             });

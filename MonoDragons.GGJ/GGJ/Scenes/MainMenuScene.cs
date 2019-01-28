@@ -20,15 +20,19 @@ namespace MonoDragons.GGJ.Scenes
     public sealed class MainMenuScene : ClickUiScene
     {
         private const string AppId = "Bed Dead Redemption";
-        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfigured), typeof(RematchRequested) };
-        private Label _hostEndpoint;
+        private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfig), typeof(RematchRequested) };
         private readonly NetworkArgs _args;
         private readonly AppDataJsonIo _io;
 
+        private Label _hostEndpoint;
+        private ConnectingView _connecting;
+        private readonly ClickUIBranch _menuBranch = new ClickUIBranch("MainMenuButtons", 1);
+        private bool _isConnecting;
+        
         public MainMenuScene(NetworkArgs args)
         {
             _args = args;
-            _io = new AppDataJsonIo("GGJ2019");
+            _io = new AppDataJsonIo(AppId);
         }
 
         public override void Init()
@@ -40,33 +44,47 @@ namespace MonoDragons.GGJ.Scenes
             Add(new Sprite { Image = "UI/title", Transform = new Transform2(new Vector2((1600 - 720) / 2, UI.OfScreenHeight(0.062f)), new Size2(720, 355))});
 
             Multiplayer.Disconnect();
-            Add(Buttons.Wood("Host Game", UI.OfScreenSize(0.41f, 0.64f).ToPoint(), () => BeginHostingGame()));
-            Add(Buttons.Wood("Connect To Game", UI.OfScreenSize(0.41f, 0.75f).ToPoint(), () => ConnectToGame(ParseURL(_hostEndpoint.Text))));
-            Add(Buttons.Wood("Play Solo", UI.OfScreenSize(0.41f, 0.86f).ToPoint(), CreateSinglePlayerGame));
-            Add(new UiImage{ Image = "UI/wood-textbox", Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f))});
-            _hostEndpoint =  new Label { Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), Font = DefaultFont.Medium};
+            AddMainMenuButton(Buttons.Wood("Host Game", UI.OfScreenSize(0.41f, 0.64f).ToPoint(), BeginHostingGame, () => !_isConnecting));
+            AddMainMenuButton(Buttons.Wood("Connect To Game", UI.OfScreenSize(0.41f, 0.75f).ToPoint(), () => ConnectToGame(ParseURL(_hostEndpoint.Text)), () => !_isConnecting));
+            AddMainMenuButton(Buttons.Wood("Play Solo", UI.OfScreenSize(0.41f, 0.86f).ToPoint(), CreateSinglePlayerGame, () => !_isConnecting));
+            Add(new UiImage{ Image = "UI/wood-textbox", Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), IsActive = () => !_isConnecting});
+            _hostEndpoint =  new Label { Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), Font = DefaultFont.Medium, IsVisible = () => !_isConnecting};
             Add(_hostEndpoint);
             Add(new KeyboardTyping("127.0.0.1:4567").OutputTo(x => _hostEndpoint.Text = x));
-            
+            _connecting = new ConnectingView(OnConnectingCancelled);
+            _connecting.Init();
+            Add(_connecting);
             Add(new ImageButton("Images/logo", "Images/logo-hover", "Images/logo-press", new Transform2(UI.OfScreen(1.0f, 1.0f) - new Vector2(120, 120), new Size2(100, 100)), 
                 () => Process.Start("https://www.enigmadragons.com")));
             
             Logger.Write(_args);
             if (_args.ShouldAutoLaunch && !_args.ShouldHost)
-                Add(new ActionAutomaton(() => ConnectToGame(_args.Ip, _args.Port)));
+                Add(new OnlyOnceAutomaton(() => ConnectToGame(_args.Ip, _args.Port)));
             if (_args.ShouldAutoLaunch && _args.ShouldHost)
-                Add(new ActionAutomaton(BeginHostingGame));
+                Add(new OnlyOnceAutomaton(BeginHostingGame));
+        }
+
+        private void AddMainMenuButton(ImageTextButton b)
+        {
+            Add(b);
+            _menuBranch.Add(b);
+        }
+
+        private void OnConnectingCancelled()
+        {
+            _isConnecting = false;
+            ClickUi.Add(_menuBranch);
+            ClickUi.Remove(_connecting.Branch);
         }
 
         private void CreateSinglePlayerGame(Player player)
         {
-            var debug = _io.Load<GameData>("Save");
-            Scene.NavigateTo(new GameScene(new GameConfigured(Mode.SinglePlayer, player, _io.Load<GameData>("Save")), true));
+            Scene.NavigateTo(new GameScene(new GameConfig(Mode.SinglePlayer, player, _io.Load<GameData>("Save")), true));
         }
 
         private void CreateSinglePlayerGame()
         {
-            Scene.NavigateTo(new GameScene(new GameConfigured(Mode.SinglePlayer, Player.Cowboy, new GameData()), true));
+            Scene.NavigateTo(new GameScene(new GameConfig(Mode.SinglePlayer, Player.Cowboy, new GameData()), true));
         }
 
         private void BeginHostingGame()
@@ -74,8 +92,7 @@ namespace MonoDragons.GGJ.Scenes
             var ipEndpoint = ParseURL(_hostEndpoint.Text);
             Multiplayer.HostGame(AppId, ipEndpoint.Port, NetTypes);
             var networkArgs = new NetworkArgs(_args.ShouldAutoLaunch, true, ipEndpoint.Address.ToString(), ipEndpoint.Port);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Hosting on Port: {ipEndpoint.Port}", networkArgs,
-                new GameConfigured(Mode.MultiPlayer, Rng.Bool() ? Player.Cowboy: Player.House, new GameData())));
+            BeginConnecting(networkArgs, new GameConfig(Mode.MultiPlayer, Rng.Bool() ? Player.Cowboy: Player.House, new GameData()));
         }
 
         private void ConnectToGame(IPEndPoint endPoint)
@@ -87,7 +104,15 @@ namespace MonoDragons.GGJ.Scenes
         {
             Multiplayer.JoinGame(AppId, ip, port, NetTypes);
             var networkArgs = new NetworkArgs(false, false, ip, port);
-            Scene.NavigateTo(new WaitingForConnectionScene($"Connecting to host... {ip}:{port}", networkArgs));
+            BeginConnecting(networkArgs, new Optional<GameConfig>());
+        }
+
+        private void BeginConnecting(NetworkArgs args, Optional<GameConfig> config)
+        {
+            _isConnecting = true;
+            _connecting.Connect(args, config);
+            ClickUi.Remove(_menuBranch);
+            ClickUi.Add(_connecting.Branch);
         }
         
         private IPEndPoint ParseURL(string url)
