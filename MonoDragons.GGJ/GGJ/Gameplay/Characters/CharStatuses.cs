@@ -21,9 +21,12 @@ namespace MonoDragons.GGJ.Gameplay
             _player = player;
             Event.Subscribe<PlayerDefeated>(x => { Clear(); Clear(); }, this);
             Event.Subscribe<TurnFinished>(x => Clear(), this);
-            Event.Subscribe<NextAttackEmpowered>(OnNextAttackEmpowered, this);
+            Event.Subscribe<TurnStarted>(e => ShowEmpoweredAttacks(), this);
             Event.Subscribe<DamageTakenMultiplied>(OnDamageTakenMultiplied, this);
             Event.Subscribe<CardTypeLocked>(OnCardTypeLocked, this);
+            //TODO: tots hacked
+            Event.Subscribe<NextTurnDamageDealt>(OnNextTurnDamageDealt, this);
+            Event.Subscribe<NextTurnBlockGained>(OnNextTurnBlockGained, this);
         }
 
         private void OnDamageTakenMultiplied(DamageTakenMultiplied e)
@@ -59,10 +62,33 @@ namespace MonoDragons.GGJ.Gameplay
                 _nextStatuses.Add(new Label {Text = $"No {e.Type}"});
         }
 
-        private void OnNextAttackEmpowered(NextAttackEmpowered e)
+        private void ShowEmpoweredAttacks()
+        {
+            //TODO: improve
+            var state = State<GameData>.Current[_player];
+            if (state.NextAttackBonus > 0)
+                for (var i = 0; i < state.NextAttackBonus; i += 9)
+                    _statuses.Add(Image($"plus{Math.Min(state.NextAttackBonus - i, 9)}"));
+        }
+
+        private void OnNextTurnDamageDealt(NextTurnDamageDealt e)
+        {
+            if (e.Dealer == _player)
+            {
+                var imageLabel = new ImageLabel(new Transform2(new Size2(50, 50)), "UI/attack");
+                imageLabel.Text = e.Amount.ToString();
+                _nextStatuses.Add(imageLabel);
+            }
+        }
+
+        private void OnNextTurnBlockGained(NextTurnBlockGained e)
         {
             if (e.Target == _player)
-                Queue($"plus{e.Amount}");
+            {
+                var imageLabel = new ImageLabel(new Transform2(new Size2(50, 50)), "UI/block");
+                imageLabel.Text = e.Amount.ToString();
+                _nextStatuses.Add(imageLabel);
+            }
         }
 
         public void Queue(string name)

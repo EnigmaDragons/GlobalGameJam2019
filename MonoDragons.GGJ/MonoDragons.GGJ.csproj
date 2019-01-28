@@ -50,6 +50,8 @@
     <Compile Include="GGJ\Gameplay\Characters\Computer.cs" />
     <Compile Include="GGJ\Gameplay\Events\HandSizeAdjusted.cs" />
     <Compile Include="GGJ\Gameplay\Events\LastPlayedTypeLocked.cs" />
+    <Compile Include="GGJ\Gameplay\Events\NextTurnBlockGained.cs" />
+    <Compile Include="GGJ\Gameplay\Events\NextTurnDamageDealt.cs" />
     <Compile Include="GGJ\Gameplay\Events\RematchRequested.cs" />
     <Compile Include="GGJ\Gameplay\GameRng.cs" />
     <Compile Include="Core\Network\Events\GameDisconnected.cs" />
