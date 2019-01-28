@@ -1,5 +1,7 @@
 # Bed Dead Redemption
 
+Created in 48 hours by Enigma Dragons Jam Squad using MonoGame.
+
 ----
 
 ### Description
@@ -85,9 +87,9 @@ Requirements:
 
 ----
 
-SilasReinagel: Audio/Visuals/Project Manager
-TimeRacers: Engine Programmer
-ZavixDragon: Lead Designer
-RedPearl: Designer
-Gordy Keene: Lead Tester
-hac.creative: Original Music
+- SilasReinagel: Visuals/Project Manager/NetCode
+- TimeRacers: Engine Programmer
+- ZavixDragon: Lead Gameplay Designer
+- RedPearl: Gameplay Designer
+- Gordy Keene: Lead Tester
+- hac.creative: Original Music
