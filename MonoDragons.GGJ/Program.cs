@@ -42,7 +42,7 @@ namespace MonoDragons.Core
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
                 DebugLogWindow.Exclude(x => x.StartsWith("GameStab"));
                 netArgs = args.Length == 0 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
-                startingScene = "MainMenu";
+                startingScene = "Game";
 #endif
                 using (var game = new NeedlesslyComplexMainGame(AppDetails.Name, startingScene, new Display(1600, 900, false), SetupScene(netArgs), CreateKeyboardController(), ErrorHandler))
                     game.Run();
