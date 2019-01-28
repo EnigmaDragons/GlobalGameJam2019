@@ -122,7 +122,6 @@
     <Compile Include="GGJ\Gameplay\NextTurnEffectProcessor.cs" />
     <Compile Include="GGJ\Mode.cs" />
     <Compile Include="GGJ\Scenes\UiTestScene.cs" />
-    <Compile Include="GGJ\UiElements\Events\ButtonClicked.cs" />
     <Compile Include="GGJ\UiElements\Events\FinishedCelebrating.cs" />
     <Compile Include="GGJ\UiElements\Explosion.cs" />
     <Compile Include="GGJ\UiElements\CardView.cs" />

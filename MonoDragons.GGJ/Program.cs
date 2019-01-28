@@ -52,7 +52,9 @@ namespace MonoDragons.Core
         private static IScene SetupScene(NetworkArgs args)
         {
             var currentScene = new CurrentScene();
-            Scene.Init(new CurrentSceneNavigation(currentScene, CreateSceneFactory(args), Resources.Unload));
+            Scene.Init(new CurrentSceneNavigation(currentScene, CreateSceneFactory(args),
+                AudioPlayer.Instance.StopAll,
+                Resources.Unload));
             return new HideViewportExternals(currentScene);
         }
 
