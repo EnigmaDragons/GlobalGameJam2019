@@ -403,7 +403,8 @@ namespace MonoDragons.GGJ.Data
             { CardName.PillowFort, data =>
                 {
                     Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
-                    Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 3 });
+                    Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 2 });
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 2 }});
                 } },
             { CardName.ThatsCurtainsForYou, data =>
                 {
