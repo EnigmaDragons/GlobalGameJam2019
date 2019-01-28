@@ -94,10 +94,13 @@ namespace MonoDragons.GGJ.UiElements
 
         public void Update(TimeSpan delta)
         {
-            _cowboyHp.Text = _gameData.Get().CowboyState.HP.ToString();
-            _houseHp.Text = _gameData.Get().HouseState.HP.ToString();
-            _cowboyNrg.Text = _gameData.Get().CowboyState.Energy.ToString();
-            _houseNrg.Text = _gameData.Get().HouseState.Energy.ToString();
+            if (_gameData.Get().CurrentPhase != Phase.Setup)
+            {
+                _cowboyHp.Text = _gameData.Get().CowboyState.HP.ToString();
+                _houseHp.Text = _gameData.Get().HouseState.HP.ToString();
+                _cowboyNrg.Text = _gameData.Get().CowboyState.Energy.ToString();
+                _houseNrg.Text = _gameData.Get().HouseState.Energy.ToString();
+            }
             _fadeToBlack.Update(delta);
             _fadeToGrey.Update(delta);
         }

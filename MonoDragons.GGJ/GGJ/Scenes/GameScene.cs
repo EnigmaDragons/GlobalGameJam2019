@@ -52,7 +52,6 @@ namespace MonoDragons.GGJ.Scenes
             Add(new LastPlayedTypeLockProcessor(_data));
             Add(new Character(Player.Cowboy, _data));
             Add(new Character(Player.House, _data));
-            Add(new PhaseTransitions(_data));
             Add(new LevelBackground());
             Add(new BattleBackHud(_player));
             Add(new Cowboy(_data.CurrentPhase));
@@ -102,6 +101,9 @@ namespace MonoDragons.GGJ.Scenes
             Event.Subscribe<GameConfig>(OnGameConfigured, this);
             Event.Subscribe<PlayerDefeated>(OnPlayerDefeated, this);
             Event.Subscribe<GameDisconnected>(OnDisconnected, this);
+
+            //Gets very last chance to subscribe
+            Add(new PhaseTransitions(_data));
         }
 
         private void OnDisconnected(GameDisconnected obj)
