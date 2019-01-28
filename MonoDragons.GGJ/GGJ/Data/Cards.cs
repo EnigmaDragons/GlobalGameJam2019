@@ -109,47 +109,47 @@ namespace MonoDragons.GGJ.Data
             { CardName.None, 0 },
 
             { CardName.CowboyPass, 0 },
-            { CardName.SixShooter, 3 },
-            { CardName.FanTheHammer, 4 },
-            { CardName.GunsBlazing, 4 },
+            { CardName.SixShooter, 5 },
+            { CardName.FanTheHammer, 7 },
+            { CardName.GunsBlazing, 6 },
             { CardName.DuckAndCover, 0 },
             { CardName.ShowDown, 0 },
-            { CardName.RushTheEnemy, 5 },
+            { CardName.RushTheEnemy, 8 },
             { CardName.LightTheFuse, 0 },
             { CardName.Barricade, 0 },
-            { CardName.QuickDraw, 3 },
+            { CardName.QuickDraw, 0 },
             { CardName.Lasso, 0 },
-            { CardName.Ricochet, 8 },
-            { CardName.BothBarrels, 2 },
-            { CardName.CrackShot, 2 },
+            { CardName.Ricochet, 0 },
+            { CardName.BothBarrels, 3 },
+            { CardName.CrackShot, 3 },
             { CardName.Reload, 0 },
             { CardName.Wanted, 0 },
 
             { CardName.HousePass, 0 },
-            { CardName.Lamp, 3 },
+            { CardName.Lamp, 5 },
             { CardName.LightsOut, 0 },
-            { CardName.BlindingLights, 2 },
-            { CardName.DustTheRoom, 2 },
-            { CardName.HeatUp, 2 },
+            { CardName.BlindingLights, 3 },
+            { CardName.DustTheRoom, 3 },
+            { CardName.HeatUp, 0 },
             { CardName.CoolDown, 0 },
             { CardName.ShippingBoxesWall, 0 },
-            { CardName.SpinningFanBlades, 12 },
-            { CardName.RoombaAttack, 6 },
-            { CardName.PowerCordTrip, 3 },
+            { CardName.SpinningFanBlades, 0 },
+            { CardName.RoombaAttack, 0 },
+            { CardName.PowerCordTrip, 0 },
 
             { CardName.BedderLuckNextTime, 0 },
-            { CardName.PillowFight, 2 },
+            { CardName.PillowFight, 1 },
             { CardName.Resting, 0 },
             { CardName.PillowFort, 0 },
-            { CardName.ThatsCurtainsForYou, 1 },
+            { CardName.ThatsCurtainsForYou, 2 },
             { CardName.MonsterUnderTheBed, 1 },
 
             { CardName.HologramProjection, 0 },
-            { CardName.InformationOverload, 4 },
-            { CardName.DeathTrap, 10 },
-            { CardName.HammerDownload, 2 },
+            { CardName.InformationOverload, 7 },
+            { CardName.DeathTrap, 0 },
+            { CardName.HammerDownload, 3 },
             { CardName.AdaptiveTactics, 0 },
-            { CardName.BoringWikiArticle, 3 }
+            { CardName.BoringWikiArticle, 5 }
         };
 
         private static Dictionary<CardName, int> _defenseMap = new Dictionary<CardName, int>
@@ -160,27 +160,27 @@ namespace MonoDragons.GGJ.Data
             { CardName.SixShooter, 0 },
             { CardName.FanTheHammer, 0 },
             { CardName.GunsBlazing, 0 },
-            { CardName.DuckAndCover, 5 },
+            { CardName.DuckAndCover, 7 },
             { CardName.ShowDown, 0 },
             { CardName.RushTheEnemy, 0 },
             { CardName.LightTheFuse, 0 },
-            { CardName.Barricade, 3 },
+            { CardName.Barricade, 4 },
             { CardName.QuickDraw, 0 },
             { CardName.Lasso, 0 },
             { CardName.Ricochet, 0 },
             { CardName.BothBarrels, 0 },
             { CardName.CrackShot, 0 },
-            { CardName.Reload, 2 },
+            { CardName.Reload, 3 },
             { CardName.Wanted, 0 },
 
             { CardName.HousePass, 0 },
             { CardName.Lamp, 0 },
-            { CardName.LightsOut, 3 },
+            { CardName.LightsOut, 4 },
             { CardName.BlindingLights, 0 },
             { CardName.DustTheRoom, 0 },
             { CardName.HeatUp, 0 },
             { CardName.CoolDown, 0 },
-            { CardName.ShippingBoxesWall, 5 },
+            { CardName.ShippingBoxesWall, 7 },
             { CardName.SpinningFanBlades, 0 },
             { CardName.RoombaAttack, 0 },
             { CardName.PowerCordTrip, 0 },
@@ -192,7 +192,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.ThatsCurtainsForYou, 0 },
             { CardName.MonsterUnderTheBed, 0 },
 
-            { CardName.HologramProjection, 0 },
+            { CardName.HologramProjection, 99 },
             { CardName.InformationOverload, 0 },
             { CardName.DeathTrap, 0 },
             { CardName.HammerDownload, 0 },
@@ -205,23 +205,23 @@ namespace MonoDragons.GGJ.Data
             { CardName.None, data => {} },
 
             { CardName.CowboyPass, data => {} },
-            { CardName.SixShooter, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.House }) },
+            { CardName.SixShooter, data => Event.Publish(new PlayerDamageProposed { Amount = 5, Target = Player.House }) },
             { CardName.FanTheHammer, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.House });
+                    Event.Publish(new PlayerDamageProposed { Amount = 7, Target = Player.House });
                     Event.Publish(new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Attack });
                 } },
             { CardName.GunsBlazing, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.House });
+                    Event.Publish(new PlayerDamageProposed { Amount = 6, Target = Player.House });
                     Event.Publish(new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Defend });
                 } },
-            { CardName.DuckAndCover, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.Cowboy }) },
-            { CardName.ShowDown, data => Event.Publish(new NotDamagedEffectQueued { Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 6 } }) },
+            { CardName.DuckAndCover, data => Event.Publish(new PlayerBlockProposed { Amount = 7, Target = Player.Cowboy }) },
+            { CardName.ShowDown, data => Event.Publish(new NotDamagedEffectQueued { Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 10 } }) },
             { CardName.RushTheEnemy, data =>
                 {
                     Event.Publish(new DamageTakenMultiplied { Target = Player.Cowboy, Type = MultiplierType.Double });
-                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 5 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 8 });
                 } },
             { CardName.LightTheFuse, data =>
                 {
@@ -230,7 +230,7 @@ namespace MonoDragons.GGJ.Data
                         Event = new DamageEffectQueued
                         {
                             Target = Player.House,
-                            Event = new PlayerDamaged {Target = Player.House, Amount = 6}
+                            Event = new PlayerDamaged {Target = Player.House, Amount = 12 }
                         }
                     });
                     Event.Publish(new NextTurnEffectQueued
@@ -238,22 +238,22 @@ namespace MonoDragons.GGJ.Data
                         Event = new NotDamagedEffectQueued
                         {
                             Target = Player.House,
-                            Event = new PlayerDamaged {Target = Player.Cowboy, Amount = 6}
+                            Event = new PlayerDamaged {Target = Player.Cowboy, Amount = 12 }
                         }
                     });
                 } },
             { CardName.Barricade, data =>
                 {
-                    Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 });
+                    Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 4 });
                     Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 } });
-                    Event.Publish(new NextTurnBlockGained { Target = Player.Cowboy, Amount = 3 });
+                    Event.Publish(new NextTurnBlockGained { Target = Player.Cowboy, Amount = 4 });
                 } },
             { CardName.QuickDraw, data =>
                 {
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
                         Event = new DamageTakenMultiplied { Target = Player.Cowboy, Type = MultiplierType.Zero } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
-                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 3 } });
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 4 } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
                         Event = new CardCountered { CounteringPlayer = Player.Cowboy } });
                 }},
@@ -277,31 +277,31 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
                         Event = new BlockRecievedMultiplied { Target = Player.House, Type = MultiplierType.Zero } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
-                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 8 } });
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 12 } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Defend,
                         Event = new CardCountered { CounteringPlayer = Player.Cowboy } });
                 } },
             { CardName.BothBarrels, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 2 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 3 });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
-                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 2 }});
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 3 }});
                 } },
             { CardName.CrackShot, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 2 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 3 });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Charge,
-                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 3 }});
+                        Event = new PlayerDamageProposed { Target = Player.House, Amount = 6 }});
                 } },
             { CardName.Reload, data =>
                 {
-                    Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new PlayerBlockProposed { Target = Player.Cowboy, Amount = 3 });
                     Event.Publish(new DamageNotBlockedEffectQueued { Target = Player.Cowboy,
-                        Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 4 } });
+                        Event = new NextAttackEmpowered { Target = Player.Cowboy, Amount = 7 } });
                 } },
             { CardName.Wanted, data =>
                 {
-                    Event.Publish(new NextAttackEmpowered { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new NextAttackEmpowered { Target = Player.Cowboy, Amount = 4 });
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
                         Event = new DamageTakenMultiplied { Target = Player.Cowboy, Type = MultiplierType.Half }});
                     Event.Publish(new CounterEffectQueued { Caster = Player.Cowboy, Type = CardType.Attack,
@@ -309,55 +309,55 @@ namespace MonoDragons.GGJ.Data
                 } },
 
             { CardName.HousePass, data => {} },
-            { CardName.Lamp, data => Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy }) },
+            { CardName.Lamp, data => Event.Publish(new PlayerDamageProposed { Amount = 5, Target = Player.Cowboy }) },
             { CardName.LightsOut, data =>
                 {
                     Event.Publish(new PlayerBlockProposed { Amount = 3, Target = Player.House } );
-                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Darkness", Events = new List<object> { new NextTurnEffectQueued { Event = new StatusRemoved { Name = "Darkness", Target = Player.Cowboy } } } }});
+                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Darkness", Events = new List<object>()}});
                     if (data.CowboyState.Statuses.Any(x => x.Name == "Lightness"))
                     {
-                        Event.Publish(new PlayerBlockProposed { Amount = 6, Target = Player.House });
-                        Event.Publish(new NextAttackEmpowered { Amount = 3, Target = Player.House });
+                        Event.Publish(new PlayerBlockProposed { Amount = 4, Target = Player.House } );
+                        Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Lightness" });
                     }
                 }
             },
             { CardName.BlindingLights, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Amount = 1, Target = Player.Cowboy });
-                    Event.Publish(new PlayerBlockProposed { Amount = 1, Target = Player.House } );
-                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Lightness", Events = new List<object> { new NextTurnEffectQueued { Event = new StatusRemoved { Name = "Lightness", Target = Player.Cowboy } } } }});
+                    Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.Cowboy });
+                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Lightness", Events = new List<object>()}});
                     if (data.CowboyState.Statuses.Any(x => x.Name == "Darkness"))
                     {
-                        Event.Publish(new PlayerDamageProposed { Amount = 2, Target = Player.Cowboy });
-                        Event.Publish(new PlayerBlockProposed { Amount = 2, Target = Player.House } );
-                        Event.Publish(new NextAttackEmpowered { Amount = 3, Target = Player.House });
+                        Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.Cowboy });
+                        Event.Publish(new StatusRemoved { Target = Player.Cowboy, Name = "Darkness" });
                     }
                 }
             },
             { CardName.DustTheRoom, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
-                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }});
-                    Event.Publish(new NextTurnDamageDealt { Dealer = Player.House, Amount = 2 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 });
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 }});
+                    Event.Publish(new NextTurnDamageDealt { Dealer = Player.House, Amount = 3 });
                 } },
             { CardName.HeatUp, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
-                    Event.Publish(new PlayerDamageProposed { Target = Player.House, Amount = 2 });
-                    Event.Publish(new NextAttackEmpowered { Target = Player.House, Amount = 2 });
-                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
-                        Event = new NextAttackEmpowered { Target = Player.House, Amount = 4 }});
+                    Event.Publish(new NextAttackEmpowered { Target = Player.House, Amount = 6 });
                 } },
             { CardName.CoolDown, data =>
                 {
-                    Event.Publish(new NextAttackEmpowered { Target = Player.House, Amount = 3 });
-                    Event.Publish(new NextTurnEffectQueued { Event = new DamageTakenMultiplied { Target = Player.Cowboy, Type = MultiplierType.Half }});
+                    Event.Publish(new NextTurnBlockGained { Target = Player.House, Amount = 2 });
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 2 }});
+                    Event.Publish(new NextTurnEffectQueued { Event = new NextTurnBlockGained { Target = Player.House, Amount = 2 }});
+                    Event.Publish(new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 2 }}});
+                    Event.Publish(new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new NextTurnBlockGained { Target = Player.House, Amount = 2 }}});
+                    Event.Publish(new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 2 }}}});
+                    Event.Publish(new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new NextTurnBlockGained { Target = Player.House, Amount = 2 }}}});
+                    Event.Publish(new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 2 }}}}});
                 } },
-            { CardName.ShippingBoxesWall, data => Event.Publish(new PlayerBlockProposed { Amount = 5, Target = Player.House }) },
+            { CardName.ShippingBoxesWall, data => Event.Publish(new PlayerBlockProposed { Amount = 7, Target = Player.House }) },
             { CardName.SpinningFanBlades, data =>
                 {
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Charge,
-                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 12 } });
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 20 } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Charge,
                         Event = new CardCountered { CounteringPlayer = Player.House } });
                 } },
@@ -368,14 +368,14 @@ namespace MonoDragons.GGJ.Data
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Defend,
                         Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Defend }});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Defend,
-                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 6 } });
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 12 } });
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Defend,
                         Event = new CardCountered { CounteringPlayer = Player.House } });
                 } },
             { CardName.PowerCordTrip, data =>
                 {
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
-                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 }});
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 4 }});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
                         Event = new CardTypeLocked { Target = Player.Cowboy, Type = CardType.Attack }});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
@@ -390,56 +390,56 @@ namespace MonoDragons.GGJ.Data
 
             { CardName.BedderLuckNextTime, data =>
                 {
-                    Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
+                    Event.Publish(new EnergyGained { Amount = 2, Target = Player.House });
                     Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = data.HouseState.Energy * 2 });
                     Event.Publish(new EnergyLossed { Target = Player.House, Amount = data.HouseState.Energy });
                 } },
             { CardName.PillowFight, data =>
                 {
                     Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
-                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 });
                 } },
             { CardName.Resting, data =>
                 {
-                    Event.Publish(new EnergyGained { Amount = 3, Target = Player.House });
+                    Event.Publish(new EnergyGained { Amount = 4, Target = Player.House });
                 } },
             { CardName.PillowFort, data =>
                 {
-                    Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
+                    Event.Publish(new EnergyGained { Amount = 2, Target = Player.House });
                     Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 2 });
-                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 1 }});
-                    Event.Publish(new NextTurnBlockGained { Target = Player.House, Amount = 1 });
+                    Event.Publish(new NextTurnEffectQueued { Event = new PlayerBlockProposed { Target = Player.House, Amount = 2 }});
+                    Event.Publish(new NextTurnBlockGained { Target = Player.House, Amount = 2 });
                 } },
             { CardName.ThatsCurtainsForYou, data =>
                 {
                     Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
-                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 1 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Attack,
-                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 }});
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 }});
                 } },
             { CardName.MonsterUnderTheBed, data =>
                 {
                     Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
                     Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 1 });
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Charge,
-                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 4 }});
+                        Event = new PlayerDamageProposed { Target = Player.Cowboy, Amount = 6 }});
                 } },
 
             { CardName.HologramProjection, data =>
                 {
-                    Event.Publish(new DamageTakenMultiplied { Target = Player.House, Type = MultiplierType.Zero });
+                    Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 99 });
                     Event.Publish(new CardTypeLocked { Target = Player.House, Type = CardType.Defend });
                     Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 });
                 } },
             { CardName.InformationOverload, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 4 });
-                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 7 });
+                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 2 });
                 } },
             { CardName.DeathTrap, data =>
                 {
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
-                        Event = new PlayerDamageProposed {Amount = 10, Target = Player.Cowboy}});
+                        Event = new PlayerDamageProposed {Amount = 16, Target = Player.Cowboy}});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
                         Event = new HandSizeAdjusted { Adjustment = -2, Target = Player.Cowboy }});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
@@ -447,19 +447,19 @@ namespace MonoDragons.GGJ.Data
                 } },
             { CardName.HammerDownload, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 2 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 });
                     Event.Publish(new HandSizeAdjusted { Adjustment = 2, Target = Player.House });
                 } },
             { CardName.AdaptiveTactics, data =>
                 {
-                    Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 3 });
-                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 });
+                    Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 6 });
+                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 2 });
                     Event.Publish(new LastPlayedTypeLocked { Target = Player.Cowboy });
-                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Analyze Tactics", Events = new List<object> { new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 }, new LastPlayedTypeLocked { Target = Player.Cowboy }}}});
+                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Analyze Tactics", Events = new List<object> { new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 2 }, new LastPlayedTypeLocked { Target = Player.Cowboy }}}});
                 } },
             { CardName.BoringWikiArticle, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 5 });
                     Event.Publish(new HandSizeAdjusted { Adjustment = 1, Target = Player.House });
                     Event.Publish(new HandSizeAdjusted { Adjustment = 1, Target = Player.Cowboy });
                 } },
