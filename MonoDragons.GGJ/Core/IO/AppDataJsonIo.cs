@@ -16,7 +16,7 @@ namespace MonoDragons.Core.IO
 
         public T Load<T>(string saveName)
         {
-            return JObject.Parse(File.ReadAllText(GetSavePath(saveName))).First.First.ToObject<T>();
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(GetSavePath(saveName)));
         }
 
         public void Save(string saveName, object data)
