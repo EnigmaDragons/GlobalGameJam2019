@@ -312,7 +312,7 @@ namespace MonoDragons.GGJ.Data
             { CardName.Lamp, data => Event.Publish(new PlayerDamageProposed { Amount = 5, Target = Player.Cowboy }) },
             { CardName.LightsOut, data =>
                 {
-                    Event.Publish(new PlayerBlockProposed { Amount = 3, Target = Player.House } );
+                    Event.Publish(new PlayerBlockProposed { Amount = 4, Target = Player.House } );
                     Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Darkness", Events = new List<object>()}});
                     if (data.CowboyState.Statuses.Any(x => x.Name == "Lightness"))
                     {
@@ -323,7 +323,7 @@ namespace MonoDragons.GGJ.Data
             },
             { CardName.BlindingLights, data =>
                 {
-                    Event.Publish(new PlayerDamageProposed { Amount = 4, Target = Player.Cowboy });
+                    Event.Publish(new PlayerDamageProposed { Amount = 3, Target = Player.Cowboy });
                     Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Lightness", Events = new List<object>()}});
                     if (data.CowboyState.Statuses.Any(x => x.Name == "Darkness"))
                     {
