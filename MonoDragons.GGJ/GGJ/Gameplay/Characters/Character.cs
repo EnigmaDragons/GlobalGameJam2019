@@ -12,6 +12,7 @@ namespace MonoDragons.GGJ.Gameplay
         private readonly GameData _data;
         private CharacterState State => _data[_player];
         private CharacterState OpponentState => _data[_player == Player.Cowboy ? Player.House : Player.Cowboy];
+        private int _resolvedTurns = -1;
 
         public Character(Player player, GameData data)
         {
@@ -31,7 +32,7 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<StatusRemoved>(OnStatusRemoved, this);
             Event.Subscribe<EnergyGained>(OnEnergyGained, this);
             Event.Subscribe<EnergyLossed>(OnEnergyLossed, this);
-            Event.Subscribe<CardResolutionBegun>(e => Resolve(), this);
+            Event.Subscribe<CardResolutionBegun>(Resolve, this);
             Event.Subscribe<PlayerDamaged>(OnPlayereDamaged, this);
         }
 
@@ -60,10 +61,10 @@ namespace MonoDragons.GGJ.Gameplay
         private void OnNextAttackEmpowered(NextAttackEmpowered e) => ExecuteIfTarget(e.Target, () => State.NextAttackBonus += e.Amount);
 
         private void OnDamageTakenMultiplied(DamageTakenMultiplied e) => 
-            ExecuteIfTarget(e.Target, () => State.DamageTakenMultipliers.Add(e.Multiplier));
+            ExecuteIfTarget(e.Target, () => State.DamageTakenMultipliers.Add(e.Type));
 
         private void OnBlockRecievedMultiplied(BlockRecievedMultiplied e) => 
-            ExecuteIfTarget(e.Target, () => State.BlockRecievedMultiplier.Add(e.Multiplier));
+            ExecuteIfTarget(e.Target, () => State.BlockRecievedMultiplier.Add(e.Type));
 
         private void OnStatusApplied(StatusApplied e) => ExecuteIfTarget(e.Target, () => State.Statuses.Add(e.Status));
 
@@ -84,13 +85,17 @@ namespace MonoDragons.GGJ.Gameplay
                 action();
         }
 
-        private void Resolve()
+        private void Resolve(CardResolutionBegun e)
         {
+            if (e.TurnNumber == _resolvedTurns)
+                return;
+            _resolvedTurns = e.TurnNumber;
+
             decimal incomingDamageDec = State.IncomingDamage;
-            State.DamageTakenMultipliers.ForEach(x => incomingDamageDec = x * incomingDamageDec);
+            State.DamageTakenMultipliers.ForEach(x => incomingDamageDec = (int)x * incomingDamageDec * 0.5m);
             var incomingDamage = (int)Math.Floor(incomingDamageDec);
             decimal availableBlockDec = State.AvailableBlock;
-            State.BlockRecievedMultiplier.ForEach(x => availableBlockDec = availableBlockDec * x);
+            State.BlockRecievedMultiplier.ForEach(x => availableBlockDec = availableBlockDec * (int)x * 0.5m);
             var availableBlock = (int) Math.Floor(availableBlockDec);
             if (availableBlock > 0 && incomingDamage > 0)
             {
@@ -117,8 +122,8 @@ namespace MonoDragons.GGJ.Gameplay
             State.OnNotDamaged = new List<object>();
             State.OnDamageBlocked = new List<object>();
             State.OnDamageNotBlocked = new List<object>();
-            State.DamageTakenMultipliers = new List<decimal>();
-            State.BlockRecievedMultiplier = new List<decimal>();
+            State.DamageTakenMultipliers = new List<MultiplierType>();
+            State.BlockRecievedMultiplier = new List<MultiplierType>();
         }
 
         private void OnPlayereDamaged(PlayerDamaged e)

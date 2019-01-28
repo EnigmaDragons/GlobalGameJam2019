@@ -48,7 +48,7 @@ namespace MonoDragons.Core.Animations
 
         public void Draw(Transform2 parentTransform)
         {
-            IfRunning(() => _visual.Draw(new Transform2(_currentPosition)));
+            IfRunning(() => _visual.Draw(parentTransform + new Transform2(_currentPosition)));
         }
 
         private void IfRunning(Action action)

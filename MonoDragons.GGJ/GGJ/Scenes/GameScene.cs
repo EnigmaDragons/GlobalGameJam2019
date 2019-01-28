@@ -59,8 +59,8 @@ namespace MonoDragons.GGJ.Scenes
             Add(houseChars);
             Add(new CounteredEffect());
             Add(new BattleTopHud(_player, _data));
-            Add(new CardRevealer(_player, Player.Cowboy, new Vector2(160, 880 - CardView.HEIGHT)));
-            Add(new CardRevealer(_player, Player.House, new Vector2(1600 - CardView.WIDTH - 160, 880 - CardView.HEIGHT)));
+            Add(new CardRevealer(_data, _player, Player.Cowboy, new Vector2(160, 880 - CardView.HEIGHT)));
+            Add(new CardRevealer(_data, _player, Player.House, new Vector2(1600 - CardView.WIDTH - 160, 880 - CardView.HEIGHT)));
             _handView = new HandView(_player, _data, new Vector2(110, 880 - CardView.HEIGHT));
             Add(_handView);
             

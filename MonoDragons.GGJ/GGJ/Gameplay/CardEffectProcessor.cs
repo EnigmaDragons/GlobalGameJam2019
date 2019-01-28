@@ -12,11 +12,11 @@ namespace MonoDragons.GGJ.Gameplay
         public CardEffectProcessor(GameData data)
         {
             _data = data;
-            Event.Subscribe<AllCardsRevealed>(OnCardsRevealed, this);
+            Event.Subscribe<AllCardsSelected>(OnCardsSelected, this);
             Event.Subscribe<NextLevelRequested>(e => _processedTurn = -1, this);
         }
 
-        private void OnCardsRevealed(AllCardsRevealed e)
+        private void OnCardsSelected(AllCardsSelected e)
         {
             if (_processedTurn >= e.TurnNumber)
                 return;
@@ -25,8 +25,7 @@ namespace MonoDragons.GGJ.Gameplay
             Cards.Execute(_data, _data.AllCards[e.CowboyCard].CardName);
             Cards.Execute(_data, _data.AllCards[e.HouseCard].CardName);
             Event.Publish(new CountersProcessed());
-            Event.Publish(new CardResolutionBegun());
-            Logger.WriteLine($"After Combat: Cowboy {_data.CowboyState.HP} House {_data.HouseState.HP}");
+            Event.Publish(new CardsProcessed { CowboyCard = e.CowboyCard, HouseCard = e.HouseCard, TurnNumber = e.TurnNumber });
         }
     }
 }

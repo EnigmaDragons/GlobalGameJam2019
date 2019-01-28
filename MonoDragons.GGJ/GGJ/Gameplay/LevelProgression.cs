@@ -25,7 +25,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void SetupCharacters(int level)
         {
             _data.InitLevel(level, 
-                new CharacterState(Player.Cowboy, level == 1 ? 40 : _data.CowboyState.HP + 10,
+                new CharacterState(Player.Cowboy, level == 1 ? 40 : _data.CowboyState.HP + 15,
                     new PlayerCardsState(
                         CreateCard(CardName.CowboyPass),
                         CreateCard(CardName.SixShooter),
@@ -41,7 +41,7 @@ namespace MonoDragons.GGJ.Gameplay
                         CreateCard(CardName.BothBarrels),
                         CreateCard(CardName.CrackShot),
                         CreateCard(CardName.Reload))),
-                new CharacterState(Player.House, 10 + level * 10, new PlayerCardsState(Enemies.CreateEnemyDeck(_data, _enemyOrder[level - 1]))));
+                new CharacterState(Player.House, 20 + level * 5, new PlayerCardsState(Enemies.CreateEnemyDeck(_data, _enemyOrder[level - 1]))));
             _data.CurrentEnemy = _enemyOrder[level - 1];
             _house.Initialized(Enemies.Create(_enemyOrder[level - 1]));
         }
