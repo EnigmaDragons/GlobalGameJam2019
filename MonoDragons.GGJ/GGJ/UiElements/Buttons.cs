@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoDragons.Core;
+using MonoDragons.Core.AudioSystem;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
@@ -29,7 +30,7 @@ namespace MonoDragons.GGJ.UiElements
             return new ImageTextButton(new Transform2(position.ToVector2(), UI.OfScreenSize(0.18f, 0.09f)), 
                     () =>
                     {
-                        Event.Publish(new ButtonClicked());
+                        Sound.SoundEffect("Sounds\\ButtonClick.wav").Play();
                         action();
                     }, text, "UI/sign", "UI/sign-hover", "UI/sign-press", isVisible)
                 { 

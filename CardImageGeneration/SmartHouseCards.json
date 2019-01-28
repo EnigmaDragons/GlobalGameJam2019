@@ -36,7 +36,7 @@
         {
             "Name": "Dust The Room",
             "Type": "Attack",
-            "Effect": "Deal 2 damage this and next turn"
+            "Effect": "Deal 3 damage this and next turn"
         },
         {
             "Name": "Heat Up",

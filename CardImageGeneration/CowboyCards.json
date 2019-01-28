@@ -29,7 +29,7 @@
             "Effect": "Deal 7 damage\nYou can't attack next turn"
         },
         {
-            "Name": "Dead Eye",
+            "Name": "Guns Blazing",
             "Type": "Attack",
             "Effect": "Deal 6 damage\n You can't defend next turn"
         },
@@ -46,7 +46,7 @@
         {
             "Name": "Rush The Enemy",
             "Type": "Attack",
-            "Effect": "Deal 5 damage\nYou take double damage this turn"
+            "Effect": "Deal 8 damage\nYou take double damage this turn"
         },
         {
             "Name": "Light The Fuse",
