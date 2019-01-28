@@ -396,8 +396,8 @@ namespace MonoDragons.GGJ.Data
                 } },
             { CardName.PillowFight, data =>
                 {
-                    Event.Publish(new EnergyGained { Amount = 1, Target = Player.House });
-                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 });
+                    Event.Publish(new EnergyGained { Amount = 3, Target = Player.House });
+                    Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 1 });
                 } },
             { CardName.Resting, data =>
                 {
