@@ -16,6 +16,7 @@ namespace MonoDragons.GGJ.UiElements
 {
     public class ConnectingView : SceneContainer, IVisualAutomatonControl, IInitializable
     {
+        private readonly UserSettings _settings;
         private readonly Action _onHide;
         private Label _addressLabel;
         private NetworkArgs _netArgs;
@@ -24,8 +25,9 @@ namespace MonoDragons.GGJ.UiElements
         
         public ClickUIBranch Branch { get; } = new ClickUIBranch(nameof(ConnectingView), int.MaxValue);
 
-        public ConnectingView(Action onHide)
+        public ConnectingView(UserSettings settings, Action onHide)
         {
+            _settings = settings;
             _onHide = onHide;
         }
         
@@ -53,7 +55,7 @@ namespace MonoDragons.GGJ.UiElements
         public void Connect(NetworkArgs netArgs, Optional<GameConfig> config)
         {
             Event.Unsubscribe(this);
-            new AppDataJsonIo("Bed Dead Redemption").Save("GamePrefs", netArgs.Ip + ":" + netArgs.Port);
+            _settings.Update(x => x.LastConnectionEndpoint = $"{netArgs.Ip}:{netArgs.Port}");
             _netArgs = netArgs;
             _config = config;
             _addressLabel.Text = netArgs.ShouldHost ? $"Hosting on port {netArgs.Port}" : $"Connecting to {netArgs.Ip}:{netArgs.Port}";

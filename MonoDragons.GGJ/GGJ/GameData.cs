@@ -14,7 +14,7 @@ namespace MonoDragons.GGJ
         public Phase CurrentPhase { get; set; } = Phase.Setup;
         public int CurrentLevel { get; set; } = 0;
         public Enemy CurrentEnemy { get; set; } = Enemy.None;
-        public Dictionary<int, CardState> AllCards { get; } = new Dictionary<int, CardState>();
+        public Dictionary<int, CardState> AllCards { get; set; } = new Dictionary<int, CardState>();
         public CharacterState CowboyState { get; set; }
         public CharacterState HouseState { get; set; }
         public List<object> NextTurnEffects { get; set; }

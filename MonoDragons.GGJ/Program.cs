@@ -22,7 +22,7 @@ namespace MonoDragons.Core
     public static class Program
     {
         public static readonly IErrorHandler ErrorHandler = new MessageBoxErrorHandler();
-        public static readonly AppDetails AppDetails = new AppDetails("Bed Dead Redemption", "1.0", Environment.OSVersion.VersionString);
+        public static readonly AppDetails AppDetails = new AppDetails(AppID.Value, "1.0", Environment.OSVersion.VersionString);
 
         [STAThread]
         static void Main(params string[] args)

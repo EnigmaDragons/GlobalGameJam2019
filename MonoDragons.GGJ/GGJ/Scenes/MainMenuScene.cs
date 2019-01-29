@@ -11,6 +11,7 @@ using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
+using MonoDragons.GGJ.Audio;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.Gameplay.Events;
 using MonoDragons.GGJ.UiElements;
@@ -19,7 +20,7 @@ namespace MonoDragons.GGJ.Scenes
 {
     public sealed class MainMenuScene : ClickUiScene
     {
-        private const string AppId = "Bed Dead Redemption";
+        private static readonly string AppId = AppID.Value;
         private static readonly Type[] NetTypes = { typeof(CardSelected), typeof(GameConfig), typeof(RematchRequested) };
         private readonly NetworkArgs _args;
         private readonly AppDataJsonIo _io;
@@ -39,6 +40,7 @@ namespace MonoDragons.GGJ.Scenes
 
         public override void Init()
         {
+            var settings = new UserSettings();
             Sound.Music("The_Cowboy_Theme").Play();
             
             Add(new SoundEffectProcessor(Player.Cowboy));
@@ -55,8 +57,8 @@ namespace MonoDragons.GGJ.Scenes
             Add(new UiImage{ Image = "UI/wood-textbox", Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), IsActive = () => !_isConnecting && !_isSelectingRole });
             _hostEndpoint =  new Label { Transform = new Transform2(UI.OfScreen(0.40f, 0.51f), UI.OfScreenSize(0.20f, 0.12f)), Font = DefaultFont.Medium, IsVisible = () => !_isConnecting && !_isSelectingRole };
             Add(_hostEndpoint);
-            Add(new KeyboardTyping("127.0.0.1:4567").OutputTo(x => _hostEndpoint.Text = x));
-            _connecting = new ConnectingView(OnConnectingCancelled);
+            Add(new KeyboardTyping(settings.LastConnectionEndpoint).OutputTo(x => _hostEndpoint.Text = x));
+            _connecting = new ConnectingView(settings, OnConnectingCancelled);
             _connecting.Init();
             Add(_connecting);
             Add(new ImageButton("Images/logo", "Images/logo-hover", "Images/logo-press", new Transform2(UI.OfScreen(1.0f, 1.0f) - new Vector2(120, 120), new Size2(100, 100)), 

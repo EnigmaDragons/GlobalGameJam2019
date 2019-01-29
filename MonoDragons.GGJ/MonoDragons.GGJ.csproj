@@ -42,11 +42,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Core\Engine\OnlyOnceAutomaton.cs" />
+    <Compile Include="GGJ\AppID.cs" />
+    <Compile Include="GGJ\Audio\SoundEffectProcessor.cs" />
     <Compile Include="GGJ\Credits\BasicJamCreditsSection.cs" />
     <Compile Include="GGJ\Credits\CreditsSegments.cs" />
     <Compile Include="GGJ\Credits\TitleCreditSegment.cs" />
     <Compile Include="GGJ\Credits\WinnerSegment.cs" />
-    <Compile Include="GGJ\DataSaver.cs" />
     <Compile Include="GGJ\Gameplay\Characters\CharStatuses.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardsProcessed.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardCountered.cs" />
@@ -100,11 +101,13 @@
     <Compile Include="GGJ\Gameplay\Events\PlayerDamageProposed.cs" />
     <Compile Include="GGJ\Gameplay\Events\PlayerBlockProposed.cs" />
     <Compile Include="GGJ\Gameplay\LastPlayedTypeLockProcessor.cs" />
+    <Compile Include="GGJ\Io\DataSaver.cs" />
+    <Compile Include="GGJ\Io\UserSettings.cs" />
+    <Compile Include="GGJ\Io\UserSettingsData.cs" />
     <Compile Include="GGJ\Scenes\CreditsScene.cs" />
     <Compile Include="GGJ\Gameplay\Events\StatusRemoved.cs" />
     <Compile Include="GGJ\Gameplay\Status.cs" />
     <Compile Include="GGJ\Gameplay\StatusProcessor.cs" />
-    <Compile Include="GGJ\SoundEffectProcessor.cs" />
     <Compile Include="GGJ\UiElements\CardFightView.cs" />
     <Compile Include="GGJ\UiElements\CardRevealer.cs" />
     <Compile Include="GGJ\UiElements\ConnectingView.cs" />

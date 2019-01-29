@@ -14,7 +14,7 @@ namespace MonoDragons.GGJ
         {
             Event.Subscribe<DataStabilized>(Save, this);
             Event.Subscribe<PlayerDefeated>(Delete, this);
-            io = new AppDataJsonIo("Bed Dead Redemption");
+            io = new AppDataJsonIo(AppID.Value);
         }
 
         private void Delete(object e)

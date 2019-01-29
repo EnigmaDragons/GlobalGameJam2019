@@ -10,6 +10,7 @@ using MonoDragons.Core.Scenes;
 using MonoDragons.Core.Text;
 using MonoDragons.Core.UserInterface;
 using MonoDragons.GGJ.AI;
+using MonoDragons.GGJ.Audio;
 using MonoDragons.GGJ.Data;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.Gameplay.Events;

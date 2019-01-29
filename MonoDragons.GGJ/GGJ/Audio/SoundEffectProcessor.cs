@@ -3,7 +3,7 @@ using MonoDragons.Core.EventSystem;
 using MonoDragons.GGJ.Gameplay;
 using MonoDragons.GGJ.Gameplay.Events;
 
-namespace MonoDragons.GGJ
+namespace MonoDragons.GGJ.Audio
 {
     public class SoundEffectProcessor
     {
