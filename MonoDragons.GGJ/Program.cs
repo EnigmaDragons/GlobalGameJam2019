@@ -40,7 +40,7 @@ namespace MonoDragons.Core
                 MasterVolume.Instance.MusicVolume = 1;
                 DebugLogWindow.Launch();
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
-                DebugLogWindow.Exclude(x => x.StartsWith("GameStab"));
+                DebugLogWindow.Exclude(x => x.StartsWith("DataStab"));
                 netArgs = args.Length == 1 ? new NetworkArgs(true, true, "127.0.0.1", 4567) : netArgs;
                 startingScene = "MainMenu";
 #endif

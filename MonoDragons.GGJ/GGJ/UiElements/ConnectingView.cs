@@ -5,7 +5,6 @@ using MonoDragons.Core;
 using MonoDragons.Core.Engine;
 using MonoDragons.Core.EventSystem;
 using MonoDragons.Core.Inputs;
-using MonoDragons.Core.IO;
 using MonoDragons.Core.Network;
 using MonoDragons.Core.Scenes;
 using MonoDragons.Core.UserInterface;
@@ -22,6 +21,7 @@ namespace MonoDragons.GGJ.UiElements
         private NetworkArgs _netArgs;
         private Optional<GameConfig> _config;
         private bool _isConnecting;
+        private bool _isConnected;
         
         public ClickUIBranch Branch { get; } = new ClickUIBranch(nameof(ConnectingView), int.MaxValue);
 
@@ -46,6 +46,15 @@ namespace MonoDragons.GGJ.UiElements
                 _isConnecting = false;
                 _onHide();
             }, () => _isConnecting);
+            Add(new Label
+            {
+                Text = "Connected to opponent. Starting game...",
+                Transform = new Transform2(UI.OfScreen(0.34f, 0.58f), UI.OfScreenSize(0.32f, 0.16f)),
+                IsVisible = () => _isConnected
+            });
+            Add(new ActionAutomaton(() => { if (_isConnected && _config.HasValue) { Scene.NavigateTo(new GameScene(_config.Value, _netArgs.ShouldHost)); }}));
+            Add(new ActionAutomaton(() => { if (_isConnected && (_netArgs?.ShouldHost ?? false)) { Event.Publish(_config.Value); }}));
+            
             Add(cancelButton);
             Branch.Add(cancelButton);
 
@@ -56,17 +65,24 @@ namespace MonoDragons.GGJ.UiElements
         {
             Event.Unsubscribe(this);
             _settings.Update(x => x.LastConnectionEndpoint = $"{netArgs.Ip}:{netArgs.Port}");
-            _netArgs = netArgs;
             _config = config;
+            _netArgs = netArgs;
             _addressLabel.Text = netArgs.ShouldHost ? $"Hosting on port {netArgs.Port}" : $"Connecting to {netArgs.Ip}:{netArgs.Port}";
             _isConnecting = true;
-            var isHost = _netArgs.ShouldHost;
-            if (isHost)
-                Event.Subscribe<GameConnected>(Host, this);
-            if (isHost && _netArgs.ShouldAutoLaunch)
+            Event.Subscribe<GameConnected>(e =>
+            {
+                _isConnecting = false;
+                _isConnected = true;
+            }, this);
+            if (_netArgs.ShouldHost && _netArgs.ShouldAutoLaunch)
                 LaunchConnectingClient();
-            if (!isHost)
-                Event.Subscribe<GameConfig>(e => Scene.NavigateTo(new GameScene(e, false)), this);
+            if (!_netArgs.ShouldHost)
+                Event.Subscribe<GameConfig>(StartGame, this);
+        }
+
+        private void StartGame(GameConfig e)
+        {
+            _config = e;
         }
 
         private void LaunchConnectingClient()
@@ -80,12 +96,6 @@ namespace MonoDragons.GGJ.UiElements
                 FileName = Assembly.GetExecutingAssembly().Location
             };
             Process.Start(startInfo);
-        }
-
-        private void Host(GameConnected e)
-        {
-            Event.Publish(_config.Value);
-            Scene.NavigateTo(new GameScene(_config.Value, true));
         }
     }
 }
