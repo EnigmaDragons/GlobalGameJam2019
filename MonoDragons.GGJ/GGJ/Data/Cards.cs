@@ -225,6 +225,7 @@ namespace MonoDragons.GGJ.Data
                 } },
             { CardName.LightTheFuse, data =>
                 {
+                    Event.Publish(new SpecialStatusQueued { Name = "Tnt" });
                     Event.Publish(new NextTurnEffectQueued
                     {
                         Event = new DamageEffectQueued

@@ -27,6 +27,13 @@ namespace MonoDragons.GGJ.Gameplay
             //TODO: tots hacked
             Event.Subscribe<NextTurnDamageDealt>(OnNextTurnDamageDealt, this);
             Event.Subscribe<NextTurnBlockGained>(OnNextTurnBlockGained, this);
+            Event.Subscribe<SpecialStatusQueued>(OnSpecialStatusQueued, this);
+        }
+
+        private void OnSpecialStatusQueued(SpecialStatusQueued e)
+        {
+            if (e.Name.Equals("tnt"))
+                _nextStatuses.Add(Image("tnt"));
         }
 
         private void OnDamageTakenMultiplied(DamageTakenMultiplied e)

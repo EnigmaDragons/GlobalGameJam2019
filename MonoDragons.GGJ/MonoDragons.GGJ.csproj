@@ -58,6 +58,7 @@
     <Compile Include="GGJ\Gameplay\Events\NextTurnBlockGained.cs" />
     <Compile Include="GGJ\Gameplay\Events\NextTurnDamageDealt.cs" />
     <Compile Include="GGJ\Gameplay\Events\RematchRequested.cs" />
+    <Compile Include="GGJ\Gameplay\Events\SpecialStatusQueued.cs" />
     <Compile Include="GGJ\Gameplay\GameRng.cs" />
     <Compile Include="Core\Network\Events\GameDisconnected.cs" />
     <Compile Include="Core\Network\NetworkArgs.cs" />
@@ -1046,6 +1047,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\title.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\tnt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\vulnerable.png">
