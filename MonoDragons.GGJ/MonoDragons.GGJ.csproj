@@ -49,6 +49,7 @@
     <Compile Include="GGJ\Credits\TitleCreditSegment.cs" />
     <Compile Include="GGJ\Credits\WinnerSegment.cs" />
     <Compile Include="GGJ\Gameplay\Characters\CharStatuses.cs" />
+    <Compile Include="GGJ\Gameplay\Characters\Refrigerator.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardsProcessed.cs" />
     <Compile Include="GGJ\Gameplay\Events\CardCountered.cs" />
     <Compile Include="GGJ\Gameplay\Events\DataStabilized.cs" />
@@ -359,6 +360,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Appliances\computer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Appliances\refrigerator.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Cards\CowboyCard0.png">
@@ -998,6 +1002,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\no-charge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\UI\no-counter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\UI\no-defend.png">

@@ -11,6 +11,10 @@ namespace MonoDragons.Core.Engine
 
         private double _elapsedMs;
 
+        
+        public TimerTask(Action performTask, TimeSpan duration, bool recurring = true)
+            : this(performTask, duration.TotalMilliseconds, recurring) { }
+        
         public TimerTask(Action performTask, double intervalMs, bool recurring = true)
         {
             _performTask = performTask;

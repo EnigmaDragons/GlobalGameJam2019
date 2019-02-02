@@ -33,11 +33,11 @@ namespace MonoDragons.Core
                 var netArgs = new NetworkArgs(args);
                 if (args.Length > 0)
                 {
-                    MasterVolume.Instance.MusicVolume = 1;
-                    MasterVolume.Instance.SoundEffectVolume = 1;
+                    MasterVolume.Instance.MusicVolume = 0f;
+                    MasterVolume.Instance.SoundEffectVolume = 0f;
                 }
 #if DEBUG
-                MasterVolume.Instance.MusicVolume = 0;
+                MasterVolume.Instance.MusicVolume = 0f;
                 DebugLogWindow.Launch();
                 DebugLogWindow.Exclude(x => x.StartsWith("ActiveElementChanged"));
                 DebugLogWindow.Exclude(x => x.StartsWith("DataStab"));

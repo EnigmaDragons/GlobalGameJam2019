@@ -14,6 +14,7 @@ namespace MonoDragons.GGJ.Gameplay
         private readonly Player _player;
         private List<IVisual> _statuses = new List<IVisual>();
         private List<IVisual> _nextStatuses = new List<IVisual>();
+        private HashSet<string> _nextStatusNames = new HashSet<string>();
         private int vOffset = -62;
         
         public CharStatuses(Player player)
@@ -33,7 +34,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void OnSpecialStatusQueued(SpecialStatusQueued e)
         {
             if (e.Name.Equals("tnt"))
-                _nextStatuses.Add(Image("tnt"));
+                Queue("tnt");
         }
 
         private void OnDamageTakenMultiplied(DamageTakenMultiplied e)
@@ -50,6 +51,7 @@ namespace MonoDragons.GGJ.Gameplay
         private void Clear()
         {
             var next = _nextStatuses;
+            _nextStatusNames = new HashSet<string>();
             _nextStatuses = new List<IVisual>();
             _statuses = next;
         }
@@ -65,8 +67,8 @@ namespace MonoDragons.GGJ.Gameplay
                 Queue("no-defend");
             else if (e.Type == CardType.Charge)
                 Queue("no-charge");
-            else
-                _nextStatuses.Add(new Label {Text = $"No {e.Type}"});
+            else if (e.Type == CardType.Counter)
+                Queue("no-counter");
         }
 
         private void ShowEmpoweredAttacks()
@@ -98,11 +100,16 @@ namespace MonoDragons.GGJ.Gameplay
             }
         }
 
-        public void Queue(string name)
+        public void Queue(string name) => Queue(name, Image(name));
+        public void Queue(string name, IVisual visual)
         {
-            _nextStatuses.Add(Image(name));
+            if (_nextStatusNames.Contains(name))
+                return;
+            
+            _nextStatusNames.Add(name);
+            _nextStatuses.Add(visual);
         }
-
+        
         private UiImage Image(string name)
         {
             return new UiImage { Image = $"UI/{name}", Transform = new Transform2(new Size2(50, 50)) };
