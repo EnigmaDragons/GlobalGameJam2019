@@ -123,7 +123,7 @@ namespace MonoDragons.GGJ.UiElements
             Location = new Transform2(location);
             _number = number;
             _bonus = bonus;
-            _multipliers = multipliers;
+            _multipliers = multipliers.ToList();
         }
 
         public void Animate(Action onFinished)
