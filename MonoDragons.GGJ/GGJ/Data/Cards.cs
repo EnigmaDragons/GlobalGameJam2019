@@ -430,46 +430,43 @@ namespace MonoDragons.GGJ.Data
                 {
                     Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 99 });
                     Event.Publish(new CardTypeLocked { Target = Player.House, Type = CardType.Defend });
-                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 1 });
                 } },
             { CardName.InformationOverload, data =>
                 {
                     Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 7 });
-                    Event.Publish(new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 2 });
                 } },
             { CardName.DeathTrap, data =>
                 {
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
                         Event = new PlayerDamageProposed {Amount = 16, Target = Player.Cowboy}});
                     Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
-                        Event = new HandSizeAdjusted { Adjustment = -2, Target = Player.Cowboy }});
-                    Event.Publish(new CounterEffectQueued { Caster = Player.House, Type = CardType.Counter,
                         Event = new CardCountered { CounteringPlayer = Player.House }});
                 } },
             { CardName.HammerDownload, data =>
                 {
                     Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 3 });
-                    Event.Publish(new HandSizeAdjusted { Adjustment = 2, Target = Player.House });
                 } },
             { CardName.AdaptiveTactics, data =>
                 {
                     Event.Publish(new PlayerBlockProposed { Target = Player.House, Amount = 6 });
                     Event.Publish(new LastPlayedTypeLocked { Target = Player.Cowboy });
-                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Analyze Tactics", Events = new List<object> { new HandSizeAdjusted { Target = Player.Cowboy, Adjustment = 2 }, new LastPlayedTypeLocked { Target = Player.Cowboy }}}});
+                    Event.Publish(new StatusApplied { Target = Player.Cowboy, Status = new Status { Name = "Analyze Tactics", Events = new List<object> { new LastPlayedTypeLocked { Target = Player.Cowboy }}}});
                 } },
             { CardName.BoringWikiArticle, data =>
                 {
                     Event.Publish(new PlayerDamageProposed { Target = Player.Cowboy, Amount = 5 });
-                    Event.Publish(new HandSizeAdjusted { Adjustment = 1, Target = Player.House });
-                    Event.Publish(new HandSizeAdjusted { Adjustment = 1, Target = Player.Cowboy });
                 } },
         };
 
-        public static CardView Create(CardState s)
+        public static void InitCardState(CardState s)
         {
             s.Type = _cardTypes[s.CardName];
             s.PredictedDamage = _attackMap[s.CardName];
             s.PredictedBlock = _defenseMap[s.CardName];
+        }
+
+        public static CardView Create(CardState s)
+        {
             return _cards[s.CardName](s);
         }
 

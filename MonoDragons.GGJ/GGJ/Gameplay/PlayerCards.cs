@@ -27,13 +27,12 @@ namespace MonoDragons.GGJ.Gameplay
             Event.Subscribe<TurnFinished>(OnTurnFinished, this);
             Event.Subscribe<LevelSetup>(OnLevelSetup, this);
             Event.Subscribe<CardTypeLocked>(OnCardTypeLocked, this);
-            Event.Subscribe<HandSizeAdjusted>(OnHandSizeAdjustment, this);
         }
 
         private void OnLevelSetup(LevelSetup e)
         {
             _currentTurn = -1;
-            _state.DiscardZone.AddRange(_state.InPlayZone);
+            DiscardInPlay();
             Reshuffle();
         }
 
@@ -48,16 +47,9 @@ namespace MonoDragons.GGJ.Gameplay
                 _state.NextTurnUnplayableTypes.Add(e.Type);
         }
 
-        private void OnHandSizeAdjustment(HandSizeAdjusted e)
-        {
-            if (e.Target == _player)
-                _state.HandSizeModifier += e.Adjustment;
-        }
-
         private void OnTurnFinished(TurnFinished e)
         {
-            _state.DiscardZone.AddRange(_state.InPlayZone);
-            _state.InPlayZone.Clear();
+            DiscardInPlay();
             _state.UnplayableTypes = _state.NextTurnUnplayableTypes;
             _state.NextTurnUnplayableTypes = new List<CardType>();
         }
@@ -68,7 +60,10 @@ namespace MonoDragons.GGJ.Gameplay
                 return;
 
             _currentTurn = e.TurnNumber;
-            DrawCards(3 + _state.HandSizeModifier);
+            DrawCard(_state.AttackDrawZone, _state.AttackDiscardZone);
+            DrawCard(_state.DefendDrawZone, _state.DefendDiscardZone);
+            DrawCard(_state.ChargeDrawZone, _state.ChargeDiscardZone);
+            DrawCard(_state.CounterDrawZone, _state.CounterDiscardZone);
             if (_state.HandZone.Select(x => _data.AllCards[x]).All(x => _state.UnplayableTypes.Any(y => y == x.Type)))
                 DrawPass();
             Event.Publish(new HandDrawn
@@ -78,7 +73,6 @@ namespace MonoDragons.GGJ.Gameplay
                 _state.HandZone,
                 _state.HandZone.Where(x => !_state.UnplayableTypes.Contains(_data.Card(x).State.Type)).ToList()
             ));
-            _state.HandSizeModifier = 0;
         }
 
         private void OnCardSelected(CardSelected e)
@@ -87,34 +81,60 @@ namespace MonoDragons.GGJ.Gameplay
                 return;
 
             Play(e.CardId);
-            DiscardAll();
+            DiscardHand();
         }
 
-        private void DiscardAll()
+        private void DiscardInPlay()
         {
-            _state.DiscardZone.AddRange(_state.HandZone);
+            _state.InPlayZone.ForEach(x =>
+            {
+                if (_data.AllCards[x].Type == CardType.Attack)
+                    _state.AttackDiscardZone.Add(x);
+                if (_data.AllCards[x].Type == CardType.Defend)
+                    _state.DefendDiscardZone.Add(x);
+                if (_data.AllCards[x].Type == CardType.Charge)
+                    _state.ChargeDiscardZone.Add(x);
+                if (_data.AllCards[x].Type == CardType.Counter)
+                    _state.CounterDiscardZone.Add(x);
+            });
+            _state.InPlayZone.Clear();
+        }
+
+        private void DiscardHand()
+        {
+            _state.HandZone.ForEach(x =>
+            {
+                if (_data.AllCards[x].Type == CardType.Attack)
+                    _state.AttackDiscardZone.Add(x);
+                if (_data.AllCards[x].Type == CardType.Defend)
+                    _state.DefendDiscardZone.Add(x);
+                if (_data.AllCards[x].Type == CardType.Charge)
+                    _state.ChargeDiscardZone.Add(x);
+                if (_data.AllCards[x].Type == CardType.Counter)
+                    _state.CounterDiscardZone.Add(x);
+            });
             _state.HandZone.Clear();
+        }
+
+        private void DrawCard(List<int> drawPile, List<int> discardPile)
+        {
+            if (drawPile.Count == 0)
+                Reshuffle(drawPile, discardPile);
+            var card = _rng.Random(drawPile);
+            drawPile.Remove(card);
+            _state.HandZone.Add(card);
+        }
+
+        private void Reshuffle(List<int> drawPile, List<int> discardPile)
+        {
+            drawPile.AddRange(discardPile);
+            discardPile.Clear();
         }
 
         private void DrawPass()
         {
-            _state.DiscardZone.Remove(_state.PassId);
             _state.HandZone.Add(_state.PassId);
         }
-
-        private void DrawCards(int num)
-        {
-            var cards = new List<int>();
-            for (var i = 0; i < num; i++)
-            {
-                if (_state.DrawZone.Count == 0)
-                    Reshuffle();
-                var card = _rng.Random(_state.DrawZone);
-                _state.DrawZone.Remove(card);
-                cards.Add(card);
-            }
-            _state.HandZone.AddRange(cards);
-        } 
 
         private void Play(int cardId)
         {
@@ -127,13 +147,10 @@ namespace MonoDragons.GGJ.Gameplay
 
         private void Reshuffle()
         {
-            _state.DrawZone.AddRange(_state.DiscardZone);
-            _state.DiscardZone.Clear();
-            if (_state.DrawZone.Any(x => x == _state.PassId))
-            {
-                _state.DrawZone.Remove(_state.PassId);
-                _state.DiscardZone.Add(_state.PassId);
-            }
+            Reshuffle(_state.AttackDrawZone, _state.AttackDiscardZone);
+            Reshuffle(_state.DefendDrawZone, _state.DefendDiscardZone);
+            Reshuffle(_state.ChargeDrawZone, _state.ChargeDiscardZone);
+            Reshuffle(_state.CounterDrawZone, _state.CounterDiscardZone);
         }
     }
 }

@@ -76,6 +76,7 @@ namespace MonoDragons.GGJ.Data
         {
             var result = new CardState { Id = GetNextCardId(data), CardName = cardName };
             data.AllCards[result.Id] = result;
+            Cards.InitCardState(result);
             return result;
         }
 

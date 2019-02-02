@@ -54,7 +54,6 @@
     <Compile Include="GGJ\Gameplay\Events\CardCountered.cs" />
     <Compile Include="GGJ\Gameplay\Events\DataStabilized.cs" />
     <Compile Include="GGJ\Gameplay\Characters\Computer.cs" />
-    <Compile Include="GGJ\Gameplay\Events\HandSizeAdjusted.cs" />
     <Compile Include="GGJ\Gameplay\Events\LastPlayedTypeLocked.cs" />
     <Compile Include="GGJ\Gameplay\Events\NextTurnBlockGained.cs" />
     <Compile Include="GGJ\Gameplay\Events\NextTurnDamageDealt.cs" />

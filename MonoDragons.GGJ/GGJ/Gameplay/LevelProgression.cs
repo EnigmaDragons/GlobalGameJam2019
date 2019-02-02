@@ -50,6 +50,7 @@ namespace MonoDragons.GGJ.Gameplay
         {
             var result = new CardState { Id = GetNextCardId(), CardName = cardName };
             _data.AllCards[result.Id] = result;
+            Cards.InitCardState(result);
             return result;
         }
 
