@@ -23,12 +23,13 @@ namespace MonoDragons.GGJ.UiElements
         private readonly IAnimation _attackIconAnimation;
         private readonly IAnimation _defendIconAnimation;
         private readonly bool _isFlipped;
+        private readonly TimeSpan _showDuration;
         private TimerTask _attackTimer;
         private TimerTask _defendTimer;
-        private int _animationsPlaying = 0;
         private Action _onFinished;
+        private bool _isShowing;
 
-        public CardFightView(CardView card, CharacterState state, CharacterState opponentState, bool isFlipped)
+        public CardFightView(CardView card, CharacterState state, CharacterState opponentState, bool isFlipped, TimeSpan showDuration)
         {
             _attackIcon = IconView.Attack(isFlipped, card.State.PredictedDamage, opponentState.IncomingDamage - card.State.PredictedDamage, opponentState.DamageTakenMultipliers);
             _defendIcon = IconView.Defend(isFlipped, card.State.PredictedBlock, state.AvailableBlock - card.State.PredictedBlock, state.BlockRecievedMultiplier);
@@ -37,14 +38,15 @@ namespace MonoDragons.GGJ.UiElements
             _attackIconAnimation = new SinglePositionTraverseAnimation(_attackIcon, new Vector2(isFlipped ? -first : first, 0), TimeSpan.FromSeconds(1), TimeSpan.Zero);
             _defendIconAnimation = new SinglePositionTraverseAnimation(_defendIcon, new Vector2(isFlipped ? -second : second, 0), TimeSpan.FromSeconds(1), TimeSpan.Zero);
             _isFlipped = isFlipped;
+            _showDuration = showDuration;
             Event.Subscribe<CardResolutionBegun>(e => _onFinished(), this);
+            Event.Subscribe<TurnFinished>(e => _isShowing = false, this);
         }
 
         public void Start(Action onFinished)
         {
             _onFinished = onFinished;
             Event.Publish(new AnimationStarted("Attack Shown"));
-            _animationsPlaying++;
             _attackIconAnimation.Start(() =>
             {
                 _attackIcon.Location = new Transform2(new Vector2(_isFlipped ? -240 : CardView.WIDTH + 140, (CardView.HEIGHT - 100) / 2));
@@ -53,13 +55,11 @@ namespace MonoDragons.GGJ.UiElements
                 {
                     _attackTimer = new TimerTask(() =>
                     {
-                        _animationsPlaying--;
                         Event.Publish(new AnimationEnded("Attack Shown"));
-                    }, 2000, false);
+                    }, _showDuration, false);
                 });
             });
             Event.Publish(new AnimationStarted("Defend Shown"));
-            _animationsPlaying++;
             _defendIconAnimation.Start(() =>
             {
                 _defendIcon.Location = new Transform2(new Vector2(_isFlipped ? -120 : CardView.WIDTH + 20, (CardView.HEIGHT - 100) / 2));
@@ -68,11 +68,11 @@ namespace MonoDragons.GGJ.UiElements
                 {
                     _defendTimer = new TimerTask(() =>
                     {
-                        _animationsPlaying--;
                         Event.Publish(new AnimationEnded("Defend Shown"));
-                    }, 2000, false);
+                    }, _showDuration, false);
                 });
             });
+            _isShowing = true;
         }
 
         public void Update(TimeSpan delta)
@@ -87,6 +87,9 @@ namespace MonoDragons.GGJ.UiElements
 
         public void Draw(Transform2 parentTransform)
         {
+            if (!_isShowing)
+                return;
+            
             _attackIconAnimation.Draw(parentTransform);
             _defendIconAnimation.Draw(parentTransform);
             if (_attackDoneMoving)
