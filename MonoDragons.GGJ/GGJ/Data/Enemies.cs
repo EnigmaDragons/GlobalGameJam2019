@@ -10,6 +10,7 @@ namespace MonoDragons.GGJ.Data
         None,
         Bed,
         Computer,
+        Refrigerator,
     }
     
     public static class Enemies
@@ -35,6 +36,9 @@ namespace MonoDragons.GGJ.Data
                     CreateCard(data, CardName.AdaptiveTactics),
                     CreateCard(data, CardName.BoringWikiArticle)
                 } },
+            { Enemy.Refrigerator, data => new List<CardState>
+            {
+            } },
         };
 
         public static IHouseChar Create(Enemy enemy)
@@ -45,6 +49,8 @@ namespace MonoDragons.GGJ.Data
                 return new Bed();
             if (enemy == Enemy.Computer)
                 return new Computer();
+            if (enemy == Enemy.Refrigerator)
+                return new Refrigerator();
             throw new KeyNotFoundException($"Unknown Enemy: {enemy}");
         }
 
